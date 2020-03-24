@@ -13,13 +13,12 @@ export default class RoutesLoader extends Loader {
 
     // Development Hot-Middleware
     if (Config.IsDev) {
-      console.log("dev")
       const webpack = require('webpack');
       const webpackConfig = require('../../../webpack.config.js');
 
       const compiler = webpack(webpackConfig);
       app.use(require('webpack-dev-middleware')(compiler, {
-        hot: true,
+        hot: false,
         publicPath: webpackConfig.output.publicPath,
         stats: {
           colors: true,
