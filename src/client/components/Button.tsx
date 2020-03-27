@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { TESC_BLUE, BORDER_RADIUS, TESC_BLUE_DARKER, MEDIUM_GRAY } from '~/constants';
-import { mediaBreakpointDown } from '~/breakpoints';
+import { TESC_BLUE, BORDER_RADIUS, TESC_BLUE_DARKER, MEDIUM_GRAY } from '~/styles/constants';
+import { mediaBreakpointDown } from '~/styles/breakpoints';
 
 const Button = styled.button`
   background: ${TESC_BLUE};

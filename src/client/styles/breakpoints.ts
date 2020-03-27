@@ -1,4 +1,4 @@
-type BreakpointsType = {
+export type BreakpointsType = {
   'xs': string,
   'sm': string,
   'sm-md': string,

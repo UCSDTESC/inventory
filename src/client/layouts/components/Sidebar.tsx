@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { TESC_BLUE } from '~/constants';
+import { TESC_BLUE } from '~/styles/constants';
+import AdminNav from './AdminNav';
 
 const Container = styled.div`
   width: 17rem;
@@ -11,9 +12,17 @@ const Container = styled.div`
 const Sidebar: React.FunctionComponent = (props) => {
 
   return (
-    <Container>
-      tesc inventory
-    </Container>
+    <>
+      {/* Hide on sidebar on screens below md */}  
+      <Container className="d-none d-md-block">
+        tesc inventory
+      </Container>
+
+      {/* Show nav on screens above md */}
+      <div className="d-block d-md-none">
+        <AdminNav />
+      </div>
+    </>
   );
 }
 
