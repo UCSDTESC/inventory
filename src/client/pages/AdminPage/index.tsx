@@ -7,7 +7,7 @@ const AdminPage: React.FunctionComponent = () => {
       <div className="row">
         <div className="col-md-6">
           <Button>
-            This is a button
+            Button
           </Button>
         </div>
       </div>

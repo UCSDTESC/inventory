@@ -31,5 +31,9 @@ const Button = styled.button`
       background-color: darken($medium-gray, 3%);
     }
   }
+
+  &:empty {
+    display: none;
+  }
 `
 export default Button;
