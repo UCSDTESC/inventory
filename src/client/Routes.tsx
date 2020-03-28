@@ -9,9 +9,9 @@ const Routes: React.FunctionComponent = () => {
   return (
     <Switch>
       <Route exact={true} path="/">
-        <div>
-          homepage ahhahah
-        </div>
+        <HomeLayout>
+          <HomePage />
+        </HomeLayout>
       </Route>
       <Route exact={true} path="/admin">
         <AdminLayout>
