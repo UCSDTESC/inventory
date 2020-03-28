@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import AdminLayout from './layouts/AdminLayout';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import HomeLayout from './layouts/HomeLayout';
 import { useFirebase } from './firebase';
 
 const Routes: React.FunctionComponent = () => {

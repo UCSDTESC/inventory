@@ -9,7 +9,6 @@ const HomePage: React.FunctionComponent = () => {
           <Button>
             Button
           </Button>
-          {alert('hello')}
         </div>
       </div>
 
