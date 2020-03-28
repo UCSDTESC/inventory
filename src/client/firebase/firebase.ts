@@ -33,6 +33,17 @@ class Firebase {
   //checkUserAuth = (user: app.User) => this.auth.onAuthStateChanged(user)
 
   logout = () => this.auth.signOut();
+
+  currentUser = () => this.auth.currentUser;
+
+  getCurrentUser = () => {
+    return new Promise<app.User|undefined>((resolve, reject) => {
+       const unsubscribe = this.auth.onAuthStateChanged(user => {
+          unsubscribe();
+          resolve(user);
+       }, reject);
+    });
+  }
 }
 
 export default Firebase;
