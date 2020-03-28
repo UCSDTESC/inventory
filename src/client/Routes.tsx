@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AdminLayout from './layouts/AdminLayout';
 import AdminPage from './pages/AdminPage';
+import LoginPage from './pages/LoginPage';
 
 const Routes: React.FunctionComponent = () => {
 
@@ -16,6 +17,9 @@ const Routes: React.FunctionComponent = () => {
         <AdminLayout>
           <AdminPage />
         </AdminLayout>
+      </Route>
+      <Route exact={true} path="/login">
+        <LoginPage />
       </Route>
     </Switch>
   );

@@ -3,12 +3,15 @@ import { hot } from 'react-hot-loader'
 import {BrowserRouter} from 'react-router-dom';
 import Routes from './Routes';
 import { GlobalStyle } from '~/styles';
+import Firebase, { FirebaseContext } from '~/firebase';
 
 const App: React.FunctionComponent<{}> = (props) => {
   return (
     <BrowserRouter>
-      <GlobalStyle />
-      <Routes />
+        <GlobalStyle />
+      <FirebaseContext.Provider value={new Firebase()}>
+        <Routes />
+      </FirebaseContext.Provider>
     </BrowserRouter>
   );
 }

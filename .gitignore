@@ -1,5 +1,6 @@
 node_modules
 dist/
 src/assets/public/js
+src/server/config/firebase.json
 error.log
 .env
