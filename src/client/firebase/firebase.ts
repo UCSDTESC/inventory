@@ -30,7 +30,8 @@ class Firebase {
 
   signInWithPopup = () => this.auth.signInWithPopup(this.provider)
 
-  //checkUserAuth = (user: app.User) => this.auth.onAuthStateChanged(user)
+  //TODO: figure out type signature for this callback
+  checkUserAuth = (user: any) => this.auth.onAuthStateChanged(user)
 
   logout = () => this.auth.signOut();
 

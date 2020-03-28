@@ -1,36 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AdminLayout from './layouts/AdminLayout';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import HomeLayout from './layouts/HomeLayout';
-import { useFirebase } from './firebase';
+import ProtectedRoute from './ProtectedRoute';
 
 const Routes: React.FunctionComponent = () => {
 
-  const firebase = useFirebase();
-
-  useEffect(() => {
-    async function getUser() {
-      await firebase.getCurrentUser();
-    }
-    getUser();
-  }, []);
-
   return (
     <Switch>
-      {console.log(firebase.currentUser())}
       <Route exact={true} path="/">
         <HomeLayout>
           <HomePage />
         </HomeLayout>
       </Route>
-      <Route exact={true} path="/admin">
+      <ProtectedRoute exact={true} path="/admin">
         <AdminLayout>
           <AdminPage />
         </AdminLayout>
-      </Route>
+      </ProtectedRoute>
       <Route exact={true} path="/login">
         <LoginPage />
       </Route>

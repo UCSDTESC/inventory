@@ -7,7 +7,7 @@ const HomePage: React.FunctionComponent = () => {
       <div className="row">
         <div className="col-md-6">
           <Button>
-            Button
+            Home Page!
           </Button>
         </div>
       </div>
