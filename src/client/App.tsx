@@ -6,7 +6,7 @@ import { GlobalStyle } from '~/styles';
 import Firebase, { FirebaseContext } from '~/firebase';
 import * as firebase from 'firebase';
 import UserContext from './data/user/context';
-import axios from 'axios';
+import {client as AdminApiClient} from '~/data/AdminApi';
 
 const App: React.FunctionComponent<{}> = (props) => {
 
@@ -21,11 +21,14 @@ const App: React.FunctionComponent<{}> = (props) => {
 
       if (user) {
         user.getIdToken()
-          .then(token => axios.defaults.headers.common['Authorization'] = `Bearer ${token}`)
+          .then(token => {
+            AdminApiClient.defaults.headers['Authorization'] = `Bearer ${token}`
+            setLoading(false);
+          })
         ;
+      } else {
+        setLoading(false);
       }
-
-      setLoading(false);
     })
 
     return () => unsubscribe();
