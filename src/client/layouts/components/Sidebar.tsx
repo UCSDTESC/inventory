@@ -4,6 +4,7 @@ import { TESC_BLUE } from '~/styles/constants';
 import AdminNav from './AdminNav';
 import { Button } from 'reactstrap';
 import { useFirebase } from '~/firebase';
+import {client as AdminApiClient} from '~/data/AdminApi';
 
 const Container = styled.div`
   width: 17rem;
@@ -17,6 +18,7 @@ const Sidebar: React.FunctionComponent = (props) => {
 
   async function onLogout() {
     await firebase.logout();
+    AdminApiClient.defaults.headers['Authorization'] = ``;
   }
 
   return (
