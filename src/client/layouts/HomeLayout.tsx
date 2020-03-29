@@ -1,5 +1,4 @@
 import React from 'react';
-import Sidebar from './components/Sidebar';
 
 const HomeLayout: React.FunctionComponent = (props) => {
   return (

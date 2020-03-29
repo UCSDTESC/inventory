@@ -9,6 +9,7 @@ const ProtectedRoute: React.FunctionComponent<RouteProps> = (props) => {
 
   if (!user) {
     history.push('/login');
+    return <div></div>
   }
 
   return (
