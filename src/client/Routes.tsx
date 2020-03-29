@@ -12,9 +12,7 @@ const Routes: React.FunctionComponent = () => {
   return (
     <Switch>
       <Route exact={true} path="/">
-        <HomeLayout>
-          <HomePage />
-        </HomeLayout>
+        <HomePage />
       </Route>
       <ProtectedRoute exact={true} path="/admin">
         <AdminLayout>
