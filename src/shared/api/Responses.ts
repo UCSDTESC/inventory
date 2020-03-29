@@ -1,3 +1,5 @@
+import { InventoryItem } from '@Shared/Types';
+
 export type GetItemsResponse = {
-  items: Array<string>
+  items: Array<InventoryItem>
 }

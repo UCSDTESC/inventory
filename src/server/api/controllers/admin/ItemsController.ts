@@ -10,6 +10,13 @@ export default class ItemsController {
   
   @Get()
   getItems(): GetItemsResponse {
-    return {items: ['a', 'b', 'c']}
+    return {items: Array(5).fill({
+      name: 'Label Printer',
+      updatedAt: new Date().toTimeString(),
+      createdAt: new Date().toTimeString(),
+      createdBy: 'me',
+      forRent: true,
+      quantity: 1
+    })}
   }
 }

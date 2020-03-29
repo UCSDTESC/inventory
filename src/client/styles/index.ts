@@ -13,6 +13,10 @@ export const GlobalStyle = createGlobalStyle`
   .tesc-blue {
     color: ${TESC_BLUE};
   }
+
+  .border-top-0 {
+    border-top: hidden !important;
+  }
 `;
 
 export const Rounded = styled.div.attrs(props => ({
