@@ -25,9 +25,8 @@ const Sidebar: React.FunctionComponent = (props) => {
     <>
       {/* Hide on sidebar on screens below md */}  
       <Container className="d-none d-md-block">
-        <div className="w-100 d-flex flex-row bg-white tesc-blue">
-          <img src="/tesc-logo.png" className="w-75 my-3 mx-auto"/>
-          <div>we need a designer</div>
+        <div className="w-100 d-flex flex-column text-white">
+          <img src="/tesc-white.png" className="w-75 my-3 mx-auto"/>
         </div>
         <div>
           <Button color="danger" onClick={onLogout}>Logout</Button>
