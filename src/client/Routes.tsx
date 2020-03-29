@@ -4,8 +4,8 @@ import AdminLayout from './layouts/AdminLayout';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import HomeLayout from './layouts/HomeLayout';
 import ProtectedRoute from './ProtectedRoute';
+import NewItemPage from './pages/NewItemPage';
 
 const Routes: React.FunctionComponent = () => {
 
@@ -14,14 +14,22 @@ const Routes: React.FunctionComponent = () => {
       <Route exact={true} path="/">
         <HomePage />
       </Route>
+      <Route exact={true} path="/login">
+        <LoginPage />
+      </Route>
+
       <ProtectedRoute exact={true} path="/admin">
         <AdminLayout>
           <AdminPage />
         </AdminLayout>
       </ProtectedRoute>
-      <Route exact={true} path="/login">
-        <LoginPage />
-      </Route>
+
+      <ProtectedRoute exact={true} path="/admin/new">
+        <AdminLayout>
+          <NewItemPage />
+        </AdminLayout>
+      </ProtectedRoute>
+
     </Switch>
   );
 }
