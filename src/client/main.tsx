@@ -1,6 +1,11 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import {render} from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-ReactDOM.render(<App />, document.getElementById("app"));
+render(<App />, document.getElementById("app"));
+
+declare const module: any;
+if (module.hot) {
+  module.hot.accept('./App', () => render(<App />, document.getElementById("app")));
+}

@@ -29,6 +29,7 @@ const App: React.FunctionComponent<{}> = (props) => {
         setLoading(false);
       }
       setUser(user);
+
     })
 
     return () => unsubscribe();

@@ -33,7 +33,7 @@ const TopBar: React.FunctionComponent = () => {
     <>
     <Rounded className="w-100 bg-white mb-3 d-flex">
       <div className="my-auto">
-        TESC Inventory (Search?)
+        TESC Inventory (Search??)
       </div>
       <div className="ml-auto">
         <ProfileCard className="img-fluid" src={user.photoURL} id="profileImg"/>
