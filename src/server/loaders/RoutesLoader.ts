@@ -7,6 +7,7 @@ import Container from 'typedi';
 import { CustomErrorHandler } from '../api/ErrorHandler';
 
 import Loader from './Loader';
+import { AdminControllers } from '../api/controllers';
 
 export default class RoutesLoader extends Loader {
   public static async initialiseLoader(app: express.Application) {
@@ -41,7 +42,7 @@ export default class RoutesLoader extends Loader {
 
     app = useExpressServer(app, {
       routePrefix: ADMIN_API_PREFIX,
-      controllers: [],
+      controllers: AdminControllers,
       middlewares: [
         CustomErrorHandler,
       ],

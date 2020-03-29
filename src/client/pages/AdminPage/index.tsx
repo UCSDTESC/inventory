@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '~/components/Button';
+import { getItems } from '~/data/AdminApi';
 
 const AdminPage: React.FunctionComponent = () => {
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const res = await getItems();
+      console.log(res);
+    }
+    fetchItems();
+  })
+
   return (
     <div className="container-fluid">
       <div className="row">

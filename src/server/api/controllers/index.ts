@@ -1,1 +1,3 @@
-import AdminAuthController from './admin/AuthController';
+import ItemsController from './admin/ItemsController';
+
+export const AdminControllers = [ItemsController]

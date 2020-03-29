@@ -6,6 +6,7 @@ import { GlobalStyle } from '~/styles';
 import Firebase, { FirebaseContext } from '~/firebase';
 import * as firebase from 'firebase';
 import UserContext from './data/user/context';
+import axios from 'axios';
 
 const App: React.FunctionComponent<{}> = (props) => {
 
@@ -17,6 +18,13 @@ const App: React.FunctionComponent<{}> = (props) => {
   useEffect(() => {
     const unsubscribe = firebase.checkUserAuth((user: firebase.User) => {
       setUser(user);
+
+      if (user) {
+        user.getIdToken()
+          .then(token => axios.defaults.headers.common['Authorization'] = `Bearer ${token}`)
+        ;
+      }
+
       setLoading(false);
     })
 
