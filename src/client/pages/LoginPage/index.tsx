@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import Button from '~/components/Button';
 import { useFirebase } from '~/firebase';
 import { useHistory } from 'react-router-dom';
+import useUser from '~/data/user';
 
 const LoginPage: React.FunctionComponent = () => {
   const firebase = useFirebase();
+  const user = useUser();
   const [error, setError] = useState<string>(null);
+
   const history = useHistory();
 
   async function onLogin() {
@@ -28,6 +31,11 @@ const LoginPage: React.FunctionComponent = () => {
     await firebase.logout();
   }
 
+  if (user) {
+    history.push('/admin');
+    return <div></div>
+  }
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -42,7 +50,6 @@ const LoginPage: React.FunctionComponent = () => {
           </Button>
         </div>
       </div>
-
     </div>
   );
 }
