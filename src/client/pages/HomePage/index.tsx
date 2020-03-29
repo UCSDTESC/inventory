@@ -1,62 +1,37 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
 import styled from 'styled-components';
+
+import { TESC_BLUE } from '~/styles/constants';
 import Button from '~/components/Button';
 
-const ErrorMsg = styled(ErrorMessage)`
-  color: red;
-  font-size: 12px;
+const Panel = styled.div`
+  background-color: ${TESC_BLUE};
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px #bfbfbf;
+  height: 55vh;
+  padding: 26px;
+  width: 42vw;
+`;
+const InnerPanel = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  height: 50vh;
+  overflow: auto;
+  padding: 26px;
+  width: 40vw;
 `;
 
 const HomePage: React.FunctionComponent = () => {
   return (
     <div className="container-fluid">
       <div className='d-flex flex-column align-items-center'>
-        <h1>TESC Inventory</h1>
-        <p>~ some text here that introduces what this is ~</p>
-        <div>
-          <Formik
-            initialValues={{ firstName: '', lastName: '', email: '' }}
-            validationSchema={Yup.object({
-              firstName: Yup.string()
-                .max(30, 'must be 30 characters or less')
-                .required('required'),
-              lastName: Yup.string()
-                .max(30, 'must be 30 characters or less')
-                .required('required'),
-              email: Yup.string()
-                .matches(/^[A-Z0-9._%+-]+@ucsd+\.edu$/i, 'invalid ucsd.edu email')
-                .required('required'),
-            })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
-            }}
-          >
-            <Form className='d-flex flex-column'>
-              <div>
-                <span>First Name </span>
-                <Field name="firstName" type="text" />
-                <ErrorMsg name="firstName" component='span'/>
-              </div>
-              <div>
-                <span>Last Name </span>
-                <Field name="lastName" type="text" />
-                <ErrorMsg name="lastName" component='span'/>
-              </div>
-              <div>
-                <span>Email Address </span>
-                <Field name="email" type="email" />
-                <ErrorMsg name="email" component='span'/>
-              </div>
-              <button className='align-self-center' type="submit">Submit</button>
-            </Form>
-          </Formik>
-        </div>
+        <img src='/tesc-logo.png'className='w-25 my-3 mx-auto'/>
+        <p>fill out form below to borrow stuff from tesc. use ur ucsd email btw.</p>
+        <Panel className='d-flex align-items-center justify-content-center'>
+          <InnerPanel className='d-flex justify-content-center'/>
+        </Panel>
       </div>
 
     </div>
