@@ -2,20 +2,16 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
+import { Input, FormFeedback } from 'reactstrap';
 
 import Button from '~/components/Button';
 
-const ErrorMsg = styled(ErrorMessage)`
-  color: red;
-  font-size: 12px;
-`;
 const FormField = styled(Field)`
   border-radius: 10px;
   margin: 4px;
 `;
 
 type Props = {
-  items: Array<FieldProps>,
   initialValues?: {},
   validationSchema?: Yup.ObjectSchema,
   onClickSubmit: ()=>void,
@@ -24,13 +20,29 @@ type Props = {
 export type FieldProps = {
   label: string,
   fieldName: string,
-  type: string,
+  inputType: string,
 }
+
+const input = ({ field, form: { touched, errors }, ...props }) => {
+  return (
+    <>
+      <Input
+        invalid={!!(touched[field.name] && errors[field.name])}
+        {...field}
+        {...props}
+        value={field.value || ""}
+      />
+      {touched[field.name] && errors[field.name] && (
+        <FormFeedback>{errors[field.name]}</FormFeedback>
+      )}
+    </>
+  );
+};
 
 const TESCForm: React.FunctionComponent<Props> = (props) => {
   return (
     <Formik
-      initialValues={props.initialValues?? null}
+      initialValues={props.initialValues?? {}}
       validationSchema={props.validationSchema?? null}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -40,28 +52,25 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
       }}
     >
       <Form className='d-flex flex-column'>
-        {props.items.map(item=> {
-          return <TESCFormField key={item.fieldName} label={item.label} fieldName={item.fieldName} type={item.type} />;
-        })}
-        <Button
-        className='align-self-center' type='submit'
-        onClick={props.onClickSubmit}>
-        Submit
-      </Button>
+        {props.children}
+        <Button 
+          className='align-self-center m-2' type='submit'
+          onClick={props.onClickSubmit}>
+          Submit
+        </Button>
       </Form>
     </Formik>
   );
 }
 
-
 const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
   return(
-    <div>
+    <>
       <span>{props.label}</span>
-      <FormField name={props.fieldName} type={props.type} />
-      <ErrorMsg name={props.fieldName} component='span'/>
-    </div>
+      <FormField name={props.fieldName} type={props.type} component={input} />
+    </>
   );
 }
 
 export default TESCForm;
+export { TESCFormField };
