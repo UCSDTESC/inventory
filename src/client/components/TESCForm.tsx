@@ -30,8 +30,8 @@ export type FieldProps = {
 const TESCForm: React.FunctionComponent<Props> = (props) => {
   return (
     <Formik
-      initialValues={props.initialValues?? null}
-      validationSchema={props.validationSchema?? null}
+      initialValues={props.initialValues?? undefined}
+      validationSchema={props.validationSchema?? undefined}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
@@ -44,10 +44,10 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
           return <TESCFormField key={item.fieldName} label={item.label} fieldName={item.fieldName} type={item.type} />;
         })}
         <Button
-        className='align-self-center' type='submit'
-        onClick={props.onClickSubmit}>
-        Submit
-      </Button>
+          className='align-self-center' type='submit'
+          onClick={props.onClickSubmit}>
+          Submit
+        </Button>
       </Form>
     </Formik>
   );
@@ -65,3 +65,4 @@ const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
 }
 
 export default TESCForm;
+export {TESCFormField};
