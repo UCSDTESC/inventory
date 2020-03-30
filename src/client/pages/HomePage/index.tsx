@@ -2,13 +2,13 @@ import React from 'react';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 
-import TESCForm from '~/components/TESCForm';
+import TESCForm, { TESCFormField } from '~/components/TESCForm';
 import { TESC_BLUE } from '~/styles/constants';
 import { Rounded } from '~/styles';
 
 const Panel = styled(Rounded)`
   background-color: ${TESC_BLUE};
-  height: 60vh;
+  height: 70vh;
   width: 50vw;
 `;
 const InnerPanel = styled(Rounded)`
@@ -19,11 +19,6 @@ const InnerPanel = styled(Rounded)`
 `;
 
 const HomePage: React.FunctionComponent = () => {
-  const formItems = [{
-    label: 'First Name',
-    fieldName: 'firstName',
-    type: 'text'
-  }];
   const validationSchema = Yup.object({
         firstName: Yup.string()
           .max(30, 'must be 30 characters or less')
@@ -48,7 +43,13 @@ const HomePage: React.FunctionComponent = () => {
         <p>fill out form below to borrow stuff from tesc. use ur ucsd email btw.</p>
         <Panel className='d-flex align-items-center justify-content-center'>
           <InnerPanel className='d-flex justify-content-center'>
-            <TESCForm items={formItems} validationSchema={validationSchema} onClickSubmit={()=>{}} />
+            <TESCForm validationSchema={validationSchema} onClickSubmit={()=>{}}>
+              <TESCFormField label={'First Name'} fieldName={'firstName'} inputType={'text'}/>   
+              <TESCFormField label={'Last Name'} fieldName={'lastName'} inputType={'text'}/>
+              <TESCFormField label={'Email'} fieldName={'email'} inputType={'email'}/>
+              <TESCFormField label={'Item'} fieldName={'item'} inputType={'text'}/>
+              <TESCFormField label={'Purpose'} fieldName={'purpose'} inputType={'text'}/>
+            </TESCForm> 
           </InnerPanel>
         </Panel>
       </div>
