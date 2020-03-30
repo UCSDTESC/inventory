@@ -35,7 +35,8 @@ const HomePage: React.FunctionComponent = () => {
           .required('Required'),
         item: Yup.string()
           .max(100, 'Must be 100 characters or less')
-          .required('Required')
+          .required('Required'),
+        dateNeededBy: Yup.date().required('Required')
       });
   return (
     <div className="container-fluid">
@@ -56,6 +57,7 @@ const HomePage: React.FunctionComponent = () => {
               <TESCFormField label={'Email'} fieldName={'email'} inputType={'email'}/>
               <TESCFormField label={'Item'} fieldName={'item'} inputType={'text'}/>
               <TESCFormField label={'Purpose'} fieldName={'purpose'} inputType={'text'}/>
+              <TESCFormField label={'Date Needed By'} fieldName={'dateNeededBy'} inputType={'date'}/>
             </TESCForm> 
           </InnerPanel>
         </Panel>
