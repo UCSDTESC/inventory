@@ -8,3 +8,6 @@ An inventory system for TESC. Written in TypeScript.
 4) Fill in credentials in `.env`
 5) Fill in `src/server/config/firebase.json`
 3) `npm run dev`
+
+There is a known issue where the frontend dev environment hot reloads infinitely -
+If you run into this, shift + refresh your browser.
