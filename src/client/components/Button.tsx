@@ -2,9 +2,13 @@ import styled from 'styled-components';
 import { TESC_BLUE, BORDER_RADIUS, TESC_BLUE_DARKER, MEDIUM_GRAY } from '~/styles/constants';
 import { mediaBreakpointDown } from '~/styles/breakpoints';
 
-const Button = styled.button`
-  background: ${TESC_BLUE};
-  color: white;
+type Props = {
+  light?: boolean
+}
+
+const Button = styled.button<Props>`
+  background: ${props => props.light ? 'white' : TESC_BLUE};
+  color: ${props => props.light ? TESC_BLUE : 'white'};
   width: 100%;
   border-radius: ${BORDER_RADIUS};
   padding: 0.6rem;

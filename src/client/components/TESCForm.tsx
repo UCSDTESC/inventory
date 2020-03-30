@@ -1,9 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage, FieldProps as FormikFieldProps } from 'formik';
 import * as Yup from 'yup';
-import styled from 'styled-components';
-import { Input, FormFeedback } from 'reactstrap';
-
+import styled, { css } from 'styled-components';
+import { Input, FormFeedback, Label } from 'reactstrap'; 
 import Button from '~/components/Button';
 
 const FormField = styled(Field)`
@@ -15,7 +14,15 @@ type Props = {
   initialValues?: {},
   validationSchema?: Yup.ObjectSchema,
   onClickSubmit: ()=>void,
+  labelCSS?: string;
+  isButtonLight?: boolean;
 }
+
+const StyledForm = styled(Form)<{labelCSS?: string}>`
+  & label {
+    ${({labelCSS}) => labelCSS ? css`${labelCSS}` : ''}
+  }
+`
 
 export type FieldProps = {
   label: string,
@@ -51,14 +58,15 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
         }, 400);
       }}
     >
-      <Form className='d-flex flex-column'>
+      <StyledForm className='d-flex flex-column' labelCSS={props.labelCSS}>
         {props.children}
         <Button 
+          light={props.isButtonLight}
           className='align-self-center m-2' type='submit'
           onClick={props.onClickSubmit}>
           Submit
         </Button>
-      </Form>
+      </StyledForm>
     </Formik>
   );
 }
@@ -66,7 +74,7 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
 const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
   return(
     <>
-      <span>{props.label}</span>
+      <Label>{props.label}</Label>
       <FormField name={props.fieldName} type={props.inputType} component={input} />
     </>
   );
