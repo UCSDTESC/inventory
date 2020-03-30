@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FieldProps as FormikFieldProps } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import { Input, FormFeedback } from 'reactstrap';
@@ -23,7 +23,7 @@ export type FieldProps = {
   inputType: string,
 }
 
-const input = ({ field, form: { touched, errors }, ...props }) => {
+const input = ({ field, form: { touched, errors }, ...props }: FormikFieldProps) => {
   return (
     <>
       <Input
@@ -67,7 +67,7 @@ const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
   return(
     <>
       <span>{props.label}</span>
-      <FormField name={props.fieldName} type={props.type} component={input} />
+      <FormField name={props.fieldName} type={props.inputType} component={input} />
     </>
   );
 }

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import TESCForm, { TESCFormField } from '~/components/TESCForm';
 import { TESC_BLUE } from '~/styles/constants';
 import { Rounded } from '~/styles';
+import { FormGroup, Col } from 'reactstrap';
 
 const Panel = styled(Rounded)`
   background-color: ${TESC_BLUE};
@@ -21,20 +22,20 @@ const InnerPanel = styled(Rounded)`
 const HomePage: React.FunctionComponent = () => {
   const validationSchema = Yup.object({
         firstName: Yup.string()
-          .max(30, 'must be 30 characters or less')
-          .required('required'),
+          .max(30, 'Must be 30 characters or less')
+          .required('Required'),
         lastName: Yup.string()
-          .max(30, 'must be 30 characters or less')
+          .max(30, 'Must be 30 characters or less')
           .required('required'),
         email: Yup.string()
-          .matches(/^[A-Z0-9._%+-]+@ucsd+\.edu$/i, 'invalid ucsd.edu email')
-          .required('required'),
+          .matches(/^[A-Z0-9._%+-]+@ucsd+\.edu$/i, 'Invalid ucsd.edu email')
+          .required('Required'),
         purpose: Yup.string()
-          .max(500, 'must be 500 characters or less')
-          .required('required'),
+          .max(500, 'Must be 500 characters or less')
+          .required('Required'),
         item: Yup.string()
-          .max(100, 'must be 100 characters or less')
-          .required('required')
+          .max(100, 'Must be 100 characters or less')
+          .required('Required')
       });
   return (
     <div className="container-fluid">
@@ -44,8 +45,14 @@ const HomePage: React.FunctionComponent = () => {
         <Panel className='d-flex align-items-center justify-content-center'>
           <InnerPanel className='d-flex justify-content-center'>
             <TESCForm validationSchema={validationSchema} onClickSubmit={()=>{}}>
-              <TESCFormField label={'First Name'} fieldName={'firstName'} inputType={'text'}/>   
-              <TESCFormField label={'Last Name'} fieldName={'lastName'} inputType={'text'}/>
+              <FormGroup row>
+                <Col md={6}>
+                  <TESCFormField label={'First Name'} fieldName={'firstName'} inputType={'text'}/>   
+                </Col>
+                <Col md={6}>
+                  <TESCFormField label={'Last Name'} fieldName={'lastName'} inputType={'text'}/>
+                </Col>
+              </FormGroup>
               <TESCFormField label={'Email'} fieldName={'email'} inputType={'email'}/>
               <TESCFormField label={'Item'} fieldName={'item'} inputType={'text'}/>
               <TESCFormField label={'Purpose'} fieldName={'purpose'} inputType={'text'}/>

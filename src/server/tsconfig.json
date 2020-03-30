@@ -11,11 +11,8 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "types": [
-      "node"
-    ],
-    "typeRoots": [
+      "node",
       "./typings/",
-      "node_modules/@types/"
     ],
     "paths": {
       "@Shared/*": [
