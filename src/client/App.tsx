@@ -17,7 +17,6 @@ const App: React.FunctionComponent<{}> = (props) => {
 
   useEffect(() => {
     const unsubscribe = firebase.checkUserAuth((user: firebase.User) => {
-      console.log("setting user", user);
       if (user) {
         user.getIdToken()
           .then(token => {

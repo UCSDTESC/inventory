@@ -1,12 +1,21 @@
+import React from 'react';
 import { InventoryItem } from '@Shared/Types'
 import { Column } from 'react-table';
-type ColumnType = {
-  Header: string;
-  accessor: Column<InventoryItem>["accessor"],
-  Cell?: Column["Cell"]
-}
 
-const columns: Array<ColumnType> = [
+
+const columns: Array<Column<InventoryItem>> = [
+  {
+    Header: () => null, // No header
+    id: 'expander', // It needs an ID
+    Cell: ({ row }) => (
+      // Use Cell to render an expander for each row.
+      // We can use the getToggleRowExpandedProps prop-getter
+      // to build the expander.
+      <span {...(row as any).getToggleRowExpandedProps()}>
+        {(row as any).isExpanded ? '👇' : '👉'}
+      </span>
+    ),
+  },
   {
     Header: 'Name',
     accessor: 'name'

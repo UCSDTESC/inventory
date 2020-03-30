@@ -5,8 +5,8 @@ import * as admin from 'firebase-admin';
 export class AdminAuthorisation implements ExpressMiddlewareInterface {
   async use(req: express.Request, res: express.Response, next?: express.NextFunction): Promise<any> {
     try {
-      console.log(req.headers.authorization)
       const decodedToken = await admin.auth().verifyIdToken(req.headers.authorization.split(' ')[1]);
+      req.uid = decodedToken.uid;
       return next();
     } catch (err) {
       return next(new UnauthorizedError(err))

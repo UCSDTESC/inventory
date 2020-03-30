@@ -19,7 +19,6 @@ const Sidebar: React.FunctionComponent = (props) => {
         <div className="w-100 d-flex flex-column text-white">
           <img src="/tesc-white.png" className="w-75 my-3 mx-auto"/>
         </div>
-
       </Container>
 
       {/* Show nav on screens above md */}

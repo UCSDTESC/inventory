@@ -13,6 +13,10 @@
     "types": [
       "node"
     ],
+    "typeRoots": [
+      "./typings/",
+      "node_modules/@types/"
+    ],
     "paths": {
       "@Shared/*": [
         "../shared/*"
@@ -31,6 +35,7 @@
       "es6"
     ],
   },
+
   "include": [
     "./**/*.ts",
     "../shared/**/*.ts"

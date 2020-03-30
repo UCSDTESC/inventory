@@ -3,13 +3,26 @@ import { Table } from 'reactstrap';
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
-import { useTable } from 'react-table';
+import { useTable, useExpanded, Row } from 'react-table';
 
 type Props = {
-  data?: Array<InventoryItem>
+  data?: Array<InventoryItem>;
 }
 
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
+
+  const renderRowSubComponent = React.useCallback(
+    ({ row }: {row: Row<InventoryItem>}) => (
+      <pre
+        style={{
+          fontSize: '10px',
+        }}
+      >
+        <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
+      </pre>
+    ),
+    []
+  )
 
   const {
     getTableProps,
@@ -17,7 +30,8 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data })
+    visibleColumns,
+  } = useTable<InventoryItem>({ columns, data }, useExpanded)
 
   return (
     <Rounded as={Table} className="bg-white border-top-0" {...getTableProps()} responsive>
@@ -33,14 +47,35 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
+        {rows.map((row, i) => {
           prepareRow(row)
           return (
-            <tr {...row.getRowProps()} className="text-center">
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
+            <React.Fragment key={i}>
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <td {...cell.getCellProps()} className="text-center">{cell.render('Cell')}</td>
+                  )
+                })}
+              </tr>
+              {/*
+                  If the row is in an expanded state, render a row with a
+                  column that fills the entire length of the table.
+                */}
+              {(row as any).isExpanded ? (
+                <tr>
+                  <td colSpan={visibleColumns.length}>
+                    {/*
+                        Inside it, call our renderRowSubComponent function. In reality,
+                        you could pass whatever you want as props to
+                        a component like this, including the entire
+                        table instance. 
+                      */}
+                    {renderRowSubComponent({ row })}
+                  </td>
+                </tr>
+              ) : null}
+            </React.Fragment>
           )
         })}
       </tbody>

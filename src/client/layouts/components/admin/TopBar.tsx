@@ -13,10 +13,13 @@ const ProfileCard = styled.img`
   &:hover {
     cursor: pointer;
   }
+
+  border-radius: 50%;
 `
 
 const Collapse = styled(UncontrolledCollapse)`
   transform: translateX(calc(-100% + 2rem));
+  z-index: 30;
 ` 
 
 const TopBar: React.FunctionComponent = () => {
@@ -36,7 +39,7 @@ const TopBar: React.FunctionComponent = () => {
         TESC Inventory (Search??)
       </div>
       <div className="ml-auto">
-        <ProfileCard className="img-fluid" src={user.photoURL} id="profileImg"/>
+        <ProfileCard className="img-fluid shadow-sm" src={user.photoURL} id="profileImg"/>
         <Collapse toggler="#profileImg" className="position-absolute">
           <Card className="mt-1">
             <CardBody>
