@@ -64,15 +64,16 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
         }, 400);
       }}
     >
-      <StyledForm className='d-flex flex-column' labelCSS={props.labelCSS}>
+      {({errors, isValid}) => <StyledForm className='d-flex flex-column' labelCSS={props.labelCSS}>
         {props.children}
         <Button 
           light={props.isButtonLight}
           className='align-self-center m-2' type='submit'
+          disabled={isValid}
           onClick={props.onClickSubmit}>
           Submit
         </Button>
-      </StyledForm>
+      </StyledForm>}
     </Formik>
   );
 }
