@@ -48,7 +48,7 @@ const CheckBox = styled.input`
 
 type Props = {
   value?: boolean,
-  onChange?: () => any 
+  onChange?: (e: any) => any 
 }
 
 const Switch: React.FunctionComponent<Props> = (props) => {

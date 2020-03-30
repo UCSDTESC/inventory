@@ -42,6 +42,14 @@ const NewItemPage: React.FunctionComponent = () => {
                   <TESCFormField label={'Description'} fieldName={'description'} inputType={'text'}/>
                 </Col>
               </FormGroup>
+              <FormGroup row>
+                <Col md={6}>
+                  <TESCFormField label={'For Rent'} fieldName={'forRent'} component={Switch}/>   
+                </Col>
+                <Col md={6}>
+                  <TESCFormField label={'Description'} fieldName={'description'} inputType={'text'}/>
+                </Col>
+              </FormGroup>
             </TESCForm>
           </Container>
         </div>

@@ -27,7 +27,7 @@ const StyledForm = styled(Form)<{labelCSS?: string}>`
 export type FieldProps = {
   label: string,
   fieldName: string,
-  inputType: string,
+  inputType?: string,
 
   // Passed In Component must have a value and onChange prop.
   component?: string | React.ComponentType<{
@@ -95,7 +95,7 @@ const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
       <Label>{props.label}</Label>
       <FormField name={props.fieldName}>
         {({ field: { value }, form: { setFieldValue } }: FormikFieldProps) => (
-          <props.component value={value} onChange={e => setFieldValue(props.fieldName, e)}/>
+          <props.component value={value} onChange={e => setFieldValue(props.fieldName, e.target.checked)}/>
         )}
       </FormField>
     </>
