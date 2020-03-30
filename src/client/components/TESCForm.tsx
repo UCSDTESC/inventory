@@ -97,7 +97,7 @@ const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
       <Label>{props.label}</Label>
       <FormField name={props.fieldName}>
         {({ field: { value }, form: { setFieldValue } }: FormikFieldProps) => (
-          <props.component value={value} onChange={e => setFieldValue(props.fieldName, e.target.checked)}/>
+          <props.component value={value} onChange={e => setFieldValue(props.fieldName, e)}/>
         )}
       </FormField>
     </>
