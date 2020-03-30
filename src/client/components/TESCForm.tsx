@@ -28,6 +28,12 @@ export type FieldProps = {
   label: string,
   fieldName: string,
   inputType: string,
+
+  // Passed In Component must have a value and onChange prop.
+  component?: string | React.ComponentType<{
+    value: any;
+    onChange?: (e: any) => any;
+  }>;
 }
 
 const input = ({ field, form: { touched, errors }, ...props }: FormikFieldProps) => {
@@ -72,10 +78,26 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
 }
 
 const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
+
+  // Default input.
+  if (!props.component) {
+    return(
+      <>
+        <Label>{props.label}</Label>
+        <FormField name={props.fieldName} type={props.inputType} component={input} />
+      </>
+    );
+  }
+
+  // Using a custom component
   return(
-    <>
+    <>  
       <Label>{props.label}</Label>
-      <FormField name={props.fieldName} type={props.inputType} component={input} />
+      <FormField name={props.fieldName}>
+        {({ field: { value }, form: { setFieldValue } }: FormikFieldProps) => (
+          <props.component value={value} onChange={e => setFieldValue(props.fieldName, e)}/>
+        )}
+      </FormField>
     </>
   );
 }
