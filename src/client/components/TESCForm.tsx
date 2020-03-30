@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage, FieldProps as FormikFieldProps } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FieldProps as FormikFieldProps, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import styled, { css } from 'styled-components';
 import { Input, FormFeedback, Label } from 'reactstrap'; 
@@ -57,6 +57,7 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
     <Formik
       initialValues={props.initialValues?? {}}
       validationSchema={props.validationSchema?? null}
+      isInitialValid={false}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
@@ -64,12 +65,12 @@ const TESCForm: React.FunctionComponent<Props> = (props) => {
         }, 400);
       }}
     >
-      {({errors, isValid}) => <StyledForm className='d-flex flex-column' labelCSS={props.labelCSS}>
+      {({isValid}: FormikProps<any>) => <StyledForm className='d-flex flex-column' labelCSS={props.labelCSS}>
         {props.children}
         <Button 
           light={props.isButtonLight}
           className='align-self-center m-2' type='submit'
-          disabled={isValid}
+          disabled={!isValid}
           onClick={props.onClickSubmit}>
           Submit
         </Button>

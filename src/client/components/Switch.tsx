@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { TESC_BLUE } from '~/styles/constants';
+import { TESC_BLUE, GREEN } from '~/styles/constants';
 
 const CheckBoxWrapper = styled.div`
   position: relative;
@@ -33,7 +33,7 @@ const CheckBox = styled.input`
   width: 42px;
   height: 26px;
   &:checked + ${CheckBoxLabel} {
-    background: ${TESC_BLUE};
+    background: ${GREEN};
     &::after {
       content: "";
       display: block;
