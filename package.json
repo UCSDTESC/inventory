@@ -6,7 +6,9 @@
   "scripts": {
     "client:dev": "npx webpack",
     "server:dev": "npx nodemon",
+    "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js",
     "dev": "npx concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "heroku-postbuild": "npm run build",
     "start": "npx ts-node -P ./src/server/tsconfig.json -r tsconfig-paths/register ./src/server/main.ts"
   },
   "author": "TESC Tech Team",
@@ -35,6 +37,7 @@
     "css-loader": "^3.4.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "firebase": "^7.13.1",
     "firebase-admin": "^8.10.0",
     "fork-ts-checker-webpack-plugin": "^4.0.5",
@@ -57,6 +60,7 @@
     "typedi": "^0.8.0",
     "typescript": "^3.8.3",
     "webpack": "^4.42.0",
+    "webpack-combine-loaders": "^2.0.4",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-hot-middleware": "^2.25.0",
     "winston": "^3.2.1",
@@ -70,6 +74,7 @@
     "@types/throng": "^4.0.2",
     "@types/yup": "^0.26.33",
     "babel-loader": "^8.0.6",
+    "babel-plugin-styled-components": "^1.10.7",
     "webpack-cli": "^3.3.11"
   },
   "nodemonConfig": {

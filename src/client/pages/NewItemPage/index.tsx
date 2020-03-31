@@ -4,11 +4,11 @@ import { Rounded } from '~/styles';
 import styled from 'styled-components';
 import NewItemForm from './components/NewItemForm';
 
-const NewItemPage: React.FunctionComponent = () => {
+const Container = styled(Rounded)`
+  background: ${TESC_BLUE};
+`
 
-  const Container = styled(Rounded)`
-    background: ${TESC_BLUE};
-  `
+const NewItemPage: React.FunctionComponent = () => {
 
   return (
     <div className="container-fluid">

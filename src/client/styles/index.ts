@@ -3,7 +3,6 @@ import { FONT_SIZE, TESC_BLUE, BORDER_RADIUS_LG } from './constants';
 import { BreakpointsType, mediaBreakpointDown } from './breakpoints';
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
   html, body, #app {
     width: 100%;
