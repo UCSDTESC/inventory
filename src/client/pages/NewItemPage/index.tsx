@@ -1,16 +1,10 @@
 import React from 'react';
-import * as Yup from 'yup';
 import { TESC_BLUE } from '~/styles/constants';
 import { Rounded } from '~/styles';
 import styled from 'styled-components';
 import NewItemForm from './components/NewItemForm';
 
 const NewItemPage: React.FunctionComponent = () => {
-
-  const validationSchema = Yup.object({
-    name: Yup.string(),
-    description: Yup.string()
-  });
 
   const Container = styled(Rounded)`
     background: ${TESC_BLUE};

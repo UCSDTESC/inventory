@@ -6,8 +6,8 @@ import { Config } from '@Config/index';
 export default class FirebaseLoader extends Loader {
   public static async initialiseLoader(app: express.Application) {
     admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-      databaseURL: `https://${Config.DatabaseName}.firebaseio.com`
+      credential: admin.credential.cert(Config.Firebase.serviceAccount),
+      databaseURL: `https://${Config.DatabaseName}.firebaseio.com`,
     });
   }
 }
