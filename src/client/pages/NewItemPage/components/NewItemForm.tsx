@@ -3,7 +3,7 @@ import { Formik, FormikProps, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import {FormGroup, Col} from 'reactstrap';
 import { createItem } from '~/data/AdminApi';
-import { TESCFormField, TESCForm } from '~/components/TESCForm2';
+import { TESCFormField, TESCForm } from '~/components/TESCForm';
 import Switch from '~/components/Switch';
 import Button from '~/components/Button';
 

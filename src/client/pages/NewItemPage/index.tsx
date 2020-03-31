@@ -1,8 +1,5 @@
 import React from 'react';
 import * as Yup from 'yup';
-import TESCForm, { TESCFormField } from '~/components/TESCForm';
-import {FormGroup, Col} from 'reactstrap';
-import Switch from '~/components/Switch';
 import { TESC_BLUE } from '~/styles/constants';
 import { Rounded } from '~/styles';
 import styled from 'styled-components';

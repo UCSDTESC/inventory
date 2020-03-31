@@ -1,45 +1,24 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage, FieldProps as FormikFieldProps, FormikBag, FormikProps } from 'formik';
-import * as Yup from 'yup';
-import styled, { css } from 'styled-components';
-import { Input, FormFeedback, Label } from 'reactstrap'; 
-import Button from '~/components/Button';
+import styled, { css} from 'styled-components';
+import { Field, FieldAttributes, FieldProps, Form } from 'formik';
+import { BORDER_RADIUS } from '~/styles/constants';
+import { Label, Input, FormFeedback } from 'reactstrap';
 
-const FormField = styled(Field)`
-  border-radius: 10px;
+
+type TESCFieldProps<T> = {
+  light?: boolean;
+  label?: string;
+} & FieldAttributes<T>;
+
+const FormField = styled(Input)`
+  border-radius: ${BORDER_RADIUS};
   margin: 4px;
 `;
 
-type Props = {
-  initialValues?: {},
-  validationSchema?: Yup.ObjectSchema,
-  onClickSubmit: ()=>void,
-  labelCSS?: string;
-  isButtonLight?: boolean;
-}
-
-const StyledForm = styled(Form)<{labelCSS?: string}>`
-  & label {
-    ${({labelCSS}) => labelCSS ? css`${labelCSS}` : ''}
-  }
-`
-
-export type FieldProps = {
-  label: string,
-  fieldName: string,
-  inputType?: string,
-
-  // Passed In Component must have a value and onChange prop.
-  component?: string | React.ComponentType<{
-    value: any;
-    onChange?: (e: any) => any;
-  }>;
-}
-
-const input = ({ field, form: { touched, errors }, ...props }: FormikFieldProps) => {
+const input = ({ field, form: { touched, errors }, ...props }: FieldProps) => {
   return (
     <>
-      <Input
+      <FormField
         invalid={!!(touched[field.name] && errors[field.name])}
         {...field}
         {...props}
@@ -52,57 +31,29 @@ const input = ({ field, form: { touched, errors }, ...props }: FormikFieldProps)
   );
 };
 
-const TESCForm: React.FunctionComponent<Props> = (props) => {
-  return (
-    <Formik
-      initialValues={props.initialValues?? {}}
-      validationSchema={props.validationSchema?? null}
-      isInitialValid={false}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
-    >
-      {({isValid}: FormikProps<any>) => <StyledForm className='d-flex flex-column' labelCSS={props.labelCSS}>
-        {props.children}
-        <Button 
-          light={props.isButtonLight}
-          className='align-self-center m-2' type='submit'
-          disabled={!isValid}
-          onClick={props.onClickSubmit}>
-          Submit
-        </Button>
-      </StyledForm>}
-    </Formik>
-  );
-}
+export class TESCFormField<T> extends React.Component<TESCFieldProps<T>> {
 
-const TESCFormField: React.FunctionComponent<FieldProps> = (props) => {
+  constructor(props: TESCFieldProps<T>) {
+    super(props);
+  }
 
-  // Default input.
-  if (!props.component) {
-    return(
+  render() {
+    const {props} = this;
+    return (
       <>
         <Label>{props.label}</Label>
-        <FormField name={props.fieldName} type={props.inputType} component={input} />
+        <Field component={input} {...props} />
       </>
     );
   }
-
-  // Using a custom component
-  return(
-    <>  
-      <Label>{props.label}</Label>
-      <FormField name={props.fieldName}>
-        {({ field: { value }, form: { setFieldValue } }: FormikFieldProps) => (
-          <props.component value={value} onChange={e => setFieldValue(props.fieldName, e)}/>
-        )}
-      </FormField>
-    </>
-  );
 }
 
-export default TESCForm;
-export { TESCFormField };
+type TESCFormProps = {
+  labelCSS?: string
+}
+
+export const TESCForm = styled(Form)<TESCFormProps>`
+  & label {
+    ${({labelCSS}) => labelCSS ? css`${labelCSS}` : ''}
+  }
+`
