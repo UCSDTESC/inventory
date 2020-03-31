@@ -6,7 +6,6 @@ var webpack = require('webpack');
 var combineLoaders = require('webpack-combine-loaders');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-var dotenv = require('dotenv').config({path: __dirname + '/.env'});
 
 module.exports = {
   devtool: 'source-map',
@@ -34,8 +33,8 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.REACT_APP_FIREBASE_API_KEY': JSON.stringify(dotenv.parsed.REACT_APP_FIREBASE_API_KEY),
-      'process.env.REACT_APP_FIREBASE_APP_ID': JSON.stringify(dotenv.parsed.REACT_APP_FIREBASE_APP_ID)
+      'process.env.REACT_APP_FIREBASE_API_KEY': JSON.stringify(process.env.REACT_APP_FIREBASE_API_KEY),
+      'process.env.REACT_APP_FIREBASE_APP_ID': JSON.stringify(process.env.REACT_APP_FIREBASE_APP_ID)
     }),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
