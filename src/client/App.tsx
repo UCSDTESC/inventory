@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { hot } from 'react-hot-loader'
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, useHistory} from 'react-router-dom';
 import Routes from './Routes';
 import { GlobalStyle } from '~/styles';
 import Firebase, { FirebaseContext } from '~/firebase';
@@ -14,7 +14,8 @@ const App: React.FunctionComponent<{}> = (props) => {
   const firebase = new Firebase();
   const [user, setUser] = useState<firebase.User>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const history = useHistory();
+  
   useEffect(() => {
     const unsubscribe = firebase.checkUserAuth((user: firebase.User) => {
       if (user) {
@@ -43,14 +44,14 @@ const App: React.FunctionComponent<{}> = (props) => {
   }
 
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
-        <FirebaseContext.Provider value={firebase}>
-          <UserContext.Provider value={user}>
-            <Routes />
-          </UserContext.Provider>
-        </FirebaseContext.Provider>
-    </BrowserRouter>
+      <FirebaseContext.Provider value={firebase}>
+        <UserContext.Provider value={user}>
+          <Routes />
+        </UserContext.Provider>
+      </FirebaseContext.Provider>
+    </>
   );
 }
 

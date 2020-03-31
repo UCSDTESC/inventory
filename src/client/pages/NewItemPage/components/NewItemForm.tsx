@@ -1,29 +1,40 @@
 import React from 'react';
-import { Formik, Form, FormikProps, FieldProps } from 'formik';
+import { Formik, FormikProps, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import {FormGroup, Col} from 'reactstrap';
+import { createItem } from '~/data/AdminApi';
 import { TESCFormField, TESCForm } from '~/components/TESCForm2';
 import Switch from '~/components/Switch';
 import Button from '~/components/Button';
 
 type NewItemFormData = {
   name: string;
-  description: string
+  description: string;
+  forRent: boolean;
+  quantity: number;
 }
 
 const NewItemForm: React.FunctionComponent = () => {
 
   const validationSchema = Yup.object<NewItemFormData>({
     name: Yup.string().required('Required'),
-    description: Yup.string()
+    description: Yup.string().required('Required'),
+    forRent: Yup.boolean(),
+    quantity: Yup.number()
   });
+
+  async function onSubmit(values: NewItemFormData) {
+    const res = await createItem(values);
+  }
 
   return (
     <Formik<NewItemFormData>
-      onSubmit={(values) => {alert(JSON.stringify(values))}}
+      onSubmit={onSubmit}
       initialValues={{
         name: '',
-        description: ''
+        description: '',
+        forRent: false,
+        quantity: 0
       }}
       validationSchema={validationSchema}
     >
@@ -47,7 +58,7 @@ const NewItemForm: React.FunctionComponent = () => {
               </TESCFormField>   
             </Col>
             <Col md={6}>
-              <TESCFormField light label='Description' name='description' type='text'/>
+              <TESCFormField light label='Quantity' name='quantity' type='number'/>
             </Col>
           </FormGroup>
           <Button 

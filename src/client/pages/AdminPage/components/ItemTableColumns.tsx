@@ -1,7 +1,7 @@
 import React from 'react';
-import { InventoryItem } from '@Shared/Types'
+import { InventoryItem, UserRecord } from '@Shared/Types'
 import { Column } from 'react-table';
-
+import ProfileCard from '~/components/ProfileCard';
 
 const columns: Array<Column<InventoryItem>> = [
   {
@@ -22,19 +22,11 @@ const columns: Array<Column<InventoryItem>> = [
   },
   {
     Header: 'Created By',
-    accessor: 'createdBy'
-  },
-  {
-    Header: 'Created At',
-    accessor: 'createdAt'
+    accessor: ({createdBy}) => <span><ProfileCard src={(createdBy as UserRecord).photoURL}/> {(createdBy as UserRecord).displayName}</span>
   },
   {
     Header: 'For Rent',
     accessor: d => d.forRent.toString(),
-  },
-  {
-    Header: 'Updated At',
-    accessor: 'updatedAt'
   },
   {
     Header: 'Quantity',

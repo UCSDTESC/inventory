@@ -1,22 +1,25 @@
-import { Get, JsonController, UseBefore, Res, Req, Post } from 'routing-controllers';
+import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
-import { GetItemsResponse } from '@Shared/api/Responses'; 
+import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
+import { CreateItemRequest } from '@Shared/api/Requests';
+import FirebaseService from '@Services/FirebaseService';
+import { InventoryItem } from '@Shared/Types';
+import { FirebaseUID } from 'api/decorators/FirebaseUID';
 
 
 @JsonController('/items')
 @UseBefore(AdminAuthorisation)
 export default class ItemsController {
-  constructor() {}
+  constructor(private FirebaseService: FirebaseService) {}
   
   @Get()
-  getItems(): GetItemsResponse {
-    return {items: Array(5).fill({
-      name: 'Label Printer',
-      updatedAt: new Date().toTimeString(),
-      createdAt: new Date().toTimeString(),
-      createdBy: 'me',
-      forRent: true,
-      quantity: 1
-    })}
+  async getItems(): Promise<GetItemsResponse|SuccessResponse> {
+    return await this.FirebaseService.getAllItems();
+  }
+
+  @Post()
+  async createItem(@Body() body: CreateItemRequest, @FirebaseUID() uid: string): Promise<SuccessResponse> {
+    await this.FirebaseService.createItem({...body, createdBy: uid} as InventoryItem);
+    return SuccessResponse.Positive
   }
 }

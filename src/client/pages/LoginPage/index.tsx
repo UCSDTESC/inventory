@@ -19,9 +19,7 @@ const LoginPage: React.FunctionComponent = () => {
       if (domain.trim() !== 'tesc.ucsd.edu') {
         await logout();
         setError('You tried logging in with a non tesc.ucsd.edu account.')
-      } else {
-        history.push('/admin');
-      }
+      } 
     } else {
       setError('Something went wrong!')
     }

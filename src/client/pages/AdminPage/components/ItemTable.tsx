@@ -18,7 +18,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           fontSize: '10px',
         }}
       >
-        <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
+        <code>{row.values.name}</code>
       </pre>
     ),
     []

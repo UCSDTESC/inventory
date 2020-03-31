@@ -6,16 +6,7 @@ import { UncontrolledCollapse, Card, CardBody } from 'reactstrap';
 import Button from '~/components/Button';
 import { useFirebase } from '~/firebase';
 import {client as AdminApiClient} from '~/data/AdminApi';
-
-const ProfileCard = styled.img`
-  height: 2rem;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  border-radius: 50%;
-`
+import ProfileCard from '~/components/ProfileCard';
 
 const Collapse = styled(UncontrolledCollapse)`
   transform: translateX(calc(-100% + 2rem));
