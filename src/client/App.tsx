@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { hot } from 'react-hot-loader'
 import {BrowserRouter, useHistory} from 'react-router-dom';
 import Routes from './Routes';
-import { GlobalStyle } from '~/styles';
 import Firebase, { FirebaseContext } from '~/firebase';
 import * as firebase from 'firebase';
 import UserContext from './data/user/context';
 import {client as AdminApiClient} from '~/data/AdminApi';
+import Loading from './components/Loading';
 
 const App: React.FunctionComponent<{}> = (props) => {
 
@@ -37,15 +37,14 @@ const App: React.FunctionComponent<{}> = (props) => {
 
   if (loading) {
     return (
-      <div className="spinner-border" role="status">
-        <span className="sr-only">Loading...</span>
+      <div className="w-100 h-100 d-flex align-items-center justify-content-center">
+        <Loading />
       </div>
     );
   }
 
   return (
     <>
-      <GlobalStyle />
       <FirebaseContext.Provider value={firebase}>
         <UserContext.Provider value={user}>
           <Routes />

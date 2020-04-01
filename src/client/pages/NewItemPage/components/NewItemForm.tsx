@@ -6,12 +6,14 @@ import { createItem } from '~/data/AdminApi';
 import { TESCFormField, TESCForm } from '~/components/TESCForm';
 import Switch from '~/components/Switch';
 import Button from '~/components/Button';
+import InputWithChips from '~/components/InputWithChips';
 
 type NewItemFormData = {
   name: string;
   description: string;
   forRent: boolean;
   quantity: number;
+  tags: Array<string>;
 }
 
 const NewItemForm: React.FunctionComponent = () => {
@@ -20,7 +22,8 @@ const NewItemForm: React.FunctionComponent = () => {
     name: Yup.string().required('Required'),
     description: Yup.string().required('Required'),
     forRent: Yup.boolean(),
-    quantity: Yup.number()
+    quantity: Yup.number(),
+    tags: Yup.array<string>()
   });
 
   async function onSubmit(values: NewItemFormData) {
@@ -34,12 +37,14 @@ const NewItemForm: React.FunctionComponent = () => {
         name: '',
         description: '',
         forRent: false,
-        quantity: 0
+        quantity: 0,
+        tags: []
       }}
+      isInitialValid={false}
       validationSchema={validationSchema}
     >
-      {({setFieldValue}: FormikProps<NewItemFormData>) => (
-      <TESCForm labelCSS={`color: white`}>
+      {({setFieldValue, isValid}: FormikProps<NewItemFormData>) => (
+      <TESCForm labelCSS={`color: white`} className="container">
         <>
           <FormGroup row>
             <Col md={6}>
@@ -54,16 +59,27 @@ const NewItemForm: React.FunctionComponent = () => {
               <TESCFormField light label='For Rent' name='forRent'>
               {({field}: FieldProps) => (
                 <Switch value={field.value} onChange={(e) => setFieldValue('forRent', e.target.checked)}/>
-            )}
+              )}
               </TESCFormField>   
             </Col>
             <Col md={6}>
               <TESCFormField light label='Quantity' name='quantity' type='number'/>
             </Col>
           </FormGroup>
+          <FormGroup row>
+            <Col md={6}>
+              <TESCFormField label='Tags' name='tags'>
+                {({field}: FieldProps) => (
+                  <InputWithChips value={field.value} onChange={(e) => setFieldValue('tags', e)}/>
+                )}
+              </TESCFormField>
+            </Col>
+          </FormGroup>
           <Button 
             light={true}
-            className='align-self-center m-2' type='submit'>
+            className='align-self-center m-2' type='submit'
+            disabled={!isValid}
+          >
             Submit
           </Button>
         </>

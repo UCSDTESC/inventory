@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { BORDER_RADIUS_LG } from '~/styles/constants';
 import ItemTable from './components/ItemTable';
 import { InventoryItem } from '~/../shared/Types';
+import Loading from '~/components/Loading';
 
 const Action = styled(LinkButton)`
   border-radius: ${BORDER_RADIUS_LG} !important;
@@ -13,14 +14,23 @@ const Action = styled(LinkButton)`
 const AdminPage: React.FunctionComponent = () => {
 
   const [items, setItems] = useState<Array<InventoryItem>>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchItems = async () => {
       const {data} = await getItems();
       setItems(data.items);
+      setLoading(false);
     }
     fetchItems();
   }, [])
+
+  if (loading) return (
+    <div className="text-center w-100">
+      <h3 className="my-2"> Loading Items... </h3>
+      <Loading />
+    </div>
+  )
 
   return (
     <div className="container-fluid">

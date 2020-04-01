@@ -4,4 +4,6 @@ export type CreateItemRequest = Pick<InventoryItem,
   'name' 
   | 'description' 
   | 'forRent'
-  | 'quantity'>
+  | 'quantity'
+  | 'tags'
+>
