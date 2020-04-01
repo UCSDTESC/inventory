@@ -5,6 +5,27 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 var dotenv = require('dotenv').config({path: __dirname + '/.env'});
 
+function envVars() {
+    let vars = [
+      'REACT_APP_API_KEY',
+      'REACT_APP_APP_ID',
+      'REACT_APP_AUTH_DOMAIN',
+      'REACT_APP_PROJECT_ID',
+      'REACT_APP_STORAGE_BUCKET',
+      'REACT_APP_DB_URL',
+      'REACT_APP_SENDER_ID',
+      'REACT_APP_MEASUREMENT_ID'
+    ]
+
+    return vars.reduce((obj, v) => {
+      const keyname = `process.env.${v}`
+      return {
+        ...obj,
+        [keyname]: JSON.stringify(dotenv.parsed[v])
+      }
+    }, {})
+}
+
 module.exports = {
   cache: true,
   devtool: '#eval-source-map',
@@ -39,8 +60,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
-      'process.env.REACT_APP_FIREBASE_API_KEY': JSON.stringify(dotenv.parsed.REACT_APP_FIREBASE_API_KEY),
-      'process.env.REACT_APP_FIREBASE_APP_ID': JSON.stringify(dotenv.parsed.REACT_APP_FIREBASE_APP_ID)
+      ...envVars()
     }),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',

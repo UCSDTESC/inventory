@@ -7,6 +7,27 @@ var combineLoaders = require('webpack-combine-loaders');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+function envVars() {
+  let vars = [
+    'REACT_APP_API_KEY',
+    'REACT_APP_APP_ID',
+    'REACT_APP_AUTH_DOMAIN',
+    'REACT_APP_PROJECT_ID',
+    'REACT_APP_STORAGE_BUCKET',
+    'REACT_APP_DB_URL',
+    'REACT_APP_SENDER_ID',
+    'REACT_APP_MEASUREMENT_ID'
+  ]
+
+  return vars.reduce((obj, v) => {
+    const keyname = `process.env.${v}`
+    return {
+      ...obj,
+      [keyname]: JSON.stringify(process.env[v])
+    }
+  }, {})
+}
+
 module.exports = {
   devtool: 'source-map',
   context: path.join(__dirname),
@@ -33,8 +54,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.REACT_APP_FIREBASE_API_KEY': JSON.stringify(process.env.REACT_APP_FIREBASE_API_KEY),
-      'process.env.REACT_APP_FIREBASE_APP_ID': JSON.stringify(process.env.REACT_APP_FIREBASE_APP_ID)
+      ...envVars()
     }),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',

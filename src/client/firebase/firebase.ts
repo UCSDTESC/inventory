@@ -5,14 +5,14 @@ import 'firebase/firestore';
 import 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: "inventory-1ada6.firebaseapp.com",
-  databaseURL: "https://inventory-1ada6.firebaseio.com",
-  projectId: "inventory-1ada6",
-  storageBucket: "inventory-1ada6.appspot.com",
-  messagingSenderId: "895162649274",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: "G-FHVK8E97ZK"
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DB_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
 class Firebase {
