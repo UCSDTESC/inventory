@@ -1,5 +1,6 @@
 export const TESC_BLUE = '#11426B';
 export const TESC_BLUE_DARKER = '#0f3b5f';
+export const TESC_BLUE_LIGHTER = '#16588d';
 
 export const GREEN = '#3FC0B0';
 
