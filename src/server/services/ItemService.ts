@@ -4,7 +4,7 @@ import * as admin from 'firebase-admin';
 import { SuccessResponse, GetItemsResponse } from '@Shared/api/Responses';
 
 @Service()
-export default class FirebaseService {
+export default class ItemService {
 
   async createItem(item: InventoryItem) {
     try {
@@ -44,6 +44,20 @@ export default class FirebaseService {
 
   async getUserByUID(uid: string): Promise<admin.auth.UserRecord> {
     return await admin.auth().getUser(uid);
+  }
+
+  async getItemTags(): Promise<Array<string>> {
+    const snapshot = await admin
+      .firestore()
+      .collection('items')
+      .get();
+      
+    let mergedItems = snapshot
+      .docs
+      .map<Array<string>>(doc => (doc.data().tags ?? []))
+      .reduce((currMerge, x) => [...currMerge, ...x], []);
+
+    return Array.from(new Set<string>(mergedItems));
   }
 
   getTimeStamp() {

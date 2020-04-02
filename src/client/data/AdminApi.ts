@@ -13,3 +13,7 @@ export const getItems = () =>
 export const createItem = (body: CreateItemRequest) =>
   client
     .post<CreateItemRequest>('/items', body)
+
+export const getItemTags = () =>
+  client
+    .get<Array<string>>('/items/tags')

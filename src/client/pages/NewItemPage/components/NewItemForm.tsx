@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, FormikProps, FieldProps } from 'formik';
+import { Formik, FormikProps, FieldProps, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import {FormGroup, Col} from 'reactstrap';
 import { createItem } from '~/data/AdminApi';
@@ -16,7 +16,11 @@ type NewItemFormData = {
   tags: Array<string>;
 }
 
-const NewItemForm: React.FunctionComponent = () => {
+type Props = {
+  tags: Array<string>
+}
+
+const NewItemForm: React.FunctionComponent<Props> = (props) => {
 
   const validationSchema = Yup.object<NewItemFormData>({
     name: Yup.string().required('Required'),
@@ -26,9 +30,10 @@ const NewItemForm: React.FunctionComponent = () => {
     tags: Yup.array<string>()
   });
 
-  async function onSubmit(values: NewItemFormData) {
+  async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
     const res = await createItem(values);
-  }
+    resetForm();
+  } 
 
   return (
     <Formik<NewItemFormData>
@@ -70,7 +75,9 @@ const NewItemForm: React.FunctionComponent = () => {
             <Col md={6}>
               <TESCFormField label='Tags' name='tags'>
                 {({field}: FieldProps) => (
-                  <InputWithChips value={field.value} onChange={(e) => setFieldValue('tags', e)}/>
+                  <InputWithChips 
+                    value={field.value} options={props.tags} 
+                    onChange={(e) => setFieldValue('tags', e)}/>
                 )}
               </TESCFormField>
             </Col>

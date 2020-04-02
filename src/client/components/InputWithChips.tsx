@@ -7,13 +7,14 @@ type OptionType = {value: string, label: string};
 
 type Props = {
   onChange: (e: Array<string>) => void;
-  value: Array<string>
+  value: Array<string>;
+  options: Array<string>
 }
 
 const InputWithChips: React.FunctionComponent<Props> = (props) => {
 
   function onChange(value: Array<OptionType>) {
-    const vals = value.map(x => x.label);
+    const vals = value?.map(x => x.value) ?? [];
     props.onChange(vals);
   }
 
@@ -26,7 +27,7 @@ const InputWithChips: React.FunctionComponent<Props> = (props) => {
     <Creatable
       isMulti={true}
       onChange={onChange}
-      options={mapArrayToOptions(['a', 'b'])}
+      options={mapArrayToOptions(props.options)}
       value={mapArrayToOptions(props.value)}
       styles={{
         multiValueLabel: base => ({

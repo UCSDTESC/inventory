@@ -31,6 +31,10 @@ const columns: Array<Column<InventoryItem>> = [
   {
     Header: 'Quantity',
     accessor: 'quantity'
+  },
+  {
+    Header: 'Tags',
+    accessor: d => d.tags?.map(t => <span className="badge badge-dark mr-2">{t}</span>)
   }]
 
 export default columns;
