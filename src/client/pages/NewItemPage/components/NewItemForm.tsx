@@ -14,6 +14,7 @@ type NewItemFormData = {
   forRent: boolean;
   quantity: number;
   tags: Array<string>;
+  serials: Array<string>;
 }
 
 type Props = {
@@ -27,7 +28,8 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
     description: Yup.string().required('Required'),
     forRent: Yup.boolean(),
     quantity: Yup.number(),
-    tags: Yup.array<string>()
+    tags: Yup.array<string>(),
+    serials: Yup.array<string>()
   });
 
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
@@ -43,7 +45,8 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         description: '',
         forRent: false,
         quantity: 0,
-        tags: []
+        tags: [],
+        serials: []
       }}
       isInitialValid={false}
       validationSchema={validationSchema}
@@ -78,6 +81,15 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
                   <InputWithChips 
                     value={field.value} options={props.tags} 
                     onChange={(e) => setFieldValue('tags', e)}/>
+                )}
+              </TESCFormField>
+            </Col>
+            <Col md={6}>
+              <TESCFormField label='Serial Numbers' name='serials'>
+                {({field}: FieldProps) => (
+                  <InputWithChips 
+                    value={field.value} options={[]} 
+                    onChange={(e) => setFieldValue('serials', e)}/>
                 )}
               </TESCFormField>
             </Col>
