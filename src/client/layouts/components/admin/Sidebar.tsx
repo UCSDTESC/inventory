@@ -30,9 +30,11 @@ const LogoContainer = styled.div.attrs(props => ({
 const ListElements = styled.div<{
   isOpen: boolean;
 }>`
-  ${props => !props.isOpen && css`
-    display: none;
-  `}
+  @media (max-width: ${breakpoints['md']}) {
+    ${props => !props.isOpen && css`
+      display: none;
+    `}
+  }
 `
 
 const NavEmoji = styled.span`
