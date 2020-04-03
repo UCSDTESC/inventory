@@ -12,6 +12,12 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Lato', sans-serif;
   }
 
+  a {
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+
   .tesc-blue {
     color: ${TESC_BLUE};
   }
