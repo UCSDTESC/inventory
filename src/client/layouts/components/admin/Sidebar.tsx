@@ -36,11 +36,25 @@ const Container = styled(Rounded)<{isOpen: boolean}>`
 
 const LogoContainer = styled.div.attrs(props => ({
   className: `flex-column text-white ${props.className}`
-}))`
+}))<{isOpen: boolean}>`
   img {
     max-height: 5rem;
     width: auto;
+
+    @media (max-width: ${breakpoints['md']}) {
+      content: url("/tesc-white.png");
+    }
+
+    // Only on large screens
+    @media (min-width: ${breakpoints['md']}) {
+      ${props =>`
+        // Add a white T here 
+        content: ${props.isOpen ? 'url("/tesc-white.png")' : ''};      
+      `}
+    }
   }
+
+  
 `
 
 const ListElements = styled.div<{
@@ -121,9 +135,9 @@ const Sidebar: React.FunctionComponent = (props) => {
   return (
     <>
       <Container isOpen={isOpen}>
-        {/* <LogoContainer className="d-flex" isOpen={isOpen}>
-          <img src="/tesc-white.png" className="my-3 mx-auto"/>
-        </LogoContainer> */}
+        <LogoContainer className="d-flex" isOpen={isOpen}>
+          <img className="my-3 mx-auto"/>
+        </LogoContainer>
         <ListElements isOpen={isOpen}>
           <div className="d-flex justify-content-center mb-3">
             <Link to='/admin' exact={true}>
