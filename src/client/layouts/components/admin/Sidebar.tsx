@@ -53,8 +53,6 @@ const LogoContainer = styled.div.attrs(props => ({
       `}
     }
   }
-
-  
 `
 
 const ListElements = styled.div<{

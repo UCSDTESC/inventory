@@ -7,7 +7,7 @@ import Container from 'typedi';
 import { CustomErrorHandler } from '../api/ErrorHandler';
 
 import Loader from './Loader';
-import { AdminControllers } from '../api/controllers';
+import { AdminControllers, UserControllers } from '../api/controllers';
 
 export default class RoutesLoader extends Loader {
   public static async initialiseLoader(app: express.Application) {
@@ -55,20 +55,20 @@ export default class RoutesLoader extends Loader {
       },
     });
 
-    // app = useExpressServer(app, {
-    //   routePrefix: USER_API_PREFIX,
-    //   controllers: UserControllers,
-    //   middlewares: [
-    //     CustomErrorHandler,
-    //   ],
-    //   defaultErrorHandler: false,
-    //   classTransformer: false,
-    //   defaults: {
-    //     paramOptions: {
-    //       required: true,
-    //     },
-    //   },
-    // });
+    app = useExpressServer(app, {
+      routePrefix: USER_API_PREFIX,
+      controllers: UserControllers,
+      middlewares: [
+        CustomErrorHandler,
+      ],
+      defaultErrorHandler: false,
+      classTransformer: false,
+      defaults: {
+        paramOptions: {
+          required: true,
+        },
+      },
+    });
 
     // React fallback
     app.get('*', (req, res) => {
