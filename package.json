@@ -7,7 +7,7 @@
     "client:dev": "npx webpack",
     "server:dev": "npx nodemon",
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js",
-    "dev": "npx concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "dev": "npx concurrently 'npm run client:dev' 'npm run server:dev'",
     "heroku-postbuild": "npm run build",
     "start": "npx ts-node -P ./src/server/tsconfig.json -r tsconfig-paths/register ./src/server/main.ts"
   },
