@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import Sidebar from './components/admin/Sidebar';
 import TopBar from './components/admin/TopBar';
-import useUser from '~/data/user';
+import useAdmin from '~/data/admin';
 
 const AdminLayout: React.FunctionComponent = (props) => {
 
-  const user = useUser();
+  const admin = useAdmin();
 
-
-  if(!user) {
+  if(!admin) {
     <div>Error: User not found</div>
   }
 

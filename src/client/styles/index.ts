@@ -22,6 +22,11 @@ export const GlobalStyle = createGlobalStyle`
     color: ${TESC_BLUE};
   }
 
+  .bg-tesc-blue {
+    background: ${TESC_BLUE};
+    color: white;
+  }
+
   .border-top-0 {
     border-top: hidden !important;
   }
@@ -31,6 +36,9 @@ export const Rounded = styled.div.attrs(props => ({
   className: `shadow-sm p-3 ${props.className}`
 }))`
   border-radius: ${BORDER_RADIUS_LG};
+
+  //@ts-ignore
+  background: ${props => props.blue ? TESC_BLUE : ''}
 `
 
 export const HideBelow = (breakpoint: keyof BreakpointsType) => styled.div`
