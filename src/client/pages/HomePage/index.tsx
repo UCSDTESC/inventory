@@ -7,7 +7,8 @@ import { TESCForm, TESCFormField } from '~/components/TESCForm';
 import { TESC_BLUE } from '~/styles/constants';
 import { Rounded } from '~/styles';
 import { FormGroup, Col } from 'reactstrap';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { submitCheckOutRequest } from '~/data/UserApi';
 import Button from '~/components/Button';
 
 const Panel = styled(Rounded)`
@@ -29,6 +30,7 @@ type RequestFormData = {
   purpose: string;
   item: string;
   dateNeededBy: string;
+  organizationName: string;
 }
 
 const HomePage: React.FunctionComponent = () => {
@@ -42,6 +44,8 @@ const HomePage: React.FunctionComponent = () => {
     email: Yup.string()
       .matches(/^[A-Z0-9._%+-]+@ucsd+\.edu$/i, 'Invalid ucsd.edu email')
       .required('Required'),
+    organizationName: Yup.string()
+      .required('Required'),
     purpose: Yup.string()
       .max(500, 'Must be 500 characters or less')
       .required('Required'),
@@ -51,8 +55,11 @@ const HomePage: React.FunctionComponent = () => {
     dateNeededBy: Yup.string().required('Required')
   });
 
-  function onSubmit(values: RequestFormData) {
+  async function onSubmit(values: RequestFormData, {resetForm}: FormikHelpers<RequestFormData>) {
     console.log(values);
+    const res = await submitCheckOutRequest(values);
+    alert('Thank you for ur submission, we will contact u');
+    resetForm();
   }
 
   return (
@@ -68,6 +75,7 @@ const HomePage: React.FunctionComponent = () => {
                 firstName: '',
                 lastName: '',
                 email: '',
+                organizationName: '',
                 purpose: '',
                 item: '',
                 dateNeededBy: ''
@@ -85,6 +93,8 @@ const HomePage: React.FunctionComponent = () => {
                     </Col>
                   </FormGroup>
                   <TESCFormField light label='Email' name='email' type='email' />
+                  {/* // ideally this should also be made a drop down */}
+                  <TESCFormField light label='Name of Organization' name='organizationName' type='text'/>
                   <TESCFormField light label='Item' name='item' type='text' />
                   <TESCFormField light label='Purpose' name='purpose' type='text' />
                   <TESCFormField light label='Date Needed By' name='dateNeededBy' type='date'/>
