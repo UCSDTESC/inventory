@@ -5,16 +5,32 @@ import { Rounded } from '~/styles';
 import { breakpoints } from '~/styles/breakpoints';
 import { NavLink } from 'react-router-dom';
 
-const Container = styled(Rounded)`
+const Container = styled(Rounded)<{isOpen: boolean}>`
   background: ${TESC_BLUE};
   color: white;
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
+  transition-property: width, max-width, min-width;
+  transition-duration: .2s;
+  transition-timing-function: linear;
 
+  // Only on large screens
   @media (min-width: ${breakpoints['md']}) {
-    min-width: 17rem;
-    max-width: 17rem;
+
+    // Sidebar open 
+    ${props => props.isOpen && `
+        min-width: 17rem;
+        max-width: 17rem;
+        width: 17rem;
+    `}
+      
+    // Sidebar closed
+    ${props => !props.isOpen && `
+      min-width: 4.7rem;
+      max-width: 4.7rem;
+      width: 4.7rem;
+    `}
   }
 `;
 
@@ -30,6 +46,22 @@ const LogoContainer = styled.div.attrs(props => ({
 const ListElements = styled.div<{
   isOpen: boolean;
 }>`
+
+  label {
+    margin: 0;
+  }
+
+  // Only on large screens
+  @media (min-width: ${breakpoints['md']}) {
+    // Sidebar closed
+    ${props => !props.isOpen && `
+      label {
+        display: none;
+      }
+    `}
+  }
+
+  // Only on small screens
   @media (max-width: ${breakpoints['md']}) {
     ${props => !props.isOpen && css`
       display: none;
@@ -38,15 +70,20 @@ const ListElements = styled.div<{
 `
 
 const NavEmoji = styled.span`
-filter: grayscale(100%);
+  filter: grayscale(100%);
+  text-align: center;
+  line-height: 23px;
 `
 
-const activeClassName = 'nav-item-active'
+const activeClassName = 'nav-item-active';
+
 const navLinkStyle = `
   width: 100%;
   color: white;
   font-size: 1.2rem;
   padding: 0.7rem;
+  display: flex;
+  line-height: 23px;
 
   &.${activeClassName} {
     background: white;
@@ -83,20 +120,33 @@ const Sidebar: React.FunctionComponent = (props) => {
 
   return (
     <>
-      <Container>
-        <LogoContainer className="d-flex">
+      <Container isOpen={isOpen}>
+        {/* <LogoContainer className="d-flex" isOpen={isOpen}>
           <img src="/tesc-white.png" className="my-3 mx-auto"/>
-        </LogoContainer>
+        </LogoContainer> */}
         <ListElements isOpen={isOpen}>
           <div className="d-flex justify-content-center mb-3">
-            <Link to='/admin' exact={true}><NavEmoji>📊</NavEmoji> Dashboard</Link>
+            <Link to='/admin' exact={true}>
+              <NavEmoji>📊</NavEmoji> 
+              <label>Dashboard</label>
+            </Link>
           </div>
           <div className="d-flex justify-content-center mb-3">
-            <Link to='/admin/new' exact={true}><NavEmoji>🆕</NavEmoji> New</Link>
+            <Link to='/admin/new' exact={true}>
+              <NavEmoji>🆕</NavEmoji> 
+              <label>New</label>
+            </Link>
           </div>
         </ListElements>
         <div className="d-flex justify-content-center d-md-none">
-          <Expander onClick={toggle}>{isOpen ? "👆" : "👇"}</Expander>
+          <Expander onClick={toggle} className="align-items-center justify-content-center">
+            {isOpen ? "👆" : "👇"}
+          </Expander>
+        </div>
+        <div className="d-none justify-content-center d-md-block">
+          <Expander onClick={toggle} className="align-items-center justify-content-center">
+            {isOpen ? "👈" : "👉"}
+          </Expander>
         </div>
       </Container>
     </>
