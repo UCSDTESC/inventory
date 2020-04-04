@@ -4,7 +4,7 @@ import { CheckOutRequest } from '@Shared/api/Requests';
 import { SuccessResponse } from '@Shared/api/Responses';
 
 @Service()
-export default class UserService{
+export default class RequestService{
     async createCheckOutRequest(item: CheckOutRequest){
         try{
             await admin.firestore()
