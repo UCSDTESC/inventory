@@ -28,7 +28,7 @@ type RequestFormData = {
   email: string;
   purpose: string;
   item: string;
-  dateNeededBy: Date;
+  dateNeededBy: string;
 }
 
 const HomePage: React.FunctionComponent = () => {
@@ -48,7 +48,7 @@ const HomePage: React.FunctionComponent = () => {
     item: Yup.string()
       .max(100, 'Must be 100 characters or less')
       .required('Required'),
-    dateNeededBy: Yup.date().required('Required')
+    dateNeededBy: Yup.string().required('Required')
   });
 
   function onSubmit(values: RequestFormData) {
@@ -70,9 +70,9 @@ const HomePage: React.FunctionComponent = () => {
                 email: '',
                 purpose: '',
                 item: '',
-                dateNeededBy: new Date(),
+                dateNeededBy: ''
               }}
-              isInitialValid={false}
+              validateOnMount={true}
               validationSchema={validationSchema}>
               {({isValid}: FormikProps<RequestFormData>) => (
                 <TESCForm>
@@ -87,7 +87,7 @@ const HomePage: React.FunctionComponent = () => {
                   <TESCFormField light label='Email' name='email' type='email' />
                   <TESCFormField light label='Item' name='item' type='text' />
                   <TESCFormField light label='Purpose' name='purpose' type='text' />
-                  <TESCFormField light label='Date Needed By' name='dateNeededBy' type='date' />
+                  <TESCFormField light label='Date Needed By' name='dateNeededBy' type='date'/>
                   <Button 
                     disabled={!isValid}
                     className='align-self-center m-2' type='submit'>
