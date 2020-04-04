@@ -4,7 +4,7 @@ import {BrowserRouter, useHistory} from 'react-router-dom';
 import Routes from './Routes';
 import Firebase, { FirebaseContext } from '~/firebase';
 import * as firebase from 'firebase';
-import UserContext from './data/user/context';
+import AdminContext from './data/admin/context';
 import {client as AdminApiClient} from '~/data/AdminApi';
 import Loading from './components/Loading';
 
@@ -46,9 +46,9 @@ const App: React.FunctionComponent<{}> = (props) => {
   return (
     <>
       <FirebaseContext.Provider value={firebase}>
-        <UserContext.Provider value={user}>
+        <AdminContext.Provider value={user}>
           <Routes />
-        </UserContext.Provider>
+        </AdminContext.Provider>
       </FirebaseContext.Provider>
     </>
   );

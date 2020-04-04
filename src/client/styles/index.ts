@@ -22,6 +22,11 @@ export const GlobalStyle = createGlobalStyle`
     color: ${TESC_BLUE};
   }
 
+  .bg-tesc-blue {
+    background: ${TESC_BLUE};
+    color: white;
+  }
+
   .border-top-0 {
     border-top: hidden !important;
   }

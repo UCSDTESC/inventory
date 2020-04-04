@@ -1,7 +1,7 @@
 import React from 'react';
 import { Rounded } from '~/styles';
 import styled from 'styled-components';
-import useUser from '~/data/user';
+import useAdmin from '~/data/admin';
 import { UncontrolledCollapse, Card, CardBody } from 'reactstrap';
 import Button from '~/components/Button';
 import { useFirebase } from '~/firebase';
@@ -15,7 +15,7 @@ const Collapse = styled(UncontrolledCollapse)`
 
 const TopBar: React.FunctionComponent = () => {
 
-  const user = useUser();
+  const admin = useAdmin();
   const firebase = useFirebase();
 
   async function onLogout() {
@@ -30,12 +30,12 @@ const TopBar: React.FunctionComponent = () => {
         <h4 className="my-auto">🖥️ TESC Inventory </h4>
       </div>
       <div className="ml-auto">
-        <ProfileCard className="img-fluid shadow-sm" src={user.photoURL} id="profileImg"/>
+        <ProfileCard className="img-fluid shadow-sm" src={admin.photoURL} id="profileImg"/>
         <Collapse toggler="#profileImg" className="position-absolute">
           <Card className="mt-1">
             <CardBody>
               <div className="text-center mb-1">
-                {user.displayName}
+                {admin.displayName}
               </div>
               <div>
                 <Button onClick={onLogout}>Logout</Button>

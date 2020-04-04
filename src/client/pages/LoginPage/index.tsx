@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Button from '~/components/Button';
 import { useFirebase } from '~/firebase';
 import { useHistory } from 'react-router-dom';
-import useUser from '~/data/user';
+import useAdmin from '~/data/admin';
 
 const LoginPage: React.FunctionComponent = () => {
   const firebase = useFirebase();
-  const user = useUser();
+  const admin = useAdmin();
   const [error, setError] = useState<string>(null);
 
   const history = useHistory();
@@ -29,7 +29,7 @@ const LoginPage: React.FunctionComponent = () => {
     await firebase.logout();
   }
 
-  if (user) {
+  if (admin) {
     history.push('/admin');
     return <div></div>
   }

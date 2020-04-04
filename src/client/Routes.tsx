@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ProtectedRoute from './ProtectedRoute';
 import NewItemPage from './pages/NewItemPage';
+import ItemPage from './pages/ItemPage';
 
 const Routes: React.FunctionComponent = () => {
 
@@ -27,6 +28,12 @@ const Routes: React.FunctionComponent = () => {
       <ProtectedRoute exact={true} path="/admin/new">
         <AdminLayout>
           <NewItemPage />
+        </AdminLayout>
+      </ProtectedRoute>
+
+      <ProtectedRoute exact={true} path="/admin/item/:id">
+        <AdminLayout>
+          <ItemPage />
         </AdminLayout>
       </ProtectedRoute>
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, useHistory, RouteProps } from 'react-router';
-import useUser from './data/user';
+import useAdmin from './data/admin';
 
 const ProtectedRoute: React.FunctionComponent<RouteProps> = (props) => {
   
-  const user = useUser();
+  const admin = useAdmin();
   const history = useHistory();
 
-  if (!user) {
+  if (!admin) {
     history.push('/login');
     return <div></div>
   }
