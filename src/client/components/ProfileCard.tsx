@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const ProfileCard = styled.img`
-  height: 2rem;
+  height: 2.5rem;
 
   &:hover {
     cursor: pointer;

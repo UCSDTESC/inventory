@@ -20,8 +20,7 @@ export default class ItemService {
     }
   }
 
-  async getAllItems(): Promise<GetItemsResponse|SuccessResponse> {
-    try {
+  async getAllItems(): Promise<GetItemsResponse> {
       const snapshot = await admin
         .firestore()
         .collection('items')
@@ -36,10 +35,6 @@ export default class ItemService {
       }
 
       return {items}
-    
-    } catch(e) {
-      return SuccessResponse.Negative;
-    }
   }
 
   async getUserByUID(uid: string): Promise<admin.auth.UserRecord> {

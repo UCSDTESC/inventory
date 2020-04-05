@@ -33,9 +33,10 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const Rounded = styled.div.attrs(props => ({
-  className: `shadow-sm p-3 ${props.className}`
+  className: `shadow-sm ${props.className}`
 }))`
   border-radius: ${BORDER_RADIUS_LG};
+  padding: 1rem;
 `
 
 export const HideBelow = (breakpoint: keyof BreakpointsType) => styled.div`

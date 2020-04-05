@@ -17,3 +17,7 @@ export const createItem = (body: CreateItemRequest) =>
 export const getItemTags = () =>
   client
     .get<Array<string>>('/items/tags')
+  
+export const getItemCSV = () => 
+  client
+    .get<string>('/items/export');

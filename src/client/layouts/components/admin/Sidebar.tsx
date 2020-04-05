@@ -81,7 +81,7 @@ const ListElements = styled.div<{
   }
 `
 
-const NavEmoji = styled.span`
+export const NavEmoji = styled.span`
   filter: grayscale(100%);
   text-align: center;
   line-height: 23px;
