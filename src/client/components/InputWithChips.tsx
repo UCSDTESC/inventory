@@ -1,32 +1,36 @@
 import React from 'react';
-import { OptionsType } from 'react-select';
+import { OptionsType, SelectComponentsConfig } from 'react-select';
 import Creatable from 'react-select/creatable';
 import { TESC_BLUE, BORDER_RADIUS, MEDIUM_GRAY } from '~/styles/constants';
 
-type OptionType = {value: string, label: string};
+type OptionType<T> = {value: T, label: T};
 
-type Props = {
-  onChange: (e: Array<string>) => void;
-  value: Array<string>;
-  options: Array<string>
+type Props<T> = {
+  onChange: (e: Array<T>) => void;
+  value: Array<T>;
+  options: Array<T>;
+  components?: SelectComponentsConfig<OptionType<T>>
+  // pure function that maps the given data type to an OptionType
+  mapValueToOption: (e: T) => OptionType<T>;
 }
 
-const InputWithChips: React.FunctionComponent<Props> = (props) => {
+// Rip manually typing the component type bc TS :(
+function InputWithChips<T>(props: Props<T> & {children?: React.ReactNode}) {
 
-  function onChange(value: Array<OptionType>) {
+  function onChange(value: Array<OptionType<T>>) {
     const vals = value?.map(x => x.value) ?? [];
     props.onChange(vals);
   }
 
-  //TODO: investigate if React.useMemo would be helpful here.
-  function mapArrayToOptions(arr: Array<string>): OptionsType<OptionType> {
-    return arr.map(x => ({value: x, label: x}));
+  function mapArrayToOptions(arr: Array<T>): OptionsType<OptionType<T>> {
+    return arr.map(props.mapValueToOption);
   }
 
   return (
-    <Creatable
+    <Creatable<OptionType<T>> 
       isMulti={true}
       onChange={onChange}
+      components={props.components}
       options={mapArrayToOptions(props.options)}
       value={mapArrayToOptions(props.value)}
       styles={{

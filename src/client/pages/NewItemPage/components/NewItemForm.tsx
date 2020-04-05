@@ -78,18 +78,22 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
             <Col md={6}>
               <TESCFormField label='Tags' name='tags'>
                 {({field}: FieldProps) => (
-                  <InputWithChips 
+                  <InputWithChips<string> 
                     value={field.value} options={props.tags} 
-                    onChange={(e) => setFieldValue('tags', e)}/>
+                    mapValueToOption={(v) => ({value: v, label: v})}
+                    onChange={(e) => setFieldValue('tags', e)}
+                  />
                 )}
               </TESCFormField>
             </Col>
             <Col md={6}>
               <TESCFormField label='Serial Numbers' name='serials'>
                 {({field}: FieldProps) => (
-                  <InputWithChips 
-                    value={field.value} options={[]} 
-                    onChange={(e) => setFieldValue('serials', e)}/>
+                  <InputWithChips<string>
+                    value={field.value} options={[]}
+                    mapValueToOption={(v) => ({value: v, label: v})}
+                    onChange={(e) => setFieldValue('serials', e)}
+                  />
                 )}
               </TESCFormField>
             </Col>
