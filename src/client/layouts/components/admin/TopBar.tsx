@@ -8,6 +8,7 @@ import { useFirebase } from '~/firebase';
 import {client as AdminApiClient, getItemCSV} from '~/data/AdminApi';
 import ProfileCard from '~/components/ProfileCard';
 import { NavEmoji } from './Sidebar';
+import { TESC_BLUE, TESC_BLUE_LIGHTER } from '~/styles/constants';
 
 const Collapse = styled(UncontrolledCollapse)`
   transform: translateX(calc(-1.5rem)) translateY(3rem);
@@ -30,6 +31,16 @@ const Action = styled(Rounded)`
   align-items: center;
   justify-content: center;
   margin: 0 1rem;
+  background: ${TESC_BLUE};
+
+  &:hover {
+    background: ${TESC_BLUE_LIGHTER};
+  }
+
+  &:focus {
+    outline: none;
+    background: ${TESC_BLUE_LIGHTER};
+  }
 `
 
 const TopAction: React.FunctionComponent<{
@@ -41,7 +52,7 @@ const TopAction: React.FunctionComponent<{
   return (
     <Action 
       as='button' 
-      className="bg-tesc-blue rounded-circle shadow-sm" 
+      className="rounded-circle shadow-sm" 
       id={props.text}
       onClick={props.onClick}
     >
@@ -69,7 +80,7 @@ const TopBar: React.FunctionComponent = () => {
 
   async function onExport(e: React.MouseEvent<HTMLButtonElement>) {
     const res = await getItemCSV();
-    
+
     const blob = new Blob([res.data], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
