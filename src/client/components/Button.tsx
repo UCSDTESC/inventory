@@ -31,6 +31,7 @@ const Button = styled.button<Props>`
   &:disabled {
     background-color: ${MEDIUM_GRAY};
     color: black !important;
+    cursor: auto;
     &:hover {
       background-color: darken($medium-gray, 3%);
     }
