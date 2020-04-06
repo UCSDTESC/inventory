@@ -37,7 +37,7 @@ module.exports = {
     ],
     main: [
       'react-hot-loader/patch',
-      'webpack-hot-middleware/client?timeout=2000&path=/__webpack_hmr',
+      'webpack-hot-middleware/client?timeout=2000&path=/__webpack_hmr&reload=true',
       path.join(__dirname, 'src/client/main.tsx')
     ]
   },
@@ -45,8 +45,8 @@ module.exports = {
     path: path.join(__dirname, 'src/assets/public/js'),
     filename: '[name].js',
     publicPath: '/js/',
-    hotUpdateChunkFilename: 'hot/hot-update.js',
-    hotUpdateMainFilename: 'hot/hot-update.json'
+    // hotUpdateChunkFilename: 'hot/hot-update.js',
+    // hotUpdateMainFilename: 'hot/hot-update.json'
   },
   watch: true,
   plugins: [

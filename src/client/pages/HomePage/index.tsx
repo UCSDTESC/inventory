@@ -82,7 +82,7 @@ const HomePage: React.FunctionComponent = () => {
     <div className="container-fluid">
       <div className='d-flex flex-column align-items-center'>
         <img src='/tesc-logo.png'className='w-25 my-3 mx-auto'/>
-        <p>fill out form below to borrow stuff from tesc. use ur ucsd email btw.</p>
+        <p>Fill out the form below to borrow items from TESC. Use your UCSD email.</p>
         <Panel className='d-flex align-items-center justify-content-center'>
           <InnerPanel className='d-flex justify-content-center'>
             <Formik<RequestFormData>

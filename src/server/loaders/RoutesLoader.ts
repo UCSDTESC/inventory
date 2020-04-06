@@ -19,7 +19,7 @@ export default class RoutesLoader extends Loader {
 
       const compiler = webpack(webpackConfig);
       app.use(require('webpack-dev-middleware')(compiler, {
-        hot: false,
+        hot: true,
         publicPath: webpackConfig.output.publicPath,
         stats: {
           colors: true,
