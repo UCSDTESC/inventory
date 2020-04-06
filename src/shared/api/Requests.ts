@@ -1,4 +1,5 @@
 import * as firebase from 'firebase-admin';
+import { InventoryItem } from '../Types';
 type ServerTimestamp = firebase.firestore.Timestamp;
 
 export type CreateItemRequest = {
@@ -10,7 +11,7 @@ export type CreateItemRequest = {
 }
 
 export type CheckOutRequest = {
-  item: string;
+  items: Array<string>;
   firstName: string;
   lastName: string;
   email: string;
