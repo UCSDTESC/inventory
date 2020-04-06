@@ -51,9 +51,8 @@ const HomePage: React.FunctionComponent = () => {
       }));
     }
     getItemsOptions();
-  }
+  }, []);
   
-  )
   const validationSchema = Yup.object<RequestFormData>({
     firstName: Yup.string()
       .max(30, 'Must be 30 characters or less')
