@@ -30,7 +30,7 @@ type RequestFormData = {
   lastName: string;
   email: string;
   purpose: string;
-  items: Array<string>;
+  items: Array<InventoryItem>;
   dateNeededBy: string;
   organizationName: string;
 }
@@ -41,18 +41,16 @@ type ItemsForRent ={
 }
 
 const HomePage: React.FunctionComponent = () => {
-  const [itemsOptions, setItemOptions] = useState<Array<string>>([]);
+  const [itemsOptions, setItemOptions] = useState<Array<InventoryItem>>([]);
   useEffect(()=>{
     async function getItemsOptions(){
       // TODO: create functionality to show quantity
       const {data} = await getItems();
-      setItemOptions(data.items.map(item => {
-        return item.name
-      }));
+      setItemOptions(data.items);
     }
     getItemsOptions();
   }, []);
-  
+
   const validationSchema = Yup.object<RequestFormData>({
     firstName: Yup.string()
       .max(30, 'Must be 30 characters or less')
@@ -68,14 +66,14 @@ const HomePage: React.FunctionComponent = () => {
     purpose: Yup.string()
       .max(500, 'Must be 500 characters or less')
       .required('Required'),
-    items: Yup.array<string>()
+    items: Yup.array<InventoryItem>()
       .required('Required'),
     dateNeededBy: Yup.string().required('Required')
   });
 
   async function onSubmit(values: RequestFormData, {resetForm}: FormikHelpers<RequestFormData>) {
-    console.log(values);
-    const res = await submitCheckOutRequest(values);
+    const data = {...values, items: values.items.map(v => v.id)};
+    const res = await submitCheckOutRequest(data);
     alert('Thank you for ur submission, we will contact u');
     resetForm();
   }
@@ -115,8 +113,8 @@ const HomePage: React.FunctionComponent = () => {
                   <TESCFormField light label='Name of Organization' name='organizationName' type='text'/>
                   <TESCFormField light label='Items' name='items' type='text'>
                     {({field}:FieldProps) =>(
-                      <InputWithChips<string>
-                        value={field.value} options={itemsOptions} mapValueToOption={(v) => ({value:v, label: v})}
+                      <InputWithChips<InventoryItem>
+                        value={field.value} options={itemsOptions} mapValueToOption={(v) => ({value:v, label: v.name})}
                         onChange={(e)=>(setFieldValue('items', e))}
                       />
                     )

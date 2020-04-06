@@ -10,7 +10,6 @@ import Loading from './components/Loading';
 
 const App: React.FunctionComponent<{}> = (props) => {
 
-
   const firebase = new Firebase();
   const [user, setUser] = useState<firebase.User>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -52,6 +51,5 @@ const App: React.FunctionComponent<{}> = (props) => {
     </>
   );
 }
-
 
 export default hot(module)(App);

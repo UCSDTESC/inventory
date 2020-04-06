@@ -5,6 +5,7 @@ type ServerTimestamp = firebase.firestore.Timestamp;
 export type UserRecord = firebase.auth.UserRecord;
 
 export type InventoryItem = {
+  id?: string;
   name: string;
   forRent: boolean;
   quantity: number;
