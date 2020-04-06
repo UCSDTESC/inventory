@@ -7,6 +7,7 @@ import { TESCFormField, TESCForm } from '~/components/TESCForm';
 import Switch from '~/components/Switch';
 import Button from '~/components/Button';
 import InputWithChips from '~/components/InputWithChips';
+import { useHistory } from 'react-router-dom';
 
 type NewItemFormData = {
   name: string;
@@ -23,6 +24,8 @@ type Props = {
 
 const NewItemForm: React.FunctionComponent<Props> = (props) => {
 
+  const history = useHistory();
+
   const validationSchema = Yup.object<NewItemFormData>({
     name: Yup.string().required('Required'),
     description: Yup.string().required('Required'),
@@ -35,6 +38,10 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
     const res = await createItem(values);
     resetForm();
+
+    if (res.statusText === 'OK') {
+      return history.push('/admin/');
+    }
   } 
 
   return (

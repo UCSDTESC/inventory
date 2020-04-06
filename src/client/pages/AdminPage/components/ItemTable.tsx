@@ -1,10 +1,9 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, PaginationItem, PaginationLink, Pagination } from 'reactstrap';
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
-import { useTable, useExpanded, Row } from 'react-table';
-import { BORDER_RADIUS_LG } from '~/styles/constants';
+import { useTable, useExpanded, Row, usePagination } from 'react-table';
 import ColumnEditor from './ColumnEditor';
 
 type Props = {
@@ -30,10 +29,17 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
+    pageCount,
     prepareRow,
     visibleColumns,
-    allColumns
+    allColumns,
+    gotoPage,
+    previousPage,
+    nextPage,
+    state: {
+      pageIndex,      
+    }
   } = useTable<InventoryItem>({ 
     columns, 
     data, 
@@ -41,9 +47,13 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
       hiddenColumns: [
         'tags',
         'serials'
-      ]
-    } 
-  }, useExpanded)
+      ],
+      pageIndex: 0,
+      pageSize: 5
+    },
+  }, 
+  useExpanded, 
+  usePagination);
 
   return (
     <>
@@ -65,7 +75,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
+          {page.map((row, i) => {
             prepareRow(row)
             return (
               <React.Fragment key={i}>
@@ -80,7 +90,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
                     If the row is in an expanded state, render a row with a
                     column that fills the entire length of the table.
                   */}
-                {(row as any).isExpanded ? (
+                {row.isExpanded ? (
                   <tr>
                     <td colSpan={visibleColumns.length}>
                       {/*
@@ -98,6 +108,22 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           })}
         </tbody>
       </Rounded>
+      {/* TODO: Style this to be rounded and tesc-blue */}
+      <Pagination className="w-100 d-flex align-items-center">
+        <PaginationItem>
+          <PaginationLink previous disabled={pageIndex == 0} onClick={previousPage} />
+        </PaginationItem>
+        {[...Array(pageCount)].map((page, i) => (
+          <PaginationItem active={i === pageIndex} key={i}>
+            <PaginationLink onClick={e => gotoPage(i)} href="#">
+              {i + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        <PaginationItem>
+          <PaginationLink next disabled={pageIndex == pageCount - 1} onClick={nextPage} />
+        </PaginationItem>
+      </Pagination>
     </>
   );
 }

@@ -11,8 +11,8 @@ const columns: Array<Column<InventoryItem>> = [
       // Use Cell to render an expander for each row.
       // We can use the getToggleRowExpandedProps prop-getter
       // to build the expander.
-      <span {...(row as any).getToggleRowExpandedProps()}>
-        {(row as any).isExpanded ? '👇' : '👉'}
+      <span {...row.getToggleRowExpandedProps()}>
+        {row.isExpanded ? '👇' : '👉'}
       </span>
     ),
   },
