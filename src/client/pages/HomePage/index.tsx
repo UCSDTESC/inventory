@@ -87,6 +87,7 @@ const HomePage: React.FunctionComponent = () => {
           <InnerPanel className='d-flex justify-content-center'>
             <Formik<RequestFormData>
               onSubmit={onSubmit}
+              enableReinitialize={true}
               initialValues={{
                 firstName: '',
                 lastName: '',

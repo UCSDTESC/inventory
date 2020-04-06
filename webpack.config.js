@@ -37,7 +37,7 @@ module.exports = {
     ],
     main: [
       'react-hot-loader/patch',
-      'webpack-hot-middleware/client?timeout=2000&path=/__webpack_hmr&reload=true',
+      'webpack-hot-middleware/client?timeout=2000&path=/__webpack_hmr',
       path.join(__dirname, 'src/client/main.tsx')
     ]
   },
