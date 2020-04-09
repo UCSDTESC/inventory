@@ -8,6 +8,7 @@ import Switch from '~/components/Switch';
 import Button from '~/components/Button';
 import InputWithChips from '~/components/InputWithChips';
 import { useHistory } from 'react-router-dom';
+import Camera from '~/components/Camera';
 
 type NewItemFormData = {
   name: string;
@@ -16,6 +17,7 @@ type NewItemFormData = {
   quantity: number;
   tags: Array<string>;
   serials: Array<string>;
+  picture: Blob
 }
 
 type Props = {
@@ -32,16 +34,19 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
     forRent: Yup.boolean(),
     quantity: Yup.number(),
     tags: Yup.array<string>(),
-    serials: Yup.array<string>()
+    serials: Yup.array<string>(),
+    picture: Yup.object<Blob>()
   });
 
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
-    const res = await createItem(values);
+    console.log("lol!!!!")
+    console.log(values);
+    //const res = await createItem(values);
     resetForm();
 
-    if (res.statusText === 'OK') {
-      return history.push('/admin/');
-    }
+    // if (res.statusText === 'OK') {
+    //   return history.push('/admin/');
+    // }
   } 
 
   return (
@@ -53,7 +58,8 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         forRent: false,
         quantity: 0,
         tags: [],
-        serials: []
+        serials: [],
+        picture: new Blob()
       }}
       isInitialValid={false}
       validationSchema={validationSchema}
@@ -84,7 +90,7 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
           <FormGroup row>
             <Col md={6}>
               <TESCFormField label='Tags' name='tags'>
-                {({field}: FieldProps) => (
+                {({field}: FieldProps<string[]>) => (
                   <InputWithChips<string> 
                     value={field.value} options={props.tags} 
                     mapValueToOption={(v) => ({value: v, label: v})}
@@ -95,7 +101,7 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
             </Col>
             <Col md={6}>
               <TESCFormField label='Serial Numbers' name='serials'>
-                {({field}: FieldProps) => (
+                {({field}: FieldProps<string[]>) => (
                   <InputWithChips<string>
                     value={field.value} options={[]}
                     mapValueToOption={(v) => ({value: v, label: v})}
@@ -103,6 +109,20 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
                   />
                 )}
               </TESCFormField>
+            </Col>
+          </FormGroup>
+          <FormGroup row>
+            <Col md={6}>
+              {/* <TESCFormField label='Picture' name='picture'>
+                {({field}: FieldProps<Blob>) => (
+                  <Camera onChange={(e) => {
+                    console.log(e, field)
+                    setFieldValue('picture', e)
+                  }}/>
+                )}
+              </TESCFormField> */}
+            </Col>
+            <Col md={6}>
             </Col>
           </FormGroup>
           <Button 

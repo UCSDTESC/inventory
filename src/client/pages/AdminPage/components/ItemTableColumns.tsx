@@ -5,7 +5,7 @@ import ProfileCard from '~/components/ProfileCard';
 
 const columns: Array<Column<InventoryItem>> = [
   {
-    Header: 'Expander', 
+    Header: '', 
     id: 'expander', // It needs an ID
     Cell: ({ row }) => (
       // Use Cell to render an expander for each row.

@@ -50,13 +50,15 @@ const ColumnEditor: React.FunctionComponent<Props> = (props) => {
       onChange={onSelect}
       options={hiddenColumnOptions}
     />
-      {visibleColumns.map(column => (
-        <Pill key={column.id} className="p-2 mr-2 d-flex">
-          <span className="d-flex align-items-center justify-content-center">
-            <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-            {column.Header}
-          </span>
-        </Pill>
+      {visibleColumns
+        .filter(column => column.id !== 'expander')
+        .map(column => (
+          <Pill key={column.id} className="p-2 mr-2 d-flex">
+            <span className="d-flex align-items-center justify-content-center">
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.Header}
+            </span>
+          </Pill>
       ))}
     </div>
   )

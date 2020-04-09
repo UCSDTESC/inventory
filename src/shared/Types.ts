@@ -18,7 +18,7 @@ export type InventoryItem = {
   url?: string;
   serials?: Array<string>;
   price?: string;
-  receipt?: string;
-  picture?: string;
+  receiptUrl?: string;
+  pictureUrl?: string;
   tags?: Array<string>
 }
