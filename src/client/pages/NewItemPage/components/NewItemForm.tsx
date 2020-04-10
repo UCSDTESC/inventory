@@ -10,7 +10,7 @@ import InputWithChips from '~/components/InputWithChips';
 import { useHistory } from 'react-router-dom';
 import Camera from '~/components/Camera';
 
-type NewItemFormData = {
+export type NewItemFormData = {
   name: string;
   description: string;
   forRent: boolean;
@@ -39,14 +39,12 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
   });
 
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
-    console.log("lol!!!!")
-    console.log(values);
-    //const res = await createItem(values);
+    const res = await createItem(values);
     resetForm();
 
-    // if (res.statusText === 'OK') {
-    //   return history.push('/admin/');
-    // }
+    if (res.statusText === 'OK') {
+      return history.push('/admin/');
+    }
   } 
 
   return (
