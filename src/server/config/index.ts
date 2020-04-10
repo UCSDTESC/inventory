@@ -16,7 +16,8 @@ export const Config = {
       projectId: process.env.FIREBASE_PROJECT_ID,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
-    } as admin.ServiceAccount
+    } as admin.ServiceAccount,
+    cloudStorageDefaultBucket: `gs://${process.env.REACT_APP_STORAGE_BUCKET}`
   }
 };
 

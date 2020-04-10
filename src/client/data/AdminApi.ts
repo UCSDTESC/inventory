@@ -13,11 +13,11 @@ export const getItems = () =>
 export const createItem = (body: NewItemFormData) => {
   const data = new FormData();
 
-  data.set('name', body.name)  
-  data.set('description', body.description)  
-  data.set('forRent', body.forRent.toString());
-  data.set('quantity', body.quantity.toString());
-  data.set('tags', body.tags.toString());
+  data.append('name', body.name)  
+  data.append('description', body.description)  
+  data.append('forRent', body.forRent.toString());
+  data.append('quantity', body.quantity.toString());
+  body.tags.forEach(tag => data.append('tags', tag));
 
   if (body.picture) {
     data.append('picture', body.picture);

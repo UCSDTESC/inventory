@@ -1,20 +1,22 @@
-import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
+import { Get, JsonController, UseBefore, Res, Req, Post, Body, UploadedFile } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
 import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
 import { CreateItemRequest } from '@Shared/api/Requests';
 import ItemService from '@Services/ItemService';
+import CloudStorageService from '@Services/CloudStorageService';
 import { InventoryItem } from '@Shared/Types';
 import { FirebaseUID } from 'api/decorators/FirebaseUID';
 import { Parser } from 'json2csv';
 import * as csv from 'fast-csv';
 import { auth } from 'firebase-admin';
 import { Response } from 'express';
+import Uploads from '@Config/Uploads';
 
 
 @JsonController('/items')
 @UseBefore(AdminAuthorisation)
 export default class ItemsController {
-  constructor(private ItemService: ItemService) {}
+  constructor(private ItemService: ItemService, private CloudStorageService: CloudStorageService) {}
   
   @Get()
   async getItems(): Promise<GetItemsResponse> {
@@ -22,8 +24,25 @@ export default class ItemsController {
   }
 
   @Post()
-  async createItem(@Body() body: CreateItemRequest, @FirebaseUID() uid: string): Promise<SuccessResponse> {
-    await this.ItemService.createItem({...body, createdBy: uid} as InventoryItem);
+  async createItem(
+    @Body() body: CreateItemRequest, 
+    @FirebaseUID() uid: string,
+    @UploadedFile('picture', {options: Uploads, required: false}) picture: Express.Multer.File
+  ): Promise<SuccessResponse> {
+    let pictureUrl: string = '';
+
+    try {
+      pictureUrl = (await this.CloudStorageService.uploadImage(picture, true))[0];  
+    } catch (e) {
+      //TODO: Handle what to do when image upload fails - go ahead with request or respond with error?
+    }
+
+    const res = await this.ItemService.createItem({
+      ...body, 
+      createdBy: uid, 
+      pictureUrl
+    } as InventoryItem);
+    
     return SuccessResponse.Positive
   }
 

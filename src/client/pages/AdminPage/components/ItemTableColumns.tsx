@@ -19,7 +19,7 @@ const columns: Array<Column<InventoryItem>> = [
   {
     Header: 'Name',
     id: 'name',
-    accessor: 'name'
+    accessor: (d) => <span><ProfileCard src={d?.pictureUrl} />{d.name}</span> ?? 'name'
   },
   {
     Header: 'Created By',
@@ -39,7 +39,7 @@ const columns: Array<Column<InventoryItem>> = [
   {
     Header: 'Tags',
     id: 'tags',
-    accessor: d => d.tags?.map(t => <span className="badge badge-dark mr-2">{t}</span>)
+    accessor: 'tags'
   },
   {
     Header: 'Serial Numbers',
