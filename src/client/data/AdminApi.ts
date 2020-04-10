@@ -17,7 +17,8 @@ export const createItem = (body: NewItemFormData) => {
   data.append('description', body.description)  
   data.append('forRent', body.forRent.toString());
   data.append('quantity', body.quantity.toString());
-  body.tags.forEach(tag => data.append('tags', tag));
+  body.tags.forEach(tag => data.append('tags[]', tag));
+  body.serials.forEach(serial => data.append('serials[]', serial));
 
   if (body.picture) {
     data.append('picture', body.picture);

@@ -1,13 +1,14 @@
 import React from 'react';
 import { InventoryItem, UserRecord } from '@Shared/Types'
-import { Column } from 'react-table';
+import { Column, Row } from 'react-table';
 import ProfileCard from '~/components/ProfileCard';
+import { BORDER_RADIUS } from '~/styles/constants';
 
 const columns: Array<Column<InventoryItem>> = [
   {
     Header: '', 
     id: 'expander', // It needs an ID
-    Cell: ({ row }) => (
+    Cell: ({ row }: {row: Row<InventoryItem> }) => (
       // Use Cell to render an expander for each row.
       // We can use the getToggleRowExpandedProps prop-getter
       // to build the expander.
@@ -17,9 +18,14 @@ const columns: Array<Column<InventoryItem>> = [
     ),
   },
   {
+    Header: '',
+    id: 'Picture',
+    accessor: (d) => <img src={d?.pictureUrl} style={{width: '5rem', borderRadius: BORDER_RADIUS}} />
+  },
+  {
     Header: 'Name',
     id: 'name',
-    accessor: (d) => <span><ProfileCard src={d?.pictureUrl} />{d.name}</span> ?? 'name'
+    accessor: 'name'
   },
   {
     Header: 'Created By',
@@ -39,7 +45,7 @@ const columns: Array<Column<InventoryItem>> = [
   {
     Header: 'Tags',
     id: 'tags',
-    accessor: 'tags'
+    accessor: d => d.tags?.map(t => <span className="badge badge-dark mr-2">{t}</span>)
   },
   {
     Header: 'Serial Numbers',
