@@ -59,12 +59,12 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         quantity: 0,
         tags: [],
         serials: [],
-        picture: new Blob()
+        picture: null
       }}
       isInitialValid={false}
       validationSchema={validationSchema}
     >
-      {({setFieldValue, isValid}: FormikProps<NewItemFormData>) => (
+      {({setFieldValue, isValid, values}: FormikProps<NewItemFormData>) => (
       <TESCForm labelCSS={`color: white`} className="container">
         <>
           <FormGroup row>
@@ -113,14 +113,14 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
           </FormGroup>
           <FormGroup row>
             <Col md={6}>
-              {/* <TESCFormField label='Picture' name='picture'>
+              <TESCFormField label='Picture' name='picture'>
                 {({field}: FieldProps<Blob>) => (
                   <Camera onChange={(e) => {
-                    console.log(e, field)
-                    setFieldValue('picture', e)
+                    setFieldValue('picture', e);
+                    console.log(values);
                   }}/>
                 )}
-              </TESCFormField> */}
+              </TESCFormField>
             </Col>
             <Col md={6}>
             </Col>
