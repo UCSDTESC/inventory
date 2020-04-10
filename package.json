@@ -7,7 +7,7 @@
     "client:dev": "npx webpack",
     "server:dev": "npx nodemon",
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js",
-    "dev": "npx concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "dev": "npx concurrently \"npm:client:dev\" \"npm:server:dev\"",
     "heroku-postbuild": "npm run build",
     "start": "npx ts-node -P ./src/server/tsconfig.json -r tsconfig-paths/register ./src/server/main.ts"
   },
@@ -56,6 +56,7 @@
     "react-router-dom": "^5.1.2",
     "react-select": "^3.1.0",
     "react-table": "^7.0.0",
+    "react-webcam": "^5.0.1",
     "reactstrap": "^8.4.1",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.8.1-alpha.2",

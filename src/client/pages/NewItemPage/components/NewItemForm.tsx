@@ -35,7 +35,7 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
     quantity: Yup.number(),
     tags: Yup.array<string>(),
     serials: Yup.array<string>(),
-    picture: Yup.object<Blob>()
+    picture: Yup.mixed()
   });
 
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
@@ -59,12 +59,12 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         quantity: 0,
         tags: [],
         serials: [],
-        picture: null
+        picture: new Blob()
       }}
       isInitialValid={false}
       validationSchema={validationSchema}
     >
-      {({setFieldValue, isValid, values}: FormikProps<NewItemFormData>) => (
+      {({setFieldValue, isValid}: FormikProps<NewItemFormData>) => (
       <TESCForm labelCSS={`color: white`} className="container">
         <>
           <FormGroup row>
@@ -115,10 +115,8 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
             <Col md={6}>
               <TESCFormField label='Picture' name='picture'>
                 {({field}: FieldProps<Blob>) => (
-                  <Camera onChange={(e) => {
-                    setFieldValue('picture', e);
-                    console.log(values);
-                  }}/>
+                  <Camera onChange={(e) => setFieldValue('picture', e)}
+                  light={true} />
                 )}
               </TESCFormField>
             </Col>
