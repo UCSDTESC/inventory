@@ -1,7 +1,7 @@
 import React from 'react';
 import { PaginationItem, PaginationLink, Pagination } from "reactstrap"
 import styled from 'styled-components';
-import { BORDER_RADIUS_LG, TESC_BLUE } from '~/styles/constants';
+import { BORDER_RADIUS_LG, TESC_BLUE, MEDIUM_GRAY, TESC_BLUE_LIGHTER } from '~/styles/constants';
 
 type Props = {
   pageCount: number,
@@ -19,15 +19,26 @@ const Container = styled(Pagination)`
       background: ${TESC_BLUE};
     }
 
-    .page-link:focus {
-      box-shadow: none;
+    li > button:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .page-link {
+      &:focus {
+        box-shadow: none;
+      }
+
+      &:hover {
+        color: ${MEDIUM_GRAY};
+        background: ${TESC_BLUE_LIGHTER};
+      }
     }
 
     .page-item.active .page-link {
       background: white;
       color: ${TESC_BLUE};
       border: 0;
-      outline: 0;
     }
 
     li:first-child > button {
