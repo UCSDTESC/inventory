@@ -18,8 +18,8 @@ const columns: Array<Column<InventoryItem>> = [
     ),
   },
   {
-    Header: '',
-    id: 'Picture',
+    Header: 'Item Photo',
+    id: 'picture',
     accessor: (d) => <img src={d?.pictureUrl} style={{width: '5rem', borderRadius: BORDER_RADIUS}} />
   },
   {
