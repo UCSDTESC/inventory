@@ -4,6 +4,10 @@ import { Column, Row } from 'react-table';
 import ProfileCard from '~/components/ProfileCard';
 import { BORDER_RADIUS } from '~/styles/constants';
 
+const Boolean: React.FunctionComponent<{value?: boolean}> = (props) => (
+  <span>{props.value ? '✅' : '❌'}</span>
+)
+
 const columns: Array<Column<InventoryItem>> = [
   {
     Header: '', 
@@ -35,7 +39,7 @@ const columns: Array<Column<InventoryItem>> = [
   {
     Header: 'For Rent',
     id: 'forRent',
-    accessor: d => d.forRent.toString(),
+    accessor: d => <Boolean value={d.forRent} />,
   },
   {
     Header: 'Quantity',
