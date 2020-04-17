@@ -10,8 +10,9 @@ import { FormGroup, Col } from 'reactstrap';
 import { Formik, FormikProps, FormikHelpers, FieldProps } from 'formik';
 import { submitCheckOutRequest, getItems } from '~/data/UserApi';
 import Button from '~/components/Button';
-import InputWithChips from '~/components/InputWithChips';
+import InputWithChips, { OptionType } from '~/components/InputWithChips';
 import { InventoryItem } from '~/../shared/Types';
+import { OptionProps } from 'react-select/';
 
 const Panel = styled(Rounded)`
   background-color: ${TESC_BLUE};
@@ -35,10 +36,32 @@ type RequestFormData = {
   organizationName: string;
 }
 
-type ItemsForRent ={
-  name: string;
-  quantity: number;
+const Photo = styled.img`
+  max-height: 2.5rem;
+  max-width: 2.5rem;
+
+  border-radius: 10px;
+  margin-right: 1rem;
+`
+
+const Item = styled.div`
+  margin: 1rem;
+
+`
+
+const ItemOption: React.FC<OptionProps<OptionType<InventoryItem>>> = (props) => {
+  const { innerProps, innerRef, data } = props;
+
+  return (
+    <Item ref={innerRef} {...innerProps}>
+      {data.value?.pictureUrl?.length && 
+        <Photo src={data.value.pictureUrl} className="shadow-sm" />
+      }
+      <span>{data.value.name}</span>
+    </Item>
+  )
 }
+
 
 const HomePage: React.FunctionComponent = () => {
   const [itemsOptions, setItemOptions] = useState<Array<InventoryItem>>([]);
@@ -116,6 +139,9 @@ const HomePage: React.FunctionComponent = () => {
                     {({field}:FieldProps) =>(
                       <InputWithChips<InventoryItem>
                         value={field.value} options={itemsOptions} mapValueToOption={(v) => ({value:v, label: v.name})}
+                        components={{
+                          Option: d => <ItemOption {...d} />
+                        }}
                         onChange={(e)=>(setFieldValue('items', e))}
                       />
                     )

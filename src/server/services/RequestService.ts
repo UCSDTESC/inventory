@@ -36,7 +36,6 @@ export default class RequestService {
             item.url = '';
             item.serials = null;
             item.receiptUrl = '';
-            item.pictureUrl = '';
             item.updatedAt = null;
             item.createdAt = null;
             // should only return properties: name, forRent, quantity, and tags to client end, which is public facing

@@ -12,7 +12,8 @@ export default class CloudStorageService {
     const [uploadedFile, metadata] = await bucket.upload(file.path, {
       metadata: {
         metadata: {
-          firebaseStorageDownloadTokens: uuid.v4()
+          firebaseStorageDownloadTokens: uuid.v4(),
+          contentType: 'image/jpeg'
         }
       }
     });

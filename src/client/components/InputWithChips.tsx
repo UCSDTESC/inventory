@@ -3,7 +3,7 @@ import { OptionsType, SelectComponentsConfig } from 'react-select';
 import Creatable from 'react-select/creatable';
 import { TESC_BLUE, BORDER_RADIUS, MEDIUM_GRAY } from '~/styles/constants';
 
-type OptionType<T> = {value: T, label: string};
+export type OptionType<T> = {value: T, label: string};
 
 type Props<T> = {
   onChange: (e: Array<T>) => void;
