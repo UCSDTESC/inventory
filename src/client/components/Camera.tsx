@@ -18,6 +18,12 @@ const Img = styled.img`
   border-radius: ${BORDER_RADIUS};
 `
 
+const PreviewHeader = styled.div`
+  border-radius: ${BORDER_RADIUS};
+  padding: 1rem;
+  opacity: 0.8;
+`
+
 enum CameraStates {
   TakeImage,
   PreviewImage
@@ -120,10 +126,17 @@ const Camera: React.FunctionComponent<Props> = (props) => {
     );
   } else if (cameraState === CameraStates.PreviewImage) {
     return (
-      <div>
-        <label>Image Preview</label>
-        <Img src={previewImg} />
-        <Button type="button" onClick={() => props.onChange(new Blob())} light={props.light}>Delete</Button>
+      <div className="card bg-dark text-black">
+        <Img className="card-img" src={previewImg} />
+        <div className="card-img-overlay">
+          <PreviewHeader className="card-title bg-tesc-blue d-flex">
+            <h5 className="my-auto">Image Preview</h5>
+            <Button 
+              type="button" 
+              onClick={() => props.onChange(new Blob())} 
+              light={true} className="w-auto ml-auto p-1 text-danger">❌</Button>
+          </PreviewHeader>
+        </div>
       </div>
     )
   }
