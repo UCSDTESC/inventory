@@ -20,6 +20,7 @@ export type NewItemFormData = {
   picture: Blob;
   url: string; 
   price: number; 
+  receipt: Blob;
 }
 
 type Props = {
@@ -39,7 +40,8 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
     serials: Yup.array<string>(),
     picture: Yup.mixed(),
     url: Yup.string(),
-    price: Yup.number()
+    price: Yup.number(),
+    receipt: Yup.mixed(),
   });
 
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
@@ -63,7 +65,8 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         serials: [],
         picture: new Blob(),
         url: '',
-        price: 0
+        price: 0,
+        receipt: new Blob(),
       }}
       isInitialValid={false}
       validationSchema={validationSchema}
@@ -135,6 +138,10 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
                 )}
               </TESCFormField>
             </Col>
+            <Col md={6}>
+            </Col>
+          </FormGroup>
+          <FormGroup row>
             <Col md={6}>
               <TESCFormField label='Receipt' name='receipt'>
                 {({field}: FieldProps<Blob>) => (
