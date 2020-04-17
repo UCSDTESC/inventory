@@ -27,9 +27,11 @@ export default class ItemsController {
   async createItem(
     @Body() body: CreateItemRequest, 
     @FirebaseUID() uid: string,
-    @UploadedFile('picture', {options: Uploads, required: false}) picture: Express.Multer.File
+    @UploadedFile('picture', {options: Uploads, required: false}) picture: Express.Multer.File,
+    @UploadedFile('receipt', {options: Uploads, required: false}) receipt: Express.Multer.File
   ): Promise<SuccessResponse> {
     let pictureUrl: string = '';
+    let receiptUrl: string = '';
 
     try {
       pictureUrl = (await this.CloudStorageService.uploadImage(picture, true))[0];  
@@ -37,10 +39,17 @@ export default class ItemsController {
       //TODO: Handle what to do when image upload fails - go ahead with request or respond with error?
     }
 
+    try {
+      receiptUrl = (await this.CloudStorageService.uploadImage(receipt, true))[0];  
+    } catch (e) {
+      //TODO: Handle what to do when image upload fails - go ahead with request or respond with error?
+    }
+
     const res = await this.ItemService.createItem({
       ...body, 
       createdBy: uid, 
-      pictureUrl
+      pictureUrl,
+      receiptUrl,
     } as InventoryItem);
     
     return SuccessResponse.Positive
