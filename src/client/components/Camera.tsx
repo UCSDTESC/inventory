@@ -5,13 +5,23 @@ import styled from 'styled-components';
 import { BORDER_RADIUS } from '~/styles/constants';
 
 type Props = {
-  onChange?: (blob: Blob) => void;
+  onChange?: (blob: Blob) => void,
+  value?: Blob
 } & ButtonProps;
 
 const Cam = styled(Webcam)`
   border-radius: ${BORDER_RADIUS};
   width: 100%;
 `
+
+const Img = styled.img`
+  border-radius: ${BORDER_RADIUS};
+`
+
+enum CameraStates {
+  TakeImage,
+  PreviewImage
+}
 
 const Camera: React.FunctionComponent<Props> = (props) => {
  
@@ -24,13 +34,38 @@ const Camera: React.FunctionComponent<Props> = (props) => {
   // Tracks whether there is an alternate camera.
   const [hasEnvCamera, setHasEnvCamera] = React.useState<boolean>(true);
 
+  // Tracks whether we need to show the camera or a preview
+  const [cameraState, setCameraState] = React.useState<CameraStates>(CameraStates.TakeImage);
+
+  const [previewImg, setPreviewImg] = React.useState<string>(null);
+
   useEffect(() => {
     async function checkForCameras() {
       const devices = await navigator.mediaDevices.enumerateDevices();
       setHasEnvCamera(devices.filter(d => d.kind === 'videoinput').length > 1);
     }
+
+    function checkForImage() {
+      if (props.value) {
+        let reader = new FileReader();
+
+        reader.onload = () => {
+          if (reader.result !== 'data:') {
+            setCameraState(CameraStates.PreviewImage);
+            setPreviewImg(reader.result as string);
+          } else {
+            setCameraState(CameraStates.TakeImage);
+            setPreviewImg(null);
+          }
+        }; 
+
+        reader.readAsDataURL(props.value);
+      }
+    }
+
+    checkForImage();
     checkForCameras();
-  }, []);
+  });
 
   const capture = React.useCallback(
     () => {
@@ -66,22 +101,33 @@ const Camera: React.FunctionComponent<Props> = (props) => {
     return new Blob([ab], {type: mimeString});
   }
 
-  return (
-    <>
-      <Cam 
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        videoConstraints={{
-          facingMode
-        }}
-      />
-      <Button type="button" onClick={capture} light={props.light}>Capture</Button>
+  if (cameraState === CameraStates.TakeImage) {
+    return (
+      <>
+        <Cam 
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          videoConstraints={{
+            facingMode
+          }}
+        />
+        <Button type="button" onClick={capture} light={props.light}>Capture</Button>
+  
+        {/* Only show toggle button if 2 video inputs were detected */}
+        {hasEnvCamera && <Button type="button" onClick={toggleCamera} light={props.light}>Toggle</Button>}
+      </>
+    );
+  } else if (cameraState === CameraStates.PreviewImage) {
+    return (
+      <div>
+        <label>Image Preview</label>
+        <Img src={previewImg} />
+        <Button type="button" onClick={() => props.onChange(new Blob())} light={props.light}>Delete</Button>
+      </div>
+    )
+  }
 
-      {/* Only show toggle button if 2 video inputs were detected */}
-      {hasEnvCamera && <Button type="button" onClick={toggleCamera} light={props.light}>Toggle</Button>}
-    </>
-  );
 }
 
 export default Camera;
