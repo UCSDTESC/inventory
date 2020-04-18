@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import AdminLayout from './layouts/AdminLayout';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import RequestsPage from './pages/RequestsPage';
 import HomePage from './pages/HomePage';
 import ProtectedRoute from './ProtectedRoute';
 import NewItemPage from './pages/NewItemPage';
@@ -28,6 +29,12 @@ const Routes: React.FunctionComponent = () => {
       <ProtectedRoute exact={true} path="/admin/new">
         <AdminLayout>
           <NewItemPage />
+        </AdminLayout>
+      </ProtectedRoute>
+
+      <ProtectedRoute exact={true} path="/admin/requests">
+        <AdminLayout>
+          <RequestsPage />
         </AdminLayout>
       </ProtectedRoute>
 
