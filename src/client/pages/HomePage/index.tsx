@@ -16,14 +16,6 @@ import { OptionProps } from 'react-select/';
 
 const Panel = styled(Rounded)`
   background-color: ${TESC_BLUE};
-  height: 70vh;
-  width: 50vw;
-`;
-const InnerPanel = styled(Rounded)`
-  background-color: white;
-  height: 95%;
-  overflow: auto;
-  width: 95%;
 `;
 
 type RequestFormData = {
@@ -38,7 +30,6 @@ type RequestFormData = {
 
 const Photo = styled.img`
   max-height: 2.5rem;
-  max-width: 2.5rem;
 
   border-radius: 10px;
   margin-right: 1rem;
@@ -106,8 +97,7 @@ const HomePage: React.FunctionComponent = () => {
       <div className='d-flex flex-column align-items-center'>
         <img src='/tesc-logo.png'className='w-25 my-3 mx-auto'/>
         <p>Fill out the form below to borrow items from TESC. Use your UCSD email.</p>
-        <Panel className='d-flex align-items-center justify-content-center'>
-          <InnerPanel className='d-flex justify-content-center'>
+        <Panel className='d-flex align-items-center justify-content-center p-3'>
             <Formik<RequestFormData>
               onSubmit={onSubmit}
               enableReinitialize={true}
@@ -123,8 +113,15 @@ const HomePage: React.FunctionComponent = () => {
               validateOnMount={true}
               validationSchema={validationSchema}>
               {({isValid, setFieldValue}: FormikProps<RequestFormData>) => (
-                <TESCForm>
+                <TESCForm
+                  labelCSS={`
+                    color: white;
+                  `}
+                >
                   <FormGroup row>
+                    <Col md={12} className="text-center my-3">
+                      <h1 className="text-white">Request an Item</h1>
+                    </Col>
                     <Col md={6}>
                       <TESCFormField light label='First Name' name='firstName' type='text' />   
                     </Col>
@@ -151,13 +148,12 @@ const HomePage: React.FunctionComponent = () => {
                   <TESCFormField light label='Date Needed By' name='dateNeededBy' type='date'/>
                   <Button 
                     disabled={!isValid}
-                    className='align-self-center m-2' type='submit'>
+                    className='my-2 w-100' type='submit'>
                     Submit
                   </Button>
                 </TESCForm>
               )}
             </Formik>
-          </InnerPanel>
         </Panel>
       </div>
 
