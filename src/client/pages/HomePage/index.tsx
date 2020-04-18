@@ -86,6 +86,7 @@ const HomePage: React.FunctionComponent = () => {
   });
 
   async function onSubmit(values: RequestFormData, {resetForm}: FormikHelpers<RequestFormData>) {
+    console.log(values.items);
     const data = {...values, items: values.items.map(v => v.id)};
     const res = await submitCheckOutRequest(data);
     alert('Thank you for ur submission, we will contact u');
@@ -135,7 +136,9 @@ const HomePage: React.FunctionComponent = () => {
                   <TESCFormField light label='Items' name='items' type='text'>
                     {({field}:FieldProps) =>(
                       <InputWithChips<InventoryItem>
-                        value={field.value} options={itemsOptions} mapValueToOption={(v) => ({value:v, label: v.name})}
+                        value={field.value} options={itemsOptions} 
+                        isCreatable={false}
+                        mapValueToOption={(v) => ({value:v, label: v.name})}
                         components={{
                           Option: d => <ItemOption {...d} />
                         }}
@@ -148,6 +151,7 @@ const HomePage: React.FunctionComponent = () => {
                   <TESCFormField light label='Date Needed By' name='dateNeededBy' type='date'/>
                   <Button 
                     disabled={!isValid}
+                    light={true}
                     className='my-2 w-100' type='submit'>
                     Submit
                   </Button>

@@ -91,6 +91,7 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
                 {({field}: FieldProps<string[]>) => (
                   <InputWithChips<string> 
                     value={field.value} options={props.tags} 
+                    isCreatable={true}
                     mapValueToOption={(v) => ({value: v, label: v})}
                     onChange={(e) => setFieldValue('tags', e)}
                   />
@@ -101,6 +102,7 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
               <TESCFormField label='Serial Numbers' name='serials'>
                 {({field}: FieldProps<string[]>) => (
                   <InputWithChips<string>
+                    isCreatable={true}
                     value={field.value} options={[]}
                     mapValueToOption={(v) => ({value: v, label: v})}
                     onChange={(e) => setFieldValue('serials', e)}
