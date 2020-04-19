@@ -26,16 +26,15 @@ export default class ItemService {
         .collection('items')
         .get()
       
-      let items = snapshot
-        .docs
-        .map<InventoryItem>(doc => ({...doc.data(), id: doc.id}) as InventoryItem);
-      
       // This is an unfortunate consequence of having to make a network
       // request for every item with Firebase :(
       // Caching Requests should provide a perf improvement
       // Maybe we should use Redis or something but it feels like too much atm.
-      const userCache: {[x: string]: admin.auth.UserRecord} = {}
-      for (let item of items) {
+      const userCache: {[x: string]: admin.auth.UserRecord} = {};
+      const items: Array<InventoryItem> = [];
+
+      for (let currentItem of snapshot.docs) {
+        const item = currentItem.data();
         if (!userCache[item.createdBy as string]) {
           const uid = item.createdBy;
           item.createdBy = await this.getUserByUID(item.createdBy as string);
@@ -43,6 +42,12 @@ export default class ItemService {
         } else {
           item.createdBy = userCache[item.createdBy as string];
         }
+
+        // TODO: Fix any usage
+        items.push({
+          id: currentItem.id,
+          ...item
+        } as any);
       }
 
       return {items}
