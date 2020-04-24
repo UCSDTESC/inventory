@@ -149,6 +149,16 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
               </TESCFormField>
             </Col>
           </FormGroup>
+          <FormGroup row>
+            <Col md={6}>
+              <TESCFormField label='Receipt' name='receipt'>
+                {({field}: FieldProps<Blob>) => (
+                  <Camera onChange={(e) => setFieldValue('receipt', e)}
+                  light={true} />
+                )}
+              </TESCFormField>
+            </Col>
+          </FormGroup>
           <Button 
             light={true}
             className='align-self-center m-2' type='submit'
