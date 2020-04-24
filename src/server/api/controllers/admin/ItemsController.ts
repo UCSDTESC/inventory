@@ -1,4 +1,4 @@
-import { Get, JsonController, UseBefore, Res, Req, Post, Body, UploadedFile } from 'routing-controllers';
+import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
 import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
 import { CreateItemRequest } from '@Shared/api/Requests';
@@ -7,11 +7,9 @@ import CloudStorageService from '@Services/CloudStorageService';
 import { InventoryItem } from '@Shared/Types';
 import { FirebaseUID } from 'api/decorators/FirebaseUID';
 import { Parser } from 'json2csv';
-import * as csv from 'fast-csv';
 import { auth } from 'firebase-admin';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import Uploads from '@Config/Uploads';
-
 
 @JsonController('/items')
 @UseBefore(AdminAuthorisation)
@@ -24,14 +22,17 @@ export default class ItemsController {
   }
 
   @Post()
+  @UseBefore(Uploads.fields([{name: 'picture', maxCount: 1}, {name: 'receipt', maxCount: 1}]))
   async createItem(
     @Body() body: CreateItemRequest, 
     @FirebaseUID() uid: string,
-    @UploadedFile('picture', {options: Uploads, required: false}) picture: Express.Multer.File,
-    @UploadedFile('receipt', {options: Uploads, required: false}) receipt: Express.Multer.File
+    @Req() req: Request
   ): Promise<SuccessResponse> {
     let pictureUrl: string = '';
     let receiptUrl: string = '';
+
+    const picture: Express.Multer.File = req.files['picture'][0];
+    const receipt: Express.Multer.File = req.files['receipt'][0];
 
     try {
       pictureUrl = (await this.CloudStorageService.uploadImage(picture, true))[0];  
