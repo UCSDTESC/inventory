@@ -141,10 +141,6 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
               </TESCFormField>
             </Col>
             <Col md={6}>
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Col md={6}>
               <TESCFormField label='Receipt' name='receipt'>
                 {({field}: FieldProps<Blob>) => (
                   <Camera onChange={(e) => setFieldValue('receipt', e)}
