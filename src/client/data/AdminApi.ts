@@ -13,7 +13,7 @@ export const getItems = () =>
 
 export const createItem = (body: CreateItemRequest) =>
   client
-    .post<CreateItemRequest>('/items', body)
+    .post<CreateItemRequest>('/items/create', body)
 
 export const removeItem = (body: DeleteItemRequest) =>
   client

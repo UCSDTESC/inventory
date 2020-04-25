@@ -8,8 +8,7 @@ import ColumnEditor from './ColumnEditor';
 import { removeItem } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
-import { Formik, FormikProps, FieldProps, FormikHelpers } from 'formik';
-import { DeleteItemRequest } from '~/../shared/api/Requests';
+import { DeleteItemRequest } from '@Shared/api/Requests';
 
 type Props = {
   data?: Array<InventoryItem>;
@@ -17,12 +16,14 @@ type Props = {
 
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
-  async function onSubmit(values: DeleteItemRequest) {
+  async function onClick(row: Row<InventoryItem>) {
     console.log("Before API call");
-    const res = await removeItem(values);
+    var itemTarget : DeleteItemRequest;
+    itemTarget = {itemID: row.values.id}
+    const res = await removeItem(itemTarget);
 
     console.log("After API call");
-    
+    window.location.reload(false);
     
   } 
 
@@ -65,16 +66,9 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
         <div className="row mt-3">
           <div className="col-2">
-            <Formik<DeleteItemRequest>
-              onSubmit={onSubmit}
-              initialValues={{
-                itemID: row.values.id
-              }}
-              >
-              <Button type='submit'>
-                Remove
-              </Button>
-            </Formik>
+            <Button type='submit' onClick={e => onClick(row)}>
+              Remove
+            </Button>
           </div>
         </div>
         

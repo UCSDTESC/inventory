@@ -21,7 +21,7 @@ export default class ItemsController {
     return await this.ItemService.getAllItems();
   }
 
-  @Post()
+  @Post('/create')
   async createItem(@Body() body: CreateItemRequest, @FirebaseUID() uid: string): Promise<SuccessResponse> {
     await this.ItemService.createItem({...body, createdBy: uid} as InventoryItem);
     return SuccessResponse.Positive
