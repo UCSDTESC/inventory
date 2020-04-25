@@ -1,7 +1,7 @@
-import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
+import { Get, JsonController, UseBefore, Res, Req, Post, Body, Delete } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
 import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
-import { CreateItemRequest } from '@Shared/api/Requests';
+import { CreateItemRequest, DeleteItemRequest } from '@Shared/api/Requests';
 import ItemService from '@Services/ItemService';
 import { InventoryItem } from '@Shared/Types';
 import { FirebaseUID } from 'api/decorators/FirebaseUID';
@@ -24,6 +24,12 @@ export default class ItemsController {
   @Post()
   async createItem(@Body() body: CreateItemRequest, @FirebaseUID() uid: string): Promise<SuccessResponse> {
     await this.ItemService.createItem({...body, createdBy: uid} as InventoryItem);
+    return SuccessResponse.Positive
+  }
+
+  @Post('/remove')
+  async removeItem(@Body() body: DeleteItemRequest, @FirebaseUID() uid: string): Promise<SuccessResponse> {
+    await this.ItemService.removeItem(body.itemID);
     return SuccessResponse.Positive
   }
 

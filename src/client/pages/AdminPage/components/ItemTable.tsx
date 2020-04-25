@@ -1,10 +1,15 @@
-import React from 'react';
-import { Table, PaginationItem, PaginationLink, Pagination } from 'reactstrap';
+ import React from 'react';
+import { Table, PaginationItem, PaginationLink, Pagination} from 'reactstrap';
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
 import { useTable, useExpanded, Row, usePagination } from 'react-table';
 import ColumnEditor from './ColumnEditor';
+import { removeItem } from '~/data/AdminApi';
+import styled from 'styled-components';
+import Button from '~/components/Button';
+import { Formik, FormikProps, FieldProps, FormikHelpers } from 'formik';
+import { DeleteItemRequest } from '~/../shared/api/Requests';
 
 type Props = {
   data?: Array<InventoryItem>;
@@ -12,14 +17,67 @@ type Props = {
 
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
+  async function onSubmit(values: DeleteItemRequest) {
+    console.log("Before API call");
+    const res = await removeItem(values);
+
+    console.log("After API call");
+    
+    
+  } 
+
+  
+
   const renderRowSubComponent = React.useCallback(
     ({ row }: {row: Row<InventoryItem>}) => (
       <pre
         style={{
-          fontSize: '10px',
+          fontSize: '12px',
         }}
       >
-        <code>{row.values.name}</code>
+        
+        
+        <div className="container-fluid">
+          <div className="row mt-3">
+            <div className="col-2">
+              Description: 
+            </div>
+            
+            <div className="col-10">
+              <code>{row.values.description}</code>
+            </div>
+          </div>
+          
+          <hr />
+
+          <div className="row mt-3">
+            <div className="col-2">
+              Last updated: <code>{row.values.updatedAt}</code>
+            </div>
+            <div className="col-1">
+
+            </div>
+            <div className="col-2">
+              <code>{row.values.name}</code>
+            </div>
+          </div>
+        </div>
+
+        <div className="row mt-3">
+          <div className="col-2">
+            <Formik<DeleteItemRequest>
+              onSubmit={onSubmit}
+              initialValues={{
+                itemID: row.values.id
+              }}
+              >
+              <Button type='submit'>
+                Remove
+              </Button>
+            </Formik>
+          </div>
+        </div>
+        
       </pre>
     ),
     []

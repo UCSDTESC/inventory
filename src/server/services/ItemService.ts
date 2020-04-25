@@ -20,6 +20,20 @@ export default class ItemService {
     }
   }
 
+  async removeItem(itemID: string) {
+    try {
+      await admin
+        .firestore()
+        .collection('items')
+        .doc(itemID)
+        .delete();
+    
+      return SuccessResponse.Positive;
+    } catch(e) {
+      return SuccessResponse.Negative;
+    }
+  }
+
   async getAllItems(): Promise<GetItemsResponse> {
       const snapshot = await admin
         .firestore()
