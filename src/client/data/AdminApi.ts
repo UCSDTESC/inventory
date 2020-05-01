@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ADMIN_API_PREFIX, } from '@Shared/api/Paths';
 import { GetItemsResponse } from '@Shared/api/Responses';
-import { CreateItemRequest, DeleteItemRequest } from '@Shared/api/Requests';
+import { CreateItemRequest } from '@Shared/api/Requests';
 import * as firebase from 'firebase';
 import { InventoryItem } from '~/../shared/Types';
 
@@ -15,9 +15,9 @@ export const createItem = (body: CreateItemRequest) =>
   client
     .post<CreateItemRequest>('/items/create', body)
 
-export const removeItem = (body: DeleteItemRequest) =>
+export const removeItem = (itemId: string) =>
   client
-    .post<DeleteItemRequest>('/items/remove', body)
+    .delete<string>('/items/remove/' + itemId)
 
 export const getItemTags = () =>
   client

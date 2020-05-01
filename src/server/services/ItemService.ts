@@ -42,7 +42,11 @@ export default class ItemService {
       
       let items = snapshot
         .docs
-        .map<InventoryItem>(doc => doc.data() as InventoryItem);
+        .map<InventoryItem>(doc => {
+          const item = doc.data() as InventoryItem;
+          item.id = doc.id;
+          return item;
+        });
       
       for (let item of items) {
         item.createdBy = await this.getUserByUID(item.createdBy as string);

@@ -8,7 +8,6 @@ import ColumnEditor from './ColumnEditor';
 import { removeItem } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
-import { DeleteItemRequest } from '@Shared/api/Requests';
 
 type Props = {
   data?: Array<InventoryItem>;
@@ -17,16 +16,11 @@ type Props = {
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
   async function onClick(row: Row<InventoryItem>) {
-    console.log("Before API call");
-    var itemTarget : DeleteItemRequest;
-    itemTarget = {itemID: row.values.id}
-    const res = await removeItem(itemTarget);
-
-    console.log("After API call");
-    window.location.reload(false);
-    
+    console.log("Deleting itemId: " + row.values.id + " " + row.values.name);
+    const res = await removeItem(row.values.id);
+    console.log(res);   
+    // TODO: remove actual row -- rerender pages? 
   } 
-
   
 
   const renderRowSubComponent = React.useCallback(

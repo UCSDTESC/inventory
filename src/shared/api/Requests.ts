@@ -10,10 +10,6 @@ export type CreateItemRequest = {
   tags: Array<string>;
 }
 
-export type DeleteItemRequest = {
-  itemID: string;
-}
-
 export type CheckOutRequest = {
   items: Array<string>;
   firstName: string;
