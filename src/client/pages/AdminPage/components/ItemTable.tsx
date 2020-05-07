@@ -25,11 +25,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
   const renderRowSubComponent = React.useCallback(
     ({ row }: {row: Row<InventoryItem>}) => (
-      <pre
-        style={{
-          fontSize: '12px',
-        }}
-      >
+      <pre>
         
         
         <div className="container-fluid">
