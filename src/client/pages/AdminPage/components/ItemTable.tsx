@@ -13,53 +13,162 @@ type Props = {
   data?: Array<InventoryItem>;
 }
 
+
+
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
   async function onClick(row: Row<InventoryItem>) {
-    await removeItem(row.original.id);
+    console.log("Deleting itemId: " + row.values.id + " " + row.values.name);
+    const res = await removeItem(row.values.id);
+    console.log(res);   
     // TODO: remove actual row -- rerender pages? 
   } 
+  
 
+  function grabImage(picURL:string){
+    if(picURL == undefined || picURL == ''){
+      return;
+    } else{
+      return(
+        <div className="col-2">
+          <img alt = 'Item Image' src = {picURL}></img> 
+        </div>
+      );
+    }
+
+  }
 
   const renderRowSubComponent = React.useCallback(
     ({ row }: {row: Row<InventoryItem>}) => (
-      <pre>
+      <pre
+        style={{
+          fontFamily: 'Lato',
+        }}
+        
+      >
         
         
         <div className="container-fluid">
-          <div className="row mt-3">
-            <div className="col-2">
+          
+          <div className="row">
+            <div className="col-6 tesc-blue">
+              <h3><code>{row.original.name}</code></h3>
+            </div>
+          </div>
+
+          <div className="row">
+            <code>{grabImage(row.original.picture)}</code>
+            
+            <div className="col-2 tesc-blue">
               Description: 
             </div>
-            
-            <div className="col-10">
-              <code>{row.values.description}</code>
+            <div className="col-8">
+              <code>{row.original.description != undefined ? row.original.description : "N/A"}</code>
+            </div>
+          </div>
+          
+          <hr />
+
+          <div className="row mt-2">
+            <div className="col-2 tesc-blue">
+              ID:
+            </div>
+            <div className="col-3 text-center">
+              <code>{row.original.id != undefined ? row.original.id : "N/A"}</code>
+            </div>
+            <div className="col-1"></div>
+
+
+            <div className="col-2 tesc-blue">
+              For Rent:
+            </div>
+            <div className="col-3 text-center">
+              <code>{row.original.forRent ? "Yes" : "No"}</code>
+            </div>
+          </div>
+
+          <div className="row mt-3">
+            <div className="col-2 tesc-blue">
+              Quantity:
+            </div>
+            <div className="col-3 text-center">
+              <code>{row.original.quantity}</code>
+            </div>
+            <div className="col-1"></div>
+          
+            <div className="col-2 tesc-blue">
+              Price:
+            </div>
+            <div className="col-3 text-center">
+              <code>{row.original.price != undefined ? row.original.price : "N/A"}</code>
             </div>
           </div>
           
           <hr />
 
           <div className="row mt-3">
-            <div className="col-2">
-              Last updated: <code>{row.values.updatedAt}</code>
+            <div className="col-2 tesc-blue">
+              Tags:
             </div>
-            <div className="col-1">
+            <div className="col-10">
+              <code>{row.original.tags != undefined ? row.original.tags.map((value) =>  
+                    <Button>{value}</Button>) : 'None'}</code>
+            </div>
+          </div>
 
+          <div className="row mt-3">
+            <div className="col-2 tesc-blue">
+              Serials:
             </div>
-            <div className="col-2">
-              <code>{row.values.name}</code>
+            <div className="col-10">
+              <code>{row.original.serials != undefined ? row.original.serials.map((value) =>  
+                  <Button>{value}</Button>) : 'N/A'}</code>
+            </div>
+          </div>
+
+          <hr />
+
+          <div className="row mt-3">
+            <div className="col-2 tesc-blue">
+              Last updated:
+            </div>
+            <div className="col-2 text-center">
+              <code>{row.original.updatedAt != undefined ? 
+                      row.original.updatedAt.toString() : "Unrecorded"}</code>
+            </div>
+          </div>
+
+          <div className="row mt-3">
+            <div className="col-2 tesc-blue">
+              Created At:
+            </div>
+            <div className="col-2 text-center">
+              <code>{row.original.createdAt != undefined ? 
+                      row.original.createdAt.toString() : "Unrecorded"}</code>
+            </div>
+          </div>
+          
+          <div className="row mt-3">
+            <div className="col-2 tesc-blue">
+              Created By:
+            </div>
+            <div className="col-2 text-center">
+              <code>{row.original.createdAt != undefined ? 
+                      row.original.createdBy.toString() : "Unrecorded"}</code>
+            </div>
+          </div>
+
+
+          <hr />
+
+          <div className="row mt-3">
+            <div className="col-3">
+              <Button type='submit' onClick={e => onClick(row)}>
+                Remove
+              </Button>
             </div>
           </div>
         </div>
-
-        <div className="row mt-3">
-          <div className="col-2">
-            <Button type='submit' onClick={e => onClick(row)}>
-              Remove
-            </Button>
-          </div>
-        </div>
-        
       </pre>
     ),
     []
