@@ -1,5 +1,5 @@
  import React from 'react';
-import { Table, PaginationItem, PaginationLink, Pagination} from 'reactstrap';
+import { Table, PaginationItem, PaginationLink, Pagination, Badge} from 'reactstrap';
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
@@ -31,7 +31,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
     } else{
       return(
         <div className="col-2">
-          <img alt = 'Item Image' src = {picURL}></img> 
+          <img alt = 'Item Image' src = {picURL} style={{"width" : "80%"}}></img> 
         </div>
       );
     }
@@ -112,7 +112,9 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
             </div>
             <div className="col-10">
               <code>{row.original.tags != undefined ? row.original.tags.map((value) =>  
-                    <Button>{value}</Button>) : 'None'}</code>
+                    <Badge color="primary" pill>
+                      {value}
+                    </Badge>) : 'None'}</code>
             </div>
           </div>
 
@@ -120,9 +122,12 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
             <div className="col-2 tesc-blue">
               Serials:
             </div>
+            
             <div className="col-10">
               <code>{row.original.serials != undefined ? row.original.serials.map((value) =>  
-                  <Button>{value}</Button>) : 'N/A'}</code>
+                  <Badge color="primary" pill>
+                    {value}
+                  </Badge>) : 'N/A'}</code>
             </div>
           </div>
 
@@ -132,9 +137,9 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
             <div className="col-2 tesc-blue">
               Last updated:
             </div>
-            <div className="col-2 text-center">
+            <div className="col-6">
               <code>{row.original.updatedAt != undefined ? 
-                      row.original.updatedAt.toString() : "Unrecorded"}</code>
+                      new Date(row.original.updatedAt._seconds * 1000).toString() : "Unrecorded"}</code>
             </div>
           </div>
 
@@ -142,21 +147,22 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
             <div className="col-2 tesc-blue">
               Created At:
             </div>
-            <div className="col-2 text-center">
+            <div className="col-6">
               <code>{row.original.createdAt != undefined ? 
-                      row.original.createdAt.toString() : "Unrecorded"}</code>
+                      new Date(row.original.createdAt._seconds * 1000).toString() : "Unrecorded"}</code>
             </div>
           </div>
           
           <div className="row mt-3">
             <div className="col-2 tesc-blue">
-              Created By:
+              Receipt:
             </div>
-            <div className="col-2 text-center">
-              <code>{row.original.createdAt != undefined ? 
-                      row.original.createdBy.toString() : "Unrecorded"}</code>
+            <div className="col-6">
+              <code>{row.original.receipt != undefined ? 
+                      grabImage(row.original.receipt) : "N/A"}</code>
             </div>
           </div>
+          
 
 
           <hr />
