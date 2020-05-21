@@ -24,10 +24,13 @@ export const createItem = (body: NewItemFormData) => {
     data.append('picture', body.picture);
   } 
 
+  if (body.receipt) {
+    data.append('receipt', body.receipt);
+  } 
+
   return client
     .post<CreateItemRequest>('/items', data)
 }
-
 
 export const getItemTags = () =>
   client
