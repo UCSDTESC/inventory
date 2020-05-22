@@ -1,13 +1,19 @@
+
  import React from 'react';
 import { Table, PaginationItem, PaginationLink, Pagination, Badge} from 'reactstrap';
+
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
 import { useTable, useExpanded, Row, usePagination } from 'react-table';
 import ColumnEditor from './ColumnEditor';
+
 import { removeItem } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
+
+import TablePagination from './TablePagination';
+
 
 type Props = {
   data?: Array<InventoryItem>;
@@ -263,22 +269,13 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           })}
         </tbody>
       </Rounded>
-      {/* TODO: Style this to be rounded and tesc-blue */}
-      <Pagination className="w-100 d-flex align-items-center">
-        <PaginationItem>
-          <PaginationLink previous disabled={pageIndex == 0} onClick={previousPage} />
-        </PaginationItem>
-        {[...Array(pageCount)].map((page, i) => (
-          <PaginationItem active={i === pageIndex} key={i}>
-            <PaginationLink onClick={e => gotoPage(i)} href="#">
-              {i + 1}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
-        <PaginationItem>
-          <PaginationLink next disabled={pageIndex == pageCount - 1} onClick={nextPage} />
-        </PaginationItem>
-      </Pagination>
+      <TablePagination 
+        pageIndex={pageIndex}
+        pageCount={pageCount}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        gotoPage={gotoPage}
+      />
     </>
   );
 }

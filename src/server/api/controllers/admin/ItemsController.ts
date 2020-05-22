@@ -3,33 +3,60 @@ import AdminAuthorisation from '../../middleware/AdminAuthorization';
 import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
 import { CreateItemRequest } from '@Shared/api/Requests';
 import ItemService from '@Services/ItemService';
+import CloudStorageService from '@Services/CloudStorageService';
 import { InventoryItem } from '@Shared/Types';
 import { FirebaseUID } from 'api/decorators/FirebaseUID';
 import { Parser } from 'json2csv';
-import * as csv from 'fast-csv';
 import { auth } from 'firebase-admin';
-import { Response } from 'express';
-
+import { Response, Request } from 'express';
+import Uploads from '@Config/Uploads';
 
 @JsonController('/items')
 @UseBefore(AdminAuthorisation)
 export default class ItemsController {
-  constructor(private ItemService: ItemService) {}
+  constructor(private ItemService: ItemService, private CloudStorageService: CloudStorageService) {}
   
   @Get()
   async getItems(): Promise<GetItemsResponse> {
     return await this.ItemService.getAllItems();
   }
 
-  @Post('/create')
-  async createItem(@Body() body: CreateItemRequest, @FirebaseUID() uid: string): Promise<SuccessResponse> {
-    return await this.ItemService.createItem({...body, createdBy: uid} as InventoryItem);
-    //return SuccessResponse.Positive
-  }
-
   @Delete('/remove/:id')
   async removeItem(@Param("id") itemId: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
     await this.ItemService.removeItem(itemId);
+
+  @Post()
+  @UseBefore(Uploads.fields([{name: 'picture', maxCount: 1}, {name: 'receipt', maxCount: 1}]))
+  async createItem(
+    @Body() body: CreateItemRequest, 
+    @FirebaseUID() uid: string,
+    @Req() req: Request
+  ): Promise<SuccessResponse> {
+    let pictureUrl: string = '';
+    let receiptUrl: string = '';
+
+    const picture: Express.Multer.File = req.files['picture'][0];
+    const receipt: Express.Multer.File = req.files['receipt'][0];
+
+    try {
+      pictureUrl = (await this.CloudStorageService.uploadImage(picture, true))[0];  
+    } catch (e) {
+      //TODO: Handle what to do when image upload fails - go ahead with request or respond with error?
+    }
+
+    try {
+      receiptUrl = (await this.CloudStorageService.uploadImage(receipt, true))[0];  
+    } catch (e) {
+      //TODO: Handle what to do when image upload fails - go ahead with request or respond with error?
+    }
+
+    const res = await this.ItemService.createItem({
+      ...body, 
+      createdBy: uid, 
+      pictureUrl,
+      receiptUrl,
+    } as InventoryItem);
+    
     return SuccessResponse.Positive
   }
 

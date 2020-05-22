@@ -1,15 +1,19 @@
 import React from 'react';
-import { OptionsType, SelectComponentsConfig } from 'react-select';
+import Select, { OptionsType, SelectComponentsConfig } from 'react-select';
+import {Props as SelectComponentsProps} from 'react-select';
+
 import Creatable from 'react-select/creatable';
 import { TESC_BLUE, BORDER_RADIUS, MEDIUM_GRAY } from '~/styles/constants';
 
-type OptionType<T> = {value: T, label: string};
+export type OptionType<T> = {value: T, label: string};
 
 type Props<T> = {
   onChange: (e: Array<T>) => void;
   value: Array<T>;
   options: Array<T>;
-  components?: SelectComponentsConfig<OptionType<T>>
+  components?: SelectComponentsConfig<OptionType<T>>;
+  isDisabled?: boolean;
+  isCreatable?: boolean;
   // pure function that maps the given data type to an OptionType
   mapValueToOption: (e: T) => OptionType<T>;
 }
@@ -26,13 +30,16 @@ function InputWithChips<T>(props: Props<T> & {children?: React.ReactNode}) {
     return arr.map(props.mapValueToOption);
   }
 
+  const SelectComponent: React.ComponentType<SelectComponentsProps<OptionType<T>>> = props.isCreatable ? Creatable : Select;
+
   return (
-    <Creatable<OptionType<T>> 
+    <SelectComponent
       isMulti={true}
       onChange={onChange}
       components={props.components}
       options={mapArrayToOptions(props.options)}
       value={mapArrayToOptions(props.value)}
+      isDisabled={props.isDisabled}
       styles={{
         multiValueLabel: base => ({
           ...base,

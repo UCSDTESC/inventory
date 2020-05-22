@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { TESC_BLUE, BORDER_RADIUS, TESC_BLUE_DARKER, MEDIUM_GRAY } from '~/styles/constants';
 import { mediaBreakpointDown } from '~/styles/breakpoints';
 
-type Props = {
+export type Props = {
   light?: boolean
 }
 

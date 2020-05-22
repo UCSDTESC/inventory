@@ -149,6 +149,12 @@ const Sidebar: React.FunctionComponent = (props) => {
               <label>New</label>
             </Link>
           </div>
+          <div className="d-flex justify-content-center mb-3">
+            <Link to='/admin/requests' exact={true}>
+              <NavEmoji>📖</NavEmoji> 
+              <label>Requests</label>
+            </Link>
+          </div>
         </ListElements>
         <div className="d-flex justify-content-center d-md-none">
           <Expander onClick={toggle} className="align-items-center justify-content-center">

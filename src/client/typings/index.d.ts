@@ -1,3 +1,4 @@
+
 import { 
   UseExpandedRowProps, 
   UsePaginationInstanceProps,
@@ -8,3 +9,4 @@ declare module 'react-table' {
   interface TableInstance<D extends object = {}> extends UsePaginationInstanceProps<D> {}
   interface TableState<D extends object = {}> extends UsePaginationState<D> {}
 }
+

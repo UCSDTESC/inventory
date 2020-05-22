@@ -3,17 +3,23 @@ import * as admin from 'firebase-admin';
 import { CheckOutRequest } from '@Shared/api/Requests';
 import { SuccessResponse, GetItemsResponse } from '@Shared/api/Responses';
 import { InventoryItem } from '@Shared/Types';
+import { Logger } from '@Config/Logger';
 
 @Service()
-export default class RequestService{
+export default class RequestService {
     async createCheckOutRequest(item: CheckOutRequest){
         try{
             await admin.firestore()
                 .collection('checkOutRequests')
                 .doc()
-                .set({...item, createdAt: admin.firestore.Timestamp.now()} as CheckOutRequest);
+                .set({
+                    ...item, 
+                    items: item.items.map(i => admin.firestore().collection('items').doc(i)),
+                    createdAt: admin.firestore.Timestamp.now()
+                });
             return SuccessResponse.Positive;
         } catch(e){
+            Logger.error('Something went wrong in creating a request')
             return SuccessResponse.Negative;
         }
     }
@@ -22,11 +28,12 @@ export default class RequestService{
         const snapshot = await admin
             .firestore()
             .collection('items')
-            .get(); // TODO: create query so this only retrieves 'forRent == true' items
+            .where('forRent', '==', true)
+            .get();
         
         let items = snapshot
             .docs
-            .map<InventoryItem>(doc =>doc.data() as InventoryItem);
+            .map<InventoryItem>(doc => ({...doc.data(), id: doc.id}) as InventoryItem);
         
         for (let item of items){
             // TODO: figure out a cleaner way to do this... whether it be returning a new Response Type or finding a more efficient 
@@ -35,8 +42,7 @@ export default class RequestService{
             item.price = '';
             item.url = '';
             item.serials = null;
-            item.receipt = '';
-            item.picture = '';
+            item.receiptUrl = '';
             item.updatedAt = null;
             item.createdAt = null;
             // should only return properties: name, forRent, quantity, and tags to client end, which is public facing

@@ -8,14 +8,19 @@ import Switch from '~/components/Switch';
 import Button from '~/components/Button';
 import InputWithChips from '~/components/InputWithChips';
 import { useHistory } from 'react-router-dom';
+import Camera from '~/components/Camera';
 
-type NewItemFormData = {
+export type NewItemFormData = {
   name: string;
   description: string;
   forRent: boolean;
   quantity: number;
   tags: Array<string>;
   serials: Array<string>;
+  picture: Blob;
+  url: string; 
+  price: number; 
+  receipt: Blob;
 }
 
 type Props = {
@@ -30,9 +35,13 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
     name: Yup.string().required('Required'),
     description: Yup.string().required('Required'),
     forRent: Yup.boolean(),
-    quantity: Yup.number(),
+    quantity: Yup.number().required('Required'),
     tags: Yup.array<string>(),
-    serials: Yup.array<string>()
+    serials: Yup.array<string>(),
+    picture: Yup.mixed(),
+    url: Yup.string(),
+    price: Yup.number(),
+    receipt: Yup.mixed(),
   });
 
   async function onSubmit(values: NewItemFormData, {resetForm}: FormikHelpers<NewItemFormData>) {
@@ -51,9 +60,13 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         name: '',
         description: '',
         forRent: false,
-        quantity: 0,
+        quantity: 1,
         tags: [],
-        serials: []
+        serials: [],
+        picture: new Blob(),
+        url: '',
+        price: 0,
+        receipt: new Blob(),
       }}
       isInitialValid={false}
       validationSchema={validationSchema}
@@ -63,30 +76,31 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
         <>
           <FormGroup row>
             <Col md={6}>
-              <TESCFormField light label='Item Name' name="name" type="text"/>   
+              <TESCFormField light label='* Item Name' name="name" type="text"/>   
             </Col>
             <Col md={6}>
-              <TESCFormField light label='Description' name='description' type='text'/>
+              <TESCFormField light label='* Description' name='description' type='text'/>
             </Col>
           </FormGroup>
           <FormGroup row>
             <Col md={6}>
-              <TESCFormField light label='For Rent' name='forRent'>
+              <TESCFormField light label='* For Rent' name='forRent'>
               {({field}: FieldProps) => (
                 <Switch value={field.value} onChange={(e) => setFieldValue('forRent', e.target.checked)}/>
               )}
               </TESCFormField>   
             </Col>
             <Col md={6}>
-              <TESCFormField light label='Quantity' name='quantity' type='number'/>
+              <TESCFormField light label='* Quantity' name='quantity' type='number'/>
             </Col>
           </FormGroup>
           <FormGroup row>
             <Col md={6}>
               <TESCFormField label='Tags' name='tags'>
-                {({field}: FieldProps) => (
+                {({field}: FieldProps<string[]>) => (
                   <InputWithChips<string> 
                     value={field.value} options={props.tags} 
+                    isCreatable={true}
                     mapValueToOption={(v) => ({value: v, label: v})}
                     onChange={(e) => setFieldValue('tags', e)}
                   />
@@ -95,12 +109,52 @@ const NewItemForm: React.FunctionComponent<Props> = (props) => {
             </Col>
             <Col md={6}>
               <TESCFormField label='Serial Numbers' name='serials'>
-                {({field}: FieldProps) => (
+                {({field}: FieldProps<string[]>) => (
                   <InputWithChips<string>
+                    isCreatable={true}
                     value={field.value} options={[]}
                     mapValueToOption={(v) => ({value: v, label: v})}
                     onChange={(e) => setFieldValue('serials', e)}
                   />
+                )}
+              </TESCFormField>
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Col md={6}>
+              <TESCFormField light label='URL' name="url" type="text"/>   
+            </Col>
+            <Col md={6}>
+              <TESCFormField light label='Price' name='price' type='text'/>
+            </Col>
+          </FormGroup>
+
+
+          <FormGroup row>
+            <Col md={6}>
+              <TESCFormField label='Picture' name='picture'>
+                {({field}: FieldProps<Blob>) => (
+                  <Camera value={field.value} onChange={(e) => setFieldValue('picture', e)}
+                  light={true} />
+                )}
+              </TESCFormField>
+            </Col>
+            <Col md={6}>
+              <TESCFormField label='Receipt' name='receipt'>
+                {({field}: FieldProps<Blob>) => (
+                  <Camera value={field.value} onChange={(e) => setFieldValue('receipt', e)}
+                  light={true} />
+                )}
+              </TESCFormField>
+            </Col>
+          </FormGroup>
+          <FormGroup row>
+            <Col md={6}>
+              <TESCFormField label='Receipt' name='receipt'>
+                {({field}: FieldProps<Blob>) => (
+                  <Camera onChange={(e) => setFieldValue('receipt', e)}
+                  light={true} />
                 )}
               </TESCFormField>
             </Col>
