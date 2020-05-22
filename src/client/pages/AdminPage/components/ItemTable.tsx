@@ -36,9 +36,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
       return;
     } else{
       return(
-        <div className="col-2">
-          <img alt = 'Item Image' src = {picURL} style={{"width" : "80%"}}></img> 
-        </div>
+          <img alt = 'Item Image' src = {picURL} style={{"width" : "100%"}}></img> 
       );
     }
 
@@ -49,11 +47,8 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
       <pre
         style={{
           fontFamily: 'Lato',
-        }}
-        
-      >
-        
-        
+        }} 
+      >     
         <div className="container-fluid">
           
           <div className="row">
@@ -63,12 +58,16 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           </div>
 
           <div className="row">
-            <code>{grabImage(row.original.picture)}</code>
+
+            {row.original.pictureUrl != undefined && row.original.pictureUrl != "" ? 
+              <div className="col-3"> {grabImage(row.original.pictureUrl)} </div> 
+              : ""}
+            
             
             <div className="col-2 tesc-blue">
               Description: 
             </div>
-            <div className="col-8">
+            <div className="col-7">
               <code>{row.original.description != undefined ? row.original.description : "N/A"}</code>
             </div>
           </div>
@@ -164,8 +163,8 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               Receipt:
             </div>
             <div className="col-6">
-              <code>{row.original.receipt != undefined ? 
-                      grabImage(row.original.receipt) : "N/A"}</code>
+              <code>{row.original.receiptUrl != undefined ? 
+                      grabImage(row.original.receiptUrl) : "N/A"}</code>
             </div>
           </div>
           

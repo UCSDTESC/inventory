@@ -24,6 +24,8 @@ export default class ItemsController {
   @Delete('/remove/:id')
   async removeItem(@Param("id") itemId: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
     await this.ItemService.removeItem(itemId);
+    return SuccessResponse.Positive
+  }
 
   @Post()
   @UseBefore(Uploads.fields([{name: 'picture', maxCount: 1}, {name: 'receipt', maxCount: 1}]))
