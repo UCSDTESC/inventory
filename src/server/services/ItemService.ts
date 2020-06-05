@@ -40,7 +40,6 @@ export default class ItemService {
         .collection('items')
         .get()
       
-
       // This is an unfortunate consequence of having to make a network
       // request for every item with Firebase :(
       // Caching Requests should provide a perf improvement
