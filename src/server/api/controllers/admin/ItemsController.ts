@@ -1,4 +1,4 @@
-import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
+import { Get, JsonController, UseBefore, Res, Req, Param, Post, Body, Delete } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
 import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
 import { CreateItemRequest } from '@Shared/api/Requests';
@@ -19,6 +19,12 @@ export default class ItemsController {
   @Get()
   async getItems(): Promise<GetItemsResponse> {
     return await this.ItemService.getAllItems();
+  }
+
+  @Delete('/remove/:id')
+  async removeItem(@Param("id") itemId: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
+    await this.ItemService.removeItem(itemId);
+    return SuccessResponse.Positive
   }
 
   @Post()
