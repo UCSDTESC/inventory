@@ -19,6 +19,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
   async function onClick(row: Row<InventoryItem>) {
     console.log("Deleting itemId: " + row.values.id + " " + row.values.name);
+    
     if(row.values.pictureUrl != undefined && row.values.pictureUrl != ''){
       const res = await removeImage(row.values.pictureUrl);
     }
