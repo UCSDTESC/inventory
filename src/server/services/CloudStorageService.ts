@@ -29,4 +29,19 @@ export default class CloudStorageService {
 
     return [uploadedFileUrl, metadata];
   }
+
+  async deleteImage(fileURL:string){/* need to grab bucket first and then get the file in the bucket and delete that*/
+    var bucket = admin.storage().bucket(Config.Firebase.cloudStorageDefaultBucket);
+    var pictureRef = bucket.file(fileURL);
+
+    pictureRef.delete().then(function() {
+      // File deleted successfully
+    }).catch(function(error) {
+      console.log("ERROR")
+    });
+  
+  }
+
 }
+
+

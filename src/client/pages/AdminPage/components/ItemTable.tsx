@@ -8,7 +8,7 @@ import columns from './ItemTableColumns';
 import { useTable, useExpanded, Row, usePagination } from 'react-table';
 import ColumnEditor from './ColumnEditor';
 
-import { removeItem } from '~/data/AdminApi';
+import { removeItem, removeImage } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
 
@@ -25,6 +25,13 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
   async function onClick(row: Row<InventoryItem>) {
     console.log("Deleting itemId: " + row.values.id + " " + row.values.name);
+    if(row.values.pictureUrl != undefined && row.values.pictureUrl != ''){
+      const res = await removeImage(row.values.pictureUrl);
+    }
+    if(row.values.receiptUrl != undefined && row.values.receiptUrl != ''){
+      const res = await removeImage(row.values.receiptUrl);
+    }
+
     const res = await removeItem(row.values.id);
     console.log(res);   
     // TODO: remove actual row -- rerender pages? 

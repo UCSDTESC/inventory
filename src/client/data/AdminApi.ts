@@ -17,6 +17,10 @@ export const removeItem = (itemId: string) =>
   client
     .delete<string>('/items/remove/' + itemId)
 
+export const removeImage = (picURL: string) =>
+  client
+    .delete<string>('/items/removePic/' + picURL)
+
 export const createItem = (body: NewItemFormData) => {
   const data = new FormData();
 

@@ -27,6 +27,16 @@ export default class ItemsController {
     return SuccessResponse.Positive
   }
 
+  @Delete('/removePic/:url')
+  async removePictures(@Param("url") picURL: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
+    try {
+      await this.CloudStorageService.deleteImage(picURL);  
+    } catch (e) {
+      //TODO: Handle what to do when image removal fails - go ahead with request or respond with error?
+    }
+    return SuccessResponse.Positive
+  }
+
   @Post()
   @UseBefore(Uploads.fields([{name: 'picture', maxCount: 1}, {name: 'receipt', maxCount: 1}]))
   async createItem(
