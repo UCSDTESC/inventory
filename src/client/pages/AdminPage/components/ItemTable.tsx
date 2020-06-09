@@ -1,7 +1,5 @@
-
- import React from 'react';
+import React from 'react';
 import { Table, PaginationItem, PaginationLink, Pagination, Badge} from 'reactstrap';
-
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
@@ -11,15 +9,11 @@ import ColumnEditor from './ColumnEditor';
 import { removeItem, removeImage } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
-
 import TablePagination from './TablePagination';
-
 
 type Props = {
   data?: Array<InventoryItem>;
 }
-
-
 
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
@@ -37,7 +31,6 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
     // TODO: remove actual row -- rerender pages? 
   } 
   
-
   function grabImage(picURL:string){
     if(picURL == undefined || picURL == ''){
       return;
@@ -65,12 +58,10 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           </div>
 
           <div className="row">
-
             {row.original.pictureUrl != undefined && row.original.pictureUrl != "" ? 
               <div className="col-3"> {grabImage(row.original.pictureUrl)} </div> 
               : ""}
-            
-            
+             
             <div className="col-2 tesc-blue">
               Description: 
             </div>
@@ -89,7 +80,6 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               <code>{row.original.id != undefined ? row.original.id : "N/A"}</code>
             </div>
             <div className="col-1"></div>
-
 
             <div className="col-2 tesc-blue">
               For Rent:
@@ -175,8 +165,6 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
             </div>
           </div>
           
-
-
           <hr />
 
           <div className="row mt-3">
