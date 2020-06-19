@@ -30,7 +30,23 @@ export default class CloudStorageService {
     return [uploadedFileUrl, metadata];
   }
 
-  async deleteImage(fileURL:string){/* need to grab bucket first and then get the file in the bucket and delete that*/
+  async deleteImages(itemID:string){
+    var item = await admin.firestore().collection('item').doc(itemID).get()
+
+    var pictureUrl = item.get(pictureUrl);
+    if(pictureUrl != undefined && pictureUrl != ''){
+      console.log(pictureUrl);
+      this.deleteImage(pictureUrl);
+    }
+
+    var receiptUrl = item.get(receiptUrl);
+    if(receiptUrl != undefined && receiptUrl != ''){
+      console.log(receiptUrl);
+      this.deleteImage(receiptUrl);
+    }
+  }
+
+  deleteImage(fileURL: string){
     var bucket = admin.storage().bucket(Config.Firebase.cloudStorageDefaultBucket);
     var pictureRef = bucket.file(fileURL);
 
@@ -39,7 +55,7 @@ export default class CloudStorageService {
     }).catch(function(error) {
       console.log("ERROR")
     });
-  
+      
   }
 
 }

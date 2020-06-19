@@ -23,15 +23,10 @@ export default class ItemsController {
 
   @Delete('/remove/:id')
   async removeItem(@Param("id") itemId: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
-    await this.ItemService.removeItem(itemId);
-    return SuccessResponse.Positive
-  }
-
-  @Delete('/removePic/:url')
-  async removePictures(@Param("url") picURL: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
-    try {
-      await this.CloudStorageService.deleteImage(picURL);  
-    } catch (e) {
+    try{
+      await this.CloudStorageService.deleteImages(itemId);
+      await this.ItemService.removeItem(itemId);
+    }catch (e) {
       //TODO: Handle what to do when image removal fails - go ahead with request or respond with error?
     }
     return SuccessResponse.Positive
