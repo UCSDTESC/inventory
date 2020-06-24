@@ -26,8 +26,11 @@ export default class ItemsController {
     try{
       await this.CloudStorageService.deleteImages(itemId);
       await this.ItemService.removeItem(itemId);
-    }catch (e) {
-      //TODO: Handle what to do when image removal fails - go ahead with request or respond with error?
+    } catch (e) {
+      // Respond with error when image removal fails because:
+      // 1. image deletion failed -> item doesn't get deleted, it's fine to redelete
+      // 2. item deletion failed -> images already deleted, it's fine to recall delete on the image storage
+      return SuccessResponse.Negative
     }
     return SuccessResponse.Positive
   }

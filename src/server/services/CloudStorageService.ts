@@ -32,17 +32,14 @@ export default class CloudStorageService {
 
   async deleteImages(itemID:string){
     var item = await admin.firestore().collection('items').doc(itemID).get();
-    console.log(item.get('name'));
 
     var pictureUrl = item.get('pictureUrl');
     if(pictureUrl != undefined && pictureUrl != ''){
-      console.log(pictureUrl);
       this.deleteImage(pictureUrl);
     }
 
     var receiptUrl = item.get('receiptUrl');
     if(receiptUrl != undefined && receiptUrl != ''){
-      console.log(receiptUrl);
       this.deleteImage(receiptUrl);
     }
   }
@@ -56,9 +53,7 @@ export default class CloudStorageService {
     pictureRef.delete().then(function() {
       // File deleted successfully
     }).catch(function(error) {
-      console.log("ERROR")
+      console.log("ERROR on deleting image: " + fileURL)
     });
-      
   }
-
 }
