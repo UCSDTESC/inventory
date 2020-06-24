@@ -17,9 +17,7 @@ type Props = {
 const ItemTable: React.FunctionComponent<Props> = ({data}) => {
 
   async function onClick(row: Row<InventoryItem>) {
-    console.log("Deleting itemId: " + row.values.id + " " + row.values.name);
-    const res = await removeItem(row.values.id);
-    console.log(res);   
+    await removeItem(row.original.id);
     // TODO: remove actual row -- rerender pages? 
   } 
   

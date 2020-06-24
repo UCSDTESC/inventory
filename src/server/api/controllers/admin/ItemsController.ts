@@ -23,7 +23,15 @@ export default class ItemsController {
 
   @Delete('/remove/:id')
   async removeItem(@Param("id") itemId: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
-    await this.ItemService.removeItem(itemId);
+    try{
+      await this.CloudStorageService.deleteImages(itemId);
+      await this.ItemService.removeItem(itemId);
+    } catch (e) {
+      // Respond with error when image removal fails because:
+      // 1. image deletion failed -> item doesn't get deleted, it's fine to redelete
+      // 2. item deletion failed -> images already deleted, it's fine to recall delete on the image storage
+      return SuccessResponse.Negative
+    }
     return SuccessResponse.Positive
   }
 
