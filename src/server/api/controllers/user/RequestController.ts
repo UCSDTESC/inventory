@@ -1,5 +1,5 @@
 import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
-import { CheckOutRequest } from '@Shared/api/Requests';
+import {CheckOutItem, CheckOutRequest} from '@Shared/api/Requests';
 import { SuccessResponse, GetItemsResponse } from '@Shared/api/Responses';
 import RequestService from '@Services/RequestService';
 
@@ -10,6 +10,12 @@ export default class RequestController {
   @Post()
   async createCheckOutRequest(@Body() body: CheckOutRequest): Promise<SuccessResponse>{
     await this.RequestService.createCheckOutRequest({...body} as CheckOutRequest);
+    return SuccessResponse.Positive;
+  }
+
+  @Post('/checkOutItems')
+  async createCheckOutItem(@Body() body: CheckOutItem): Promise<SuccessResponse>{
+    await this.RequestService.createCheckOutItem({...body} as CheckOutItem);
     return SuccessResponse.Positive;
   }
 

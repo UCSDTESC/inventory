@@ -10,6 +10,15 @@ export type CreateItemRequest = {
   tags: Array<string>;
 }
 
+export type CheckOutItem = {
+  name: string;
+  requestId: string;
+  quantity: number;
+  active: boolean;
+  return: boolean;
+  dueDate: string;
+}
+
 export type CheckOutRequest = {
   items: Array<string>;
   firstName: string;

@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import * as admin from 'firebase-admin';
-import { CheckOutRequest } from '@Shared/api/Requests';
+import {CheckOutItem, CheckOutRequest} from '@Shared/api/Requests';
 import { SuccessResponse, GetItemsResponse } from '@Shared/api/Responses';
 import { InventoryItem } from '@Shared/Types';
 import { Logger } from '@Config/Logger';
@@ -15,6 +15,22 @@ export default class RequestService {
                 .set({
                     ...item, 
                     items: item.items.map(i => admin.firestore().collection('items').doc(i)),
+                    createdAt: admin.firestore.Timestamp.now()
+                });
+            return SuccessResponse.Positive;
+        } catch(e){
+            Logger.error('Something went wrong in creating a request')
+            return SuccessResponse.Negative;
+        }
+    }
+
+    async createCheckOutItem(item: CheckOutItem){
+        try{
+            await admin.firestore()
+                .collection('checkOutItems')
+                .doc()
+                .set({
+                    ...item,
                     createdAt: admin.firestore.Timestamp.now()
                 });
             return SuccessResponse.Positive;
