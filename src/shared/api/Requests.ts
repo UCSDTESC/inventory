@@ -6,7 +6,7 @@ export type CreateItemRequest = {
   name: string;
   description: string;
   forRent: boolean;
-  quantity: number;
+  quantity: number
   tags: Array<string>;
 }
 
