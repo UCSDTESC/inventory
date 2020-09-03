@@ -21,4 +21,6 @@ export type InventoryItem = {
   receiptUrl?: string;
   pictureUrl?: string;
   tags?: Array<string>
+
+  checkOutLogs: Array<string>
 }

@@ -158,6 +158,20 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           <hr />
 
           <div className="row mt-3">
+            <div className="col-2 tesc-blue">
+              CheckOutLogs:
+            </div>
+            <div className="col-6">
+              <code>{row.original.checkOutLogs != undefined ? row.original.checkOutLogs.map((value) =>  
+                  <div>
+                    {value}
+                  </div>) : 'N/A'}</code>
+            </div>
+          </div>
+          
+          <hr />
+
+          <div className="row mt-3">
             <div className="col-3">
               <Button type='submit' onClick={e => onClick(row)}>
                 Remove
