@@ -1,4 +1,4 @@
-import { Get, JsonController, UseBefore, Res, Req, Post, Body } from 'routing-controllers';
+import { Get, JsonController, UseBefore, Res, Req, Param, Post, Body, Delete } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
 import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
 import { CreateItemRequest } from '@Shared/api/Requests';
@@ -19,6 +19,20 @@ export default class ItemsController {
   @Get()
   async getItems(): Promise<GetItemsResponse> {
     return await this.ItemService.getAllItems();
+  }
+
+  @Delete('/remove/:id')
+  async removeItem(@Param("id") itemId: string, @FirebaseUID() uid: string): Promise<SuccessResponse> {
+    try{
+      await this.CloudStorageService.deleteImages(itemId);
+      await this.ItemService.removeItem(itemId);
+    } catch (e) {
+      // Respond with error when image removal fails because:
+      // 1. image deletion failed -> item doesn't get deleted, it's fine to redelete
+      // 2. item deletion failed -> images already deleted, it's fine to recall delete on the image storage
+      return SuccessResponse.Negative
+    }
+    return SuccessResponse.Positive
   }
 
   @Post()

@@ -2,6 +2,8 @@ import axios from 'axios'
 import { ADMIN_API_PREFIX, } from '@Shared/api/Paths';
 import { GetItemsResponse } from '@Shared/api/Responses';
 import { CreateItemRequest } from '@Shared/api/Requests';
+import * as firebase from 'firebase';
+import { InventoryItem } from '~/../shared/Types';
 import { NewItemFormData } from '~/pages/NewItemPage/components/NewItemForm';
 
 export const client = axios.create({baseURL: ADMIN_API_PREFIX});
@@ -9,6 +11,11 @@ export const client = axios.create({baseURL: ADMIN_API_PREFIX});
 export const getItems = () => 
   client
     .get<GetItemsResponse>('/items')
+
+
+export const removeItem = (itemId: string) =>
+  client
+    .delete<string>('/items/remove/' + itemId)
 
 export const createItem = (body: NewItemFormData) => {
   const data = new FormData();
