@@ -12,13 +12,15 @@ import TablePagination from './TablePagination';
 
 type Props = {
   data?: Array<InventoryItem>;
+  remountCallback?: any;
 }
 
-const ItemTable: React.FunctionComponent<Props> = ({data}) => {
+const ItemTable: React.FunctionComponent<Props> = ({data, remountCallback}) => {
 
   async function onClick(row: Row<InventoryItem>) {
     await removeItem(row.original.id);
     // TODO: remove actual row -- rerender pages? 
+    remountCallback();
   } 
   
   function grabImage(picURL:string){
