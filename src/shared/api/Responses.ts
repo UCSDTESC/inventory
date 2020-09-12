@@ -1,7 +1,12 @@
 import { InventoryItem } from '@Shared/Types';
+import { CheckOutItem } from './Requests';
 
 export type GetItemsResponse = {
   items: Array<InventoryItem>
+}
+
+export type GetCheckOutItemResponse = { 
+  checkOutItems: Array<InventoryItem>
 }
 
 export class SuccessResponse {

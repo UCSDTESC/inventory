@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ADMIN_API_PREFIX, } from '@Shared/api/Paths';
-import { GetItemsResponse } from '@Shared/api/Responses';
-import { CreateItemRequest } from '@Shared/api/Requests';
+import { GetCheckOutItemResponse, GetItemsResponse } from '@Shared/api/Responses';
+import { CreateItemRequest, CheckOutItem } from '@Shared/api/Requests';
 import * as firebase from 'firebase';
 import { InventoryItem } from '~/../shared/Types';
 import { NewItemFormData } from '~/pages/NewItemPage/components/NewItemForm';
@@ -12,6 +12,9 @@ export const getItems = () =>
   client
     .get<GetItemsResponse>('/items')
 
+export const getLogInfo = (checkOutLogs: string) => 
+  client
+    .get<GetCheckOutItemResponse>('/items/9cUcSALFeBkjJF6EpcLX')
 
 export const removeItem = (itemId: string) =>
   client

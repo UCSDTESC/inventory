@@ -1,11 +1,11 @@
 import React from 'react';
-import { Table, PaginationItem, PaginationLink, Pagination, Badge} from 'reactstrap';
+import { Table, PaginationItem, PaginationLink, Pagination, Badge } from 'reactstrap';
 import { Rounded } from '~/styles';
 import { InventoryItem } from '@Shared/Types'
 import columns from './ItemTableColumns';
 import { useTable, useExpanded, Row, usePagination } from 'react-table';
 import ColumnEditor from './ColumnEditor';
-import { removeItem } from '~/data/AdminApi';
+import { getLogInfo, removeItem } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
 import TablePagination from './TablePagination';
@@ -14,33 +14,48 @@ type Props = {
   data?: Array<InventoryItem>;
 }
 
-const ItemTable: React.FunctionComponent<Props> = ({data}) => {
+const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
 
   async function onClick(row: Row<InventoryItem>) {
     await removeItem(row.original.id);
     // TODO: remove actual row -- rerender pages? 
-  } 
-  
-  function grabImage(picURL:string){
-    if(picURL == undefined || picURL == ''){
+  }
+  async function helper(checkOutLogs: string) {
+    let temp = await getLogInfo(checkOutLogs);
+    return temp;
+  }
+
+  function getLogs(checkOutLogs: string) {
+    const temp = helper(checkOutLogs);
+    temp.then(data => { alert(JSON.stringify(data.data)) });
+
+    return (
+      <div>
+        HEY
+      </div>
+    );
+  }
+
+  function grabImage(picURL: string) {
+    if (picURL == undefined || picURL == '') {
       return;
-    } else{
-      return(
-          <img alt = 'Item Image' src = {picURL} style={{"width" : "100%"}}></img> 
+    } else {
+      return (
+        <img alt='Item Image' src={picURL} style={{ "width": "100%" }}></img>
       );
     }
 
   }
 
   const renderRowSubComponent = React.useCallback(
-    ({ row }: {row: Row<InventoryItem>}) => (
+    ({ row }: { row: Row<InventoryItem> }) => (
       <pre
         style={{
           fontFamily: 'Lato',
-        }} 
-      >     
+        }}
+      >
         <div className="container-fluid">
-          
+
           <div className="row">
             <div className="col-6 tesc-blue">
               <h3><code>{row.original.name}</code></h3>
@@ -48,18 +63,18 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           </div>
 
           <div className="row">
-            {row.original.pictureUrl != undefined && row.original.pictureUrl != "" ? 
-              <div className="col-3"> {grabImage(row.original.pictureUrl)} </div> 
+            {row.original.pictureUrl != undefined && row.original.pictureUrl != "" ?
+              <div className="col-3"> {grabImage(row.original.pictureUrl)} </div>
               : ""}
-             
+
             <div className="col-2 tesc-blue">
-              Description: 
+              Description:
             </div>
             <div className="col-7">
               <code>{row.original.description != undefined ? row.original.description : "N/A"}</code>
             </div>
           </div>
-          
+
           <hr />
 
           <div className="row mt-2">
@@ -87,7 +102,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               <code>{row.original.quantity}</code>
             </div>
             <div className="col-1"></div>
-          
+
             <div className="col-2 tesc-blue">
               Price:
             </div>
@@ -95,7 +110,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               <code>{row.original.price != undefined ? row.original.price : "N/A"}</code>
             </div>
           </div>
-          
+
           <hr />
 
           <div className="row mt-3">
@@ -103,10 +118,10 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               Tags:
             </div>
             <div className="col-10">
-              <code>{row.original.tags != undefined ? row.original.tags.map((value) =>  
-                    <Badge color="primary" pill>
-                      {value}
-                    </Badge>) : 'None'}</code>
+              <code>{row.original.tags != undefined ? row.original.tags.map((value) =>
+                <Badge color="primary" pill>
+                  {value}
+                </Badge>) : 'None'}</code>
             </div>
           </div>
 
@@ -114,12 +129,12 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
             <div className="col-2 tesc-blue">
               Serials:
             </div>
-            
+
             <div className="col-10">
-              <code>{row.original.serials != undefined ? row.original.serials.map((value) =>  
-                  <Badge color="primary" pill>
-                    {value}
-                  </Badge>) : 'N/A'}</code>
+              <code>{row.original.serials != undefined ? row.original.serials.map((value) =>
+                <Badge color="primary" pill>
+                  {value}
+                </Badge>) : 'N/A'}</code>
             </div>
           </div>
 
@@ -130,8 +145,8 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               Last updated:
             </div>
             <div className="col-6">
-              <code>{row.original.updatedAt != undefined ? 
-                      new Date(row.original.updatedAt._seconds * 1000).toString() : "Unrecorded"}</code>
+              <code>{row.original.updatedAt != undefined ?
+                new Date(row.original.updatedAt.seconds * 1000).toString() : "Unrecorded"}</code>
             </div>
           </div>
 
@@ -140,35 +155,33 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
               Created At:
             </div>
             <div className="col-6">
-              <code>{row.original.createdAt != undefined ? 
-                      new Date(row.original.createdAt._seconds * 1000).toString() : "Unrecorded"}</code>
+              <code>{row.original.createdAt != undefined ?
+                new Date(row.original.createdAt.seconds * 1000).toString() : "Unrecorded"}</code>
             </div>
           </div>
-          
+
           <div className="row mt-3">
             <div className="col-2 tesc-blue">
               Receipt:
             </div>
             <div className="col-6">
-              <code>{row.original.receiptUrl != undefined ? 
-                      grabImage(row.original.receiptUrl) : "N/A"}</code>
+              <code>{row.original.receiptUrl != undefined ?
+                grabImage(row.original.receiptUrl) : "N/A"}</code>
             </div>
           </div>
-          
+
           <hr />
 
           <div className="row mt-3">
             <div className="col-2 tesc-blue">
-              CheckOutLogs:
+              Checkout Logs:
             </div>
             <div className="col-6">
-              <code>{row.original.checkOutLogs != undefined ? row.original.checkOutLogs.map((value) =>  
-                  <div>
-                    {value}
-                  </div>) : 'N/A'}</code>
+              <code>{row.original.checkOutLogs != undefined ?
+                getLogs(row.original.checkOutLogs[0]) : "N/A"}</code>
             </div>
           </div>
-          
+
           <hr />
 
           <div className="row mt-3">
@@ -197,11 +210,11 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
     previousPage,
     nextPage,
     state: {
-      pageIndex,      
+      pageIndex,
     }
-  } = useTable<InventoryItem>({ 
-    columns, 
-    data, 
+  } = useTable<InventoryItem>({
+    columns,
+    data,
     initialState: {
       hiddenColumns: [
         'tags',
@@ -210,17 +223,17 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
       pageIndex: 0,
       pageSize: 5
     },
-  }, 
-  useExpanded, 
-  usePagination);
+  },
+    useExpanded,
+    usePagination);
 
   return (
     <>
       <ColumnEditor allColumns={allColumns} />
-      <Rounded 
-        as={Table} 
-        className="bg-white border-top-0" 
-        {...getTableProps()} 
+      <Rounded
+        as={Table}
+        className="bg-white border-top-0"
+        {...getTableProps()}
         responsive>
         <thead>
           {headerGroups.map(headerGroup => (
@@ -267,7 +280,7 @@ const ItemTable: React.FunctionComponent<Props> = ({data}) => {
           })}
         </tbody>
       </Rounded>
-      <TablePagination 
+      <TablePagination
         pageIndex={pageIndex}
         pageCount={pageCount}
         previousPage={previousPage}

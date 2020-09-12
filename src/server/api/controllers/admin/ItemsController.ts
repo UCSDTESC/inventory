@@ -1,6 +1,6 @@
 import { Get, JsonController, UseBefore, Res, Req, Param, Post, Body, Delete } from 'routing-controllers';
 import AdminAuthorisation from '../../middleware/AdminAuthorization';
-import { GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
+import { GetCheckOutItemResponse, GetItemsResponse, SuccessResponse } from '@Shared/api/Responses'; 
 import { CreateItemRequest } from '@Shared/api/Requests';
 import ItemService from '@Services/ItemService';
 import CloudStorageService from '@Services/CloudStorageService';
@@ -19,6 +19,11 @@ export default class ItemsController {
   @Get()
   async getItems(): Promise<GetItemsResponse> {
     return await this.ItemService.getAllItems();
+  }
+
+  @Get('/:checkOutItemId') 
+  async getLogs(@Param('checkOutItemId') checkOutItemId: string): Promise<GetCheckOutItemResponse> { 
+    return await this.ItemService.getLogInfo(checkOutItemId); 
   }
 
   @Delete('/remove/:id')
