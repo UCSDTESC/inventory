@@ -9,6 +9,7 @@ import { getLogInfo, removeItem } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
 import TablePagination from './TablePagination';
+import LogTable from './LogTable';
 
 type Props = {
   data?: Array<InventoryItem>;
@@ -20,18 +21,21 @@ const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
     await removeItem(row.original.id);
     // TODO: remove actual row -- rerender pages? 
   }
+
   async function helper(checkOutLogs: string) {
-    let temp = await getLogInfo(checkOutLogs);
+    const temp = await getLogInfo(checkOutLogs);
     return temp;
   }
 
   function getLogs(checkOutLogs: string) {
     const temp = helper(checkOutLogs);
-    temp.then(data => { alert(JSON.stringify(data.data)) });
+    temp.then(data => {
+      alert(JSON.stringify(data.data))
+    });
 
     return (
       <div>
-        HEY
+        FASDFSFDUI
       </div>
     );
   }
@@ -177,8 +181,11 @@ const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
               Checkout Logs:
             </div>
             <div className="col-6">
+              {/* <code>{row.original.checkOutLogs != undefined ?
+                getLogs(row.original.checkOutLogs[0]) : "N/A"}</code> */}
+
               <code>{row.original.checkOutLogs != undefined ?
-                getLogs(row.original.checkOutLogs[0]) : "N/A"}</code>
+                <LogTable data={row.original.checkOutLogs} /> : "N/A"}</code>
             </div>
           </div>
 
