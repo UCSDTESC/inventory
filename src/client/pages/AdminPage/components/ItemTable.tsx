@@ -22,24 +22,6 @@ const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
     // TODO: remove actual row -- rerender pages? 
   }
 
-  async function helper(checkOutLogs: string) {
-    const temp = await getLogInfo(checkOutLogs);
-    return temp;
-  }
-
-  function getLogs(checkOutLogs: string) {
-    const temp = helper(checkOutLogs);
-    temp.then(data => {
-      alert(JSON.stringify(data.data))
-    });
-
-    return (
-      <div>
-        FASDFSFDUI
-      </div>
-    );
-  }
-
   function grabImage(picURL: string) {
     if (picURL == undefined || picURL == '') {
       return;
