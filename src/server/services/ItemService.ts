@@ -23,12 +23,14 @@ export default class ItemService {
   async getLogInfo(checkOutItems: string) {
     const snapshot = await admin 
       .firestore()
-      .doc('/items/9cUcSALFeBkjJF6EpcLX')
+      .doc('/checkOutItems/' + checkOutItems)
       .get()
     
     const temp = snapshot.data();
     
-    return temp as any 
+    console.log(JSON.stringify(temp));
+
+    return temp as any;
   }
 
   async removeItem(itemID: string) {

@@ -14,7 +14,7 @@ export const getItems = () =>
 
 export const getLogInfo = (checkOutLogs: string) => 
   client
-    .get<GetCheckOutItemResponse>('/items/9cUcSALFeBkjJF6EpcLX')
+    .get<GetCheckOutItemResponse>('/items' + checkOutLogs)
 
 export const removeItem = (itemId: string) =>
   client

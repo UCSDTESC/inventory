@@ -16,38 +16,19 @@ type Props = {
 }
 
 const LogTable: React.FunctionComponent<Props> = ({ data }) => {
-    const [log, setLog] = useState<string>('')
+    const [log, setLog] = useState<any>()
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const getLogs = async (checkOutLogs: string) => {
             const temp = await getLogInfo(checkOutLogs);
-            alert(JSON.stringify(temp.data));
-            
-            setLog(JSON.stringify(temp.data));
+            alert(JSON.parse(JSON.stringify(temp.data)));
+
+            setLog(JSON.parse(JSON.stringify(temp.data)));
             setLoading(false);
         }
         getLogs(data);
-      }, [])
-
-    // async function helper(checkOutLogs: string) {
-    //     const { data } = await getLogInfo(checkOutLogs);
-    //     return temp;
-    // }
-
-    // function asdf(checkOutLogs: string) {
-    //     const temp = helper(checkOutLogs);
-    //     temp.then(data => {
-    //         alert(JSON.stringify(data.data))
-    //     });
-
-    //     return (
-    //         <div>
-    //             FASDFSFDUI
-    //         </div>
-    //     );
-    // }
-
+    }, [])
 
     if (loading) return (
         <div className="text-center w-100">
@@ -57,9 +38,10 @@ const LogTable: React.FunctionComponent<Props> = ({ data }) => {
     )
 
     return (
-        <div>
-            {log}
-        </div>
+        <>
+            <div style={{width:'100%', display:'inline-block'}}>{log['quantity']}</div>
+            <div style={{width:'30%', display:'inline-block'}}>{JSON.stringify(log['returned'])}</div>
+        </>
     );
 }
 

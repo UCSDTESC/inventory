@@ -6,7 +6,7 @@ export type GetItemsResponse = {
 }
 
 export type GetCheckOutItemResponse = { 
-  checkOutItems: Array<InventoryItem>
+  checkOutItems: CheckOutItem
 }
 
 export class SuccessResponse {

@@ -21,9 +21,8 @@ export default class ItemsController {
     return await this.ItemService.getAllItems();
   }
 
-  @Get('/:checkOutItemId') 
+  @Get('/checkOutItems/:checkOutItemId') 
   async getLogs(@Param('checkOutItemId') checkOutItemId: string): Promise<GetCheckOutItemResponse> { 
-    console.log("hey bitch");
     return await this.ItemService.getLogInfo(checkOutItemId); 
   }
 
