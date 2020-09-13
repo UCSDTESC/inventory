@@ -159,13 +159,15 @@ const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
           <hr />
 
           <div className="row mt-3">
-            <div className="col-8 tesc-blue">
+            <div className="col-2 tesc-blue">
               Checkout Logs:
             </div>
             <div className="col-6">
-              <code>{row.original.checkOutLogs != undefined ? row.original.checkOutLogs.map((value) =>
+              {/* <code>{row.original.checkOutLogs != undefined ? row.original.checkOutLogs.map((value) =>
                 <LogTable data={value} />
-              ) : 'None'}</code>
+              ) : 'None'}</code> */}
+              <code>{row.original.checkOutLogs != undefined ?
+                <LogTable data={row.original.checkOutLogs} /> : 'None'}</code>
             </div>
           </div>
 

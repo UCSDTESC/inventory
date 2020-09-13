@@ -28,8 +28,6 @@ export default class ItemService {
     
     const temp = snapshot.data();
     
-    console.log(JSON.stringify(temp));
-
     return temp as any;
   }
 

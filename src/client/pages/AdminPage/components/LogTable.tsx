@@ -10,25 +10,34 @@ import { getLogInfo, removeItem } from '~/data/AdminApi';
 import styled from 'styled-components';
 import Button from '~/components/Button';
 import TablePagination from './TablePagination';
+import { CheckOutItem } from '~/../shared/api/Requests';
+import { GetCheckOutItemResponse } from '~/../shared/api/Responses';
 
 type Props = {
     data?: any;
 }
 
 const LogTable: React.FunctionComponent<Props> = ({ data }) => {
-    const [log, setLog] = useState<any>()
+    const [log, setLog] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        const getLogs = async (checkOutLogs: string) => {
-            const temp = await getLogInfo(checkOutLogs);
-            alert(JSON.parse(JSON.stringify(temp.data)));
-
-            setLog(JSON.parse(JSON.stringify(temp.data)));
+        const getLogs = async (checkOutLogs: Array<string>) => {
+            let store = [];
+            for (let checkOutLog of checkOutLogs) {
+                const temp = await helper(checkOutLog);
+                store.push(temp.data);
+            }
+            setLog(store);
             setLoading(false);
         }
         getLogs(data);
     }, [])
+
+    async function helper(entry: string) {
+        const temp = await getLogInfo(entry);
+        return temp;
+    }
 
     if (loading) return (
         <div className="text-center w-100">
@@ -37,11 +46,23 @@ const LogTable: React.FunctionComponent<Props> = ({ data }) => {
         </div>
     )
 
+    const fuck = [1, 4, 5];
+
     return (
-        <>
-            <div style={{width:'100%', display:'inline-block'}}>{log['quantity']}</div>
-            <div style={{width:'30%', display:'inline-block'}}>{JSON.stringify(log['returned'])}</div>
-        </>
+        <table className="col-6">
+            <tr>
+                <td>Quantity</td>
+                <td>Returned</td>
+            </tr>
+            {log.map(value => {
+                return (
+                    <tr>
+                        <td>{JSON.stringify(value.quantity)}</td>
+                        <td>{JSON.stringify(value.returned)}</td>
+                    </tr>
+                )
+            })}
+        </table>
     );
 }
 
