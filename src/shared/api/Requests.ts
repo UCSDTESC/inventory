@@ -15,7 +15,7 @@ export type CheckOutItem = {
   requestId: string;
   quantity: number;
   active: boolean;
-  return: boolean;
+  returned: boolean;
   dueDate: string;
 }
 

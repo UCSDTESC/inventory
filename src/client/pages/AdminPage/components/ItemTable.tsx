@@ -163,9 +163,6 @@ const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
               Checkout Logs:
             </div>
             <div className="col-6">
-              {/* <code>{row.original.checkOutLogs != undefined ? row.original.checkOutLogs.map((value) =>
-                <LogTable data={value} />
-              ) : 'None'}</code> */}
               <code>{row.original.checkOutLogs != undefined ?
                 <LogTable data={row.original.checkOutLogs} /> : 'None'}</code>
             </div>
