@@ -22,8 +22,24 @@ const AdminPage: React.FunctionComponent = () => {
       setItems(data.items);
       setLoading(false);
     }
+    console.log("useEffect runs");
     fetchItems();
   }, [])
+
+  useEffect(() => {
+    if(loading === true){
+      const fetchItems = async () => {
+        const {data} = await getItems();
+        setItems(data.items);
+        setLoading(false);
+      }
+      fetchItems();
+    }
+  }, [loading])
+  
+  function remountCallback(){
+    setLoading(true);
+  }
 
   if (loading) return (
     <div className="text-center w-100">
@@ -43,7 +59,7 @@ const AdminPage: React.FunctionComponent = () => {
       </div>
       <div className="row mt-3">
         <div className="col">
-          <ItemTable data={items} />
+          <ItemTable data={items} remountCallback={remountCallback} />
         </div>
       </div>
     </div>
