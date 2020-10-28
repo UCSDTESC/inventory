@@ -4,6 +4,10 @@ export type GetItemsResponse = {
   items: Array<InventoryItem>
 }
 
+export type GetRequestsResponse = {
+  requests: Array<CheckOutRequest>
+}
+
 export class SuccessResponse {
   static Positive: SuccessResponse = {
     success: true,
