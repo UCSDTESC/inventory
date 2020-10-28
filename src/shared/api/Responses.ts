@@ -1,4 +1,5 @@
 import { InventoryItem } from '@Shared/Types';
+import { CheckOutRequest } from './Requests';
 
 export type GetItemsResponse = {
   items: Array<InventoryItem>
