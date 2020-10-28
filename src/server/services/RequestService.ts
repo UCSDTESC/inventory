@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import * as admin from 'firebase-admin';
 import { CheckOutRequest } from '@Shared/api/Requests';
-import { SuccessResponse, GetItemsResponse } from '@Shared/api/Responses';
+import { SuccessResponse, GetItemsResponse, GetRequestsResponse } from '@Shared/api/Responses';
 import { InventoryItem } from '@Shared/Types';
 import { Logger } from '@Config/Logger';
 
@@ -22,6 +22,40 @@ export default class RequestService {
             Logger.error('Something went wrong in creating a request')
             return SuccessResponse.Negative;
         }
+    }
+
+    async getUserByUID(uid: string): Promise<admin.auth.UserRecord> {
+        return await admin.auth().getUser(uid);
+    }
+
+    async getAllRequests(): Promise<GetRequestsResponse> {
+        const snapshot = await admin
+          .firestore()
+          .collection('checkOutRequests')
+          .get()
+        
+
+        const userCache: {[x: string]: admin.auth.UserRecord} = {};
+        const requests: Array<CheckOutRequest> = [];
+  
+        for (let currentRequest of snapshot.docs) {
+          const request = currentRequest.data();
+          if (!userCache[request.createdAt as string]) {
+            const uid = request.createdAt;
+            request.createdAt = await this.getUserByUID(request.createdAt as string);
+            userCache[uid as string] = request.createdAt
+          } else {
+            request.createdAt = userCache[request.createdAt as string];
+          }
+  
+          // TODO: Fix any usage
+          requests.push({
+            id: currentRequest.id,
+            ...request
+          } as any);
+        }
+  
+        return {requests}
     }
 
     async getAllItemsForRent(): Promise<GetItemsResponse>{
