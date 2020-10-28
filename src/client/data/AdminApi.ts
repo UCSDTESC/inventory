@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ADMIN_API_PREFIX, } from '@Shared/api/Paths';
-import { GetItemsResponse } from '@Shared/api/Responses';
+import { GetItemsResponse, GetRequestsResponse } from '@Shared/api/Responses';
 import { CreateItemRequest } from '@Shared/api/Requests';
 import * as firebase from 'firebase';
 import { InventoryItem } from '~/../shared/Types';
@@ -12,6 +12,9 @@ export const getItems = () =>
   client
     .get<GetItemsResponse>('/items')
 
+export const getRequests = () =>
+  client
+    .get<GetRequestsResponse>('/requests')
 
 export const removeItem = (itemId: string) =>
   client
