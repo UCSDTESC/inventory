@@ -13,17 +13,19 @@ import LogTable from './LogTable';
 
 type Props = {
   data?: Array<InventoryItem>;
+  remountCallback?: any;
 }
 
-const ItemTable: React.FunctionComponent<Props> = ({ data }) => {
+const ItemTable: React.FunctionComponent<Props> = ({data, remountCallback}) => {
 
   async function onClick(row: Row<InventoryItem>) {
     await removeItem(row.original.id);
     // TODO: remove actual row -- rerender pages? 
-  }
-
-  function grabImage(picURL: string) {
-    if (picURL == undefined || picURL == '') {
+    remountCallback();
+  } 
+  
+  function grabImage(picURL:string){
+    if(picURL == undefined || picURL == ''){
       return;
     } else {
       return (
